@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="220dp"
+    android:layout_height="250dp"
+    android:background="@drawable/drawable_permission_explain"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="10dp"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:textSize="12sp"
+        android:textColor="@color/text_212121"
+        android:gravity="center"
+        android:text="@string/permission_explain_title"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider_dcedc8"
+        android:layout_marginVertical="5dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/permissionRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider_dcedc8"
+        android:layout_marginVertical="5dp"/>
+    <Button
+        android:id="@+id/acceptPermissionBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:background="@null"
+        android:textSize="12sp"
+        android:textColor="@color/app_main"
+        android:minHeight="0dp"
+        android:text="@string/permission_explain_accept"/>
+
+</LinearLayout>
