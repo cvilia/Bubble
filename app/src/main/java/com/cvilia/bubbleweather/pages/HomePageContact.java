@@ -1,4 +1,4 @@
-package com.cvilia.bubbleweather.view;
+package com.cvilia.bubbleweather.pages;
 
 import com.cvilia.bubbleweather.IPresenter;
 import com.cvilia.bubbleweather.IView;

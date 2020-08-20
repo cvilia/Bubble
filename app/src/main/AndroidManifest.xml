@@ -33,7 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.WeatherActivity"
+        <activity android:name=".pages.WeatherActivity"
             android:theme="@style/HomePageStyle"/>
 
         <!--        今日头条适配-->

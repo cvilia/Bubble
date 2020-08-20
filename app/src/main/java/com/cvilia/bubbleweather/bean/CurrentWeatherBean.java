@@ -1,5 +1,7 @@
 package com.cvilia.bubbleweather.bean;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -131,5 +133,23 @@ public class CurrentWeatherBean implements Serializable {
 
     public void setAir(String air) {
         this.air = air;
+    }
+
+    @Override
+    public String toString() {
+        return "CurrentWeatherBean{" +
+                "cityid='" + cityid + '\'' +
+                ", city='" + city + '\'' +
+                ", update_time='" + update_time + '\'' +
+                ", wea='" + wea + '\'' +
+                ", wea_img='" + wea_img + '\'' +
+                ", tem='" + tem + '\'' +
+                ", tem_day='" + tem_day + '\'' +
+                ", tem_night='" + tem_night + '\'' +
+                ", win='" + win + '\'' +
+                ", win_speed='" + win_speed + '\'' +
+                ", win_meter='" + win_meter + '\'' +
+                ", air='" + air + '\'' +
+                '}';
     }
 }

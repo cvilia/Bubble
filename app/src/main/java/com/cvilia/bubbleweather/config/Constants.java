@@ -12,5 +12,6 @@ public class Constants {
     public static final String PROVINCE_NAME = "province_name";
     public static final String CITY_NAME = "city_name";
     public static final String DISTRICT_NAME = "district_name";
+    public static final String AMAPLOCATION = "amaplocation";
 
 }

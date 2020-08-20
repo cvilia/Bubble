@@ -1,6 +1,7 @@
-package com.cvilia.bubbleweather.view;
+package com.cvilia.bubbleweather.pages;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.cvilia.bubbleweather.base.BasePresenter;
 import com.cvilia.bubbleweather.bean.CurrentWeatherBean;
@@ -47,6 +48,7 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
                     Gson gson = new Gson();
                     String json = res.body().string();
                     CurrentWeatherBean bean = gson.fromJson(json, CurrentWeatherBean.class);
+                    Log.d(TAG, bean.toString());
                     mView.showSuccess(bean);
                 }
             }

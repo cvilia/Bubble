@@ -42,14 +42,20 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
         ActivityManager.getInstance().addActivity(this);
         mPresenter = getPresenter();
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }
         if (registerEventBus() && !EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
         getIntentData();
         initWidget();
+        initWidgetEvent();
+        initData();
         onViewCreated();
 
     }
+
 
     protected void onViewCreated() {
 
@@ -71,6 +77,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     protected abstract void initWidget();
+    protected abstract void initWidgetEvent();
+    protected abstract void initData();
 
     protected abstract void getIntentData();
 
@@ -84,6 +92,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected abstract T getPresenter();
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
+    }
+
+    @Override
     public boolean isBaseOnWidth() {
         return true;
     }
@@ -92,4 +108,5 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public float getSizeInDp() {
         return 360;
     }
+
 }

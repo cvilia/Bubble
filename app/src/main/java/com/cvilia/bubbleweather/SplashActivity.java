@@ -2,8 +2,6 @@ package com.cvilia.bubbleweather;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -63,9 +61,10 @@ public class SplashActivity extends AppCompatActivity implements IPermissionAcce
      * @param option
      */
     private void setOptionConfig(AMapLocationClientOption option) {
-        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
         option.setOnceLocation(true);
         option.setLocationCacheEnable(true);
+        option.setHttpTimeOut(8000);
     }
 
     /**
@@ -78,7 +77,6 @@ public class SplashActivity extends AppCompatActivity implements IPermissionAcce
             dialog.show();
         } else {
             initAliLocation();
-//            enterMainPage(null,null,null,null);
         }
     }
 
@@ -98,20 +96,15 @@ public class SplashActivity extends AppCompatActivity implements IPermissionAcce
     /**
      * 进入主界面
      *
-     * @param code 地区码
-     * @param province 省
-     * @param city 市
-     * @param district 区
+     * @param location 定位结果
      */
-    private void enterMainPage(String code, String province, String city, String district) {
+    private void enterMainPage(AMapLocation location) {
+        Bundle bundle = new Bundle();
         Observable.timer(1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).withString(Constants.CITY_CODE, TextUtils.isEmpty(code) ? "CN101010100" : "CN" + code)
-                            .withString(Constants.PROVINCE_NAME,TextUtils.isEmpty(province) ? "北京" : province)
-                            .withString(Constants.CITY_NAME,TextUtils.isEmpty(province) ? "北京市" : city)
-                            .withString(Constants.DISTRICT_NAME,TextUtils.isEmpty(district) ? "朝阳区" : district)
+                    ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).withParcelable(Constants.AMAPLOCATION, location)
                             .navigation(SplashActivity.this, new NavCallback() {
                                 @Override
                                 public void onArrival(Postcard postcard) {
@@ -125,16 +118,12 @@ public class SplashActivity extends AppCompatActivity implements IPermissionAcce
     public void onLocationChanged(AMapLocation location) {
         if (location != null) {
             if (location.getErrorCode() == 0) {
-                Log.d(TAG, location.toStr());
-                String citiCode = location.getCityCode();
-                String adCode = location.getAdCode();
-                String cityName = location.getCity();
-                enterMainPage(adCode + citiCode, location.getProvince(), location.getCity(), location.getDistrict());
+                enterMainPage(location);
             } else {
-                enterMainPage(null, null, null, null);
+                enterMainPage(null);
             }
         } else {
-            enterMainPage(null, null, null, null);
+            enterMainPage(null);
         }
 
     }
