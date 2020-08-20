@@ -25,7 +25,7 @@ import java.util.Date;
 public class WeatherActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, View.OnTouchListener {
 
     private static final String TAG = WeatherActivity.class.getSimpleName();
-    private TextView cityName, currentTemTv, weatherDescTv, minMaxTempTv, aqiTv,dateTimeTv;
+    private TextView cityName, currentTemTv, weatherDescTv, minMaxTempTv, aqiTv, dateTimeTv;
     private AMapLocation mLocation;
     private RelativeLayout weatherInfoRl;
 
@@ -61,7 +61,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     protected void initData() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"
+                + " HH:mm");
         dateTimeTv.setText(sdf.format(new Date()));
     }
 
@@ -101,7 +102,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             cityName.setText(bean.getCity());
             currentTemTv.setText(String.format(getString(R.string.temperature), bean.getTem()));
             weatherDescTv.setText(bean.getWea());
-            minMaxTempTv.setText(String.format(getString(R.string.temperature_min_max), bean.getTem_day(), bean.getTem_night()));
+            minMaxTempTv.setText(String.format(getString(R.string.temperature_min_max),
+                    bean.getTem_day(), bean.getTem_night()));
             aqiTv.setText(String.format(getString(R.string.aqi), getAQI(bean.getAir())));
         }
     }
@@ -153,6 +155,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
                 }
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 if (v.getId() == R.id.weatherInfoRl) {
                     weatherInfoRl.setBackgroundColor(Color.parseColor("#00000000"));
                 }
