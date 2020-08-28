@@ -1,10 +1,22 @@
 <resources>
     <string name="app_name">气泡天气</string>
-    <string name="permission_explain_title">所需权限</string>
     <string name="permission_explain_accept">确认接受</string>
     <string name="home_actionbar_site">地点</string>
     <string name="temperature">%1$s°</string>
     <string name="temperature_min_max">%1$s° / %2$s°</string>
     <string name="aqi">空气质量 %1$s</string>
     <string name="weather_day_7">7日天气</string>
+
+    <string name="permission_explain_title">为给您提供更精准的服务\n气泡天气需要申请以下权限</string>
+    <string name="permission_location">定位</string>
+    <string name="permission_location_explain">开启权限可基于当前位置为您提供天气信息</string>
+    <string name="permission_storage">存储</string>
+    <string name="permission_storage_explain">开启权限用于缓存定位信息，在GPS信号弱的时候也能获取天气信息</string>
+    <string name="permission_recorder">麦克风</string>
+    <string name="permission_recorder_explain">开启权限可录制自己的播放音源</string>
+    <string name="permission_device">设备信息</string>
+    <string name="permission_device_explain">开启权限用于区分多点登录，防止账号被盗风险</string>
+
+    <string name="reject">拒绝</string>
+    <string name="agree">同意</string>
 </resources>

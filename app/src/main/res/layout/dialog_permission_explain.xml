@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="220dp"
-    android:layout_height="250dp"
-    android:background="@drawable/drawable_permission_explain"
-    android:paddingVertical="5dp"
-    android:paddingHorizontal="10dp"
-    android:gravity="center"
-    android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:textSize="12sp"
-        android:textColor="@color/text_212121"
-        android:gravity="center"
-        android:text="@string/permission_explain_title"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider_dcedc8"
-        android:layout_marginVertical="5dp"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/permissionRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:overScrollMode="never"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider_dcedc8"
-        android:layout_marginVertical="5dp"/>
-    <Button
-        android:id="@+id/acceptPermissionBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:background="@null"
-        android:textSize="12sp"
-        android:textColor="@color/app_main"
-        android:minHeight="0dp"
-        android:text="@string/permission_explain_accept"/>
+    android:layout_height="110dp"
+    android:background="@drawable/permission_reject_tip_bg">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tipTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="25dp"
+        android:textColor="@color/text_212121"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/border"/>
+
+    <View
+        android:id="@+id/border"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/app_main"
+        app:layout_constraintBottom_toTopOf="@id/confirmBtn"/>
+
+    <Button
+        android:id="@+id/confirmBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:background="@null"
+        android:text="@string/permission_explain_accept"
+        android:textColor="@color/app_main"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.cvilia.bubbleweather.pages;
+package com.cvilia.bubbleweather.pages.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import com.amap.api.location.AMapLocation;
 import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.base.BaseActivity;
 import com.cvilia.bubbleweather.bean.CurrentWeatherBean;
+import com.cvilia.bubbleweather.bean.Day7WeatherBean;
 import com.cvilia.bubbleweather.config.Constants;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
 
@@ -25,7 +26,7 @@ import java.util.Date;
 public class WeatherActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, View.OnTouchListener {
 
     private static final String TAG = WeatherActivity.class.getSimpleName();
-    private TextView cityName, currentTemTv, weatherDescTv, minMaxTempTv, aqiTv,dateTimeTv;
+    private TextView cityName, currentTemTv, weatherDescTv, minMaxTempTv, aqiTv, dateTimeTv;
     private AMapLocation mLocation;
     private RelativeLayout weatherInfoRl;
 
@@ -57,6 +58,10 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     protected void initWidgetEvent() {
         weatherInfoRl.setClickable(true);
         weatherInfoRl.setOnTouchListener(this);
+        weatherInfoRl.setOnClickListener(view -> {
+            mPresenter.requestCurrentWeather("beijing");
+        });
+
     }
 
     @Override
@@ -77,6 +82,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             mLocation = intent.getParcelableExtra(Constants.AMAPLOCATION);
             if (null != mLocation && !TextUtils.isEmpty(mLocation.getDistrict())) {
                 mPresenter.requestCurrentWeather(mLocation.getDistrict());
+            }else {
+                mPresenter.requestCurrentWeather("朝阳");
             }
         }
     }
@@ -129,6 +136,16 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     public void showFail() {
+
+    }
+
+    @Override
+    public void day7Success(Day7WeatherBean bean) {
+
+    }
+
+    @Override
+    public void showDay7Failed() {
 
     }
 

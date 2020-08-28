@@ -1,10 +1,11 @@
-package com.cvilia.bubbleweather.pages;
+package com.cvilia.bubbleweather.pages.home;
 
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.cvilia.bubbleweather.base.BasePresenter;
 import com.cvilia.bubbleweather.bean.CurrentWeatherBean;
+import com.cvilia.bubbleweather.bean.Day7WeatherBean;
 import com.cvilia.bubbleweather.net.Api;
 import com.cvilia.bubbleweather.net.HttpManager;
 import com.cvilia.bubbleweather.net.WeatherApi;
@@ -34,6 +35,15 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
                 requestWeather(cityName);
             }
         }
+    }
+
+    @Override
+    public void requestDay7(String cityName) {
+        /**
+         * todo 请求七日天气
+         */
+        mView.day7Success(new Day7WeatherBean());
+        mView.showDay7Failed();
     }
 
     private void requestWeather(String cityName) {

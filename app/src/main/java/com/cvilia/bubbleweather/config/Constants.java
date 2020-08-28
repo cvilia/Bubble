@@ -14,4 +14,6 @@ public class Constants {
     public static final String DISTRICT_NAME = "district_name";
     public static final String AMAPLOCATION = "amaplocation";
 
+    public static final String FIRST_START="first_start";//记录第一次启动
+
 }

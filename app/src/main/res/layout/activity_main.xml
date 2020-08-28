@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".pages.WeatherActivity">
+    android:background="@drawable/home_page_bg"
+    tools:context=".pages.home.WeatherActivity">
 
     <include layout="@layout/layout_home_actionbar" />
 

@@ -14,25 +14,11 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:background">@color/app_transparent</item>
-        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowBackground">@drawable/launcher_bg</item>
         <item name="android:selectableItemBackground">@null</item>
 
-        <!--        这里设置后状态栏没有了，但是状态栏的文字还在-->
-        <!--        <item name="android:windowTranslucentStatus">true</item>-->
-        <!--        <item name="android:statusBarColor">@color/app_main_color</item>-->
-    </style>
-
-    <style name="HomePageStyle" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/app_transparent</item>
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:background">@color/app_transparent</item>
-        <item name="android:windowBackground">@drawable/drawable_home_page_bg</item>
-        <item name="android:selectableItemBackground">@null</item>
-        <item name="android:windowTranslucentStatus">false</item>
     </style>
 
     <style name="PermissionExplainDialog" parent="android:style/Theme.Dialog">
@@ -46,6 +32,37 @@
         <item name="android:windowIsFloating">true</item>
         <!--是否模糊-->
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="PermissionItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@drawable/permission_border</item>
+    </style>
+
+    <style name="PermissionItemText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="PermissionItemImage">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+    <style name="PermissionItemButton">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="layout_constraintHorizontal_bias">0.5</item>
     </style>
 
 </resources>

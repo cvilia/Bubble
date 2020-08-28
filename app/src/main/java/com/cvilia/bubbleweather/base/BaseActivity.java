@@ -1,9 +1,13 @@
 package com.cvilia.bubbleweather.base;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.os.AsyncTask.Status;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
@@ -12,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cvilia.bubbleweather.ActivityManager;
 import com.cvilia.bubbleweather.IView;
+import com.jaeger.library.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -34,6 +39,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ARouter.getInstance().inject(this);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (getLayoutId() != 0) {
             setContentView(getLayoutId());
         }
@@ -58,21 +64,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
     protected void onViewCreated() {
+        StatusBarUtil.setTranslucent(mContext,0);
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            StatusBarUtil.setDarkMode(this);
 
-        /**
-         * 隐藏action bar
-         */
-        if (getActionBar() != null) {
-            getActionBar().hide();
-        }
-        /**
-         * 隐藏状态栏
-         */
-        if (isFullScreen) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            getWindow().setStatusBarColor(Color.TRANSPARENT);
-//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
     }
 
