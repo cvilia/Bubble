@@ -20,6 +20,7 @@ import com.jaeger.library.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import butterknife.ButterKnife;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 
@@ -39,9 +40,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ARouter.getInstance().inject(this);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (getLayoutId() != 0) {
             setContentView(getLayoutId());
+            ButterKnife.bind(this);
         }
 
         mContext = this;

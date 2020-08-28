@@ -1,34 +1,51 @@
 package com.cvilia.bubbleweather.pages.home;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.amap.api.location.AMapLocation;
 import com.cvilia.bubbleweather.R;
+import com.cvilia.bubbleweather.R2;
 import com.cvilia.bubbleweather.base.BaseActivity;
 import com.cvilia.bubbleweather.bean.CurrentWeatherBean;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
 import com.cvilia.bubbleweather.config.Constants;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import butterknife.BindView;
 
 @Route(path = PageUrlConfig.MAIN_PAGE)
-public class WeatherActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, View.OnTouchListener {
+public class WeatherActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View {
 
     private static final String TAG = WeatherActivity.class.getSimpleName();
-    private TextView cityName, currentTemTv, weatherDescTv, minMaxTempTv, aqiTv, dateTimeTv;
     private AMapLocation mLocation;
-    private RelativeLayout weatherInfoRl;
+
+    @BindView(R2.id.locateTv)
+    TextView mCityName;
+
+    @BindView(R2.id.tempTv)
+    TextView mTempTv;
+
+    @BindView(R2.id.weatherDescTv)
+    TextView mWeatherDescTv;
+
+    @BindView(R2.id.tempRangeTv)
+    TextView mTempRangeTv;
+
+    @BindView(R2.id.AQITv)
+    TextView mAqiTv;
+
+    @BindView(R2.id.updateTimeTv)
+    TextView mUpdateTimeTv;
+
+    @BindView(R2.id.refreshL)
+    SmartRefreshLayout mRefreshLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,30 +61,22 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     protected void initWidget() {
-        cityName = findViewById(R.id.locateTv);
-        currentTemTv = findViewById(R.id.tempTv);
-        weatherDescTv = findViewById(R.id.weatherDescTv);
-        minMaxTempTv = findViewById(R.id.minMaxTempTv);
-        aqiTv = findViewById(R.id.AQITv);
-        weatherInfoRl = findViewById(R.id.weatherInfoRl);
-        dateTimeTv = findViewById(R.id.dateTimeTv);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initWidgetEvent() {
-        weatherInfoRl.setClickable(true);
-        weatherInfoRl.setOnTouchListener(this);
-        weatherInfoRl.setOnClickListener(view -> {
-            mPresenter.requestCurrentWeather("beijing");
-        });
-
+        if (mRefreshLayout != null) {
+            mRefreshLayout.setEnableRefresh(true);
+            mRefreshLayout.setEnableLoadMore(false);
+            mRefreshLayout.autoRefresh();
+            mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+                mPresenter.startLocate(this);
+            });
+        }
     }
 
     @Override
     protected void initData() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        dateTimeTv.setText(sdf.format(new Date()));
     }
 
     @Override
@@ -77,15 +86,6 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     protected void getIntentData() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            mLocation = intent.getParcelableExtra(Constants.AMAPLOCATION);
-            if (null != mLocation && !TextUtils.isEmpty(mLocation.getDistrict())) {
-                mPresenter.requestCurrentWeather(mLocation.getDistrict());
-            }else {
-                mPresenter.requestCurrentWeather("朝阳");
-            }
-        }
     }
 
     @Override
@@ -104,12 +104,14 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     }
 
     private void reloadPage(CurrentWeatherBean bean) {
+        mRefreshLayout.finishRefresh();
         if (bean != null) {
-            cityName.setText(bean.getCity());
-            currentTemTv.setText(String.format(getString(R.string.temperature), bean.getTem()));
-            weatherDescTv.setText(bean.getWea());
-            minMaxTempTv.setText(String.format(getString(R.string.temperature_min_max), bean.getTem_day(), bean.getTem_night()));
-            aqiTv.setText(String.format(getString(R.string.aqi), getAQI(bean.getAir())));
+            mCityName.setText(bean.getCity());
+            mTempTv.setText(String.format(getString(R.string.temperature), bean.getTem()));
+            mWeatherDescTv.setText(bean.getWea());
+            mTempRangeTv.setText(String.format(getString(R.string.temperature_min_max), bean.getTem_day(), bean.getTem_night()));
+            mAqiTv.setText(String.format(getString(R.string.aqi), getAQI(bean.getAir())));
+            mUpdateTimeTv.setText(String.format(getString(R.string.last_update_time), bean.getUpdate_time()));
         }
     }
 
@@ -150,6 +152,18 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     }
 
     @Override
+    public void locateSuccess(AMapLocation location) {
+        mPresenter.requestCurrentWeather(location.getDistrict());
+        mPresenter.requestDay7(location.getDistrict());
+    }
+
+    @Override
+    public void locateFailed() {
+        mPresenter.requestCurrentWeather("北京市");
+        mPresenter.requestDay7("北京市");
+    }
+
+    @Override
     public void loading() {
 
     }
@@ -159,22 +173,4 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
-                if (v.getId() == R.id.weatherInfoRl) {
-                    weatherInfoRl.setBackgroundColor(Color.parseColor("#0f100000"));
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                if (v.getId() == R.id.weatherInfoRl) {
-                    weatherInfoRl.setBackgroundColor(Color.parseColor("#00000000"));
-                }
-                break;
-        }
-        return false;
-    }
 }

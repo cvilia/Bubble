@@ -57,12 +57,29 @@
         <item name="layout_constraintLeft_toLeftOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
+
     <style name="PermissionItemButton">
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">14sp</item>
         <item name="layout_constraintHorizontal_bias">0.5</item>
+    </style>
+
+    <style name="CurrentWeatherInfoTextLeft">
+        <item name="android:textColor">@color/white</item>
+        <item name="layout_constraintHorizontal_bias">0.5</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintHorizontal_chainStyle">packed</item>
+    </style>
+    <style name="CurrentWeatherInfoTextRight">
+        <item name="android:textColor">@color/white</item>
+        <item name="layout_constraintHorizontal_bias">0.5</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 
 </resources>

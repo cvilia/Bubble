@@ -19,4 +19,6 @@
 
     <string name="reject">拒绝</string>
     <string name="agree">同意</string>
+
+    <string name="last_update_time">上次更新:%1$s</string>
 </resources>

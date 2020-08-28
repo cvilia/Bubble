@@ -16,15 +16,14 @@ public class WeatherLineView extends View {
     private Context mCOntext;
 
     public WeatherLineView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public WeatherLineView(Context context, @Nullable AttributeSet attrs) {
-        this(context,attrs,0);
+        this(context, attrs, 0);
     }
 
     public WeatherLineView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
 }

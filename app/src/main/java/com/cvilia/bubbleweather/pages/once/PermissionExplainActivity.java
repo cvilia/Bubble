@@ -2,7 +2,6 @@ package com.cvilia.bubbleweather.pages.once;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;

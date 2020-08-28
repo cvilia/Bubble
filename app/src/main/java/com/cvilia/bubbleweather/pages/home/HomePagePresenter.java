@@ -1,8 +1,13 @@
 package com.cvilia.bubbleweather.pages.home;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.cvilia.bubbleweather.base.BasePresenter;
 import com.cvilia.bubbleweather.bean.CurrentWeatherBean;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
@@ -13,6 +18,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 import okhttp3.Response;
 
@@ -39,13 +45,68 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
 
     @Override
     public void requestDay7(String cityName) {
-        /**
-         * todo 请求七日天气
-         */
-        mView.day7Success(new Day7WeatherBean());
-        mView.showDay7Failed();
+        if (!TextUtils.isEmpty(cityName)) {
+            if (cityName.contains("市") || cityName.contains("区") || cityName.contains("县")) {
+                String district = cityName.substring(0, cityName.length() - 1);
+                requestDay7Weather(district);
+            } else {
+                requestDay7Weather(cityName);
+            }
+        }
+
     }
 
+    @Override
+    public void startLocate(Context context) {
+        AMapLocationClient client = new AMapLocationClient(context);
+        AMapLocationClientOption option = new AMapLocationClientOption();
+        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
+        option.setOnceLocation(true);
+        option.setNeedAddress(true);
+        client.setLocationOption(option);
+        client.stopLocation();
+        client.startLocation();
+        client.setLocationListener(aMapLocation -> {
+            if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
+                mView.locateSuccess(aMapLocation);
+            } else {
+                mView.locateFailed();
+            }
+        });
+    }
+
+    /**
+     * 请求7日天气
+     *
+     * @param cityName
+     */
+    private void requestDay7Weather(String cityName) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("appid", WeatherApi.appid);
+        map.put("appsecret", WeatherApi.appSecret);
+        map.put("city", cityName);
+        HttpManager.getInstance().get(Api.OTHERS, map, new HttpManager.MyCallback() {
+            @Override
+            public void success(Response res) throws IOException {
+                if (res != null) {
+                    Gson gson = new Gson();
+                    Day7WeatherBean bean = gson.fromJson(Objects.requireNonNull(res.body().string()), Day7WeatherBean.class);
+                    mView.day7Success(bean);
+                }
+            }
+
+            @Override
+            public void failed(IOException e) {
+
+            }
+        });
+    }
+
+    /**
+     * 请求当日天气
+     *
+     * @param cityName
+     */
     private void requestWeather(String cityName) {
         HashMap<String, String> map = new HashMap<>();
         map.put("appid", WeatherApi.appid);
@@ -56,7 +117,7 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
             public void success(Response res) throws IOException {
                 if (res != null) {
                     Gson gson = new Gson();
-                    String json = res.body().string();
+                    String json = Objects.requireNonNull(res.body()).string();
                     CurrentWeatherBean bean = gson.fromJson(json, CurrentWeatherBean.class);
                     Log.d(TAG, bean.toString());
                     mView.showSuccess(bean);

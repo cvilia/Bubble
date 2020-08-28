@@ -1,5 +1,8 @@
 package com.cvilia.bubbleweather.pages.home;
 
+import android.content.Context;
+
+import com.amap.api.location.AMapLocation;
 import com.cvilia.bubbleweather.IPresenter;
 import com.cvilia.bubbleweather.IView;
 import com.cvilia.bubbleweather.bean.CurrentWeatherBean;
@@ -14,6 +17,7 @@ public class HomePageContact {
     interface Presenter extends IPresenter<HomePageContact.View>{
         void requestCurrentWeather(String cityName);
         void requestDay7(String cityName);
+        void startLocate(Context context);
     }
 
     interface View extends IView{
@@ -22,5 +26,8 @@ public class HomePageContact {
 
         void day7Success(Day7WeatherBean bean);
         void showDay7Failed();
+
+        void locateSuccess(AMapLocation location);
+        void locateFailed();
     }
 }

@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".WeatherApplication"
@@ -45,6 +45,11 @@
             android:value="cf8f8da6ac292b8fc451dc9b726012f6" />
 
         <service android:name="com.amap.api.location.APSService" />
+        <!--        全面屏适配-->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.5" />
+        <meta-data android:name="android.notch_support" android:value="true"/>
     </application>
 
 </manifest>
