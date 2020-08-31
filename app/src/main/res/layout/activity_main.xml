@@ -8,12 +8,17 @@
     android:orientation="vertical"
     tools:context=".pages.home.WeatherActivity">
 
-    <include layout="@layout/layout_home_actionbar"/>
+    <include layout="@layout/layout_home_actionbar" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/refreshL"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.scwang.smart.refresh.header.BezierRadarHeader
+            android:id="@+id/refreshHeader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

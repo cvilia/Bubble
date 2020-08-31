@@ -14,20 +14,25 @@ import com.cvilia.bubbleweather.bean.Day7WeatherBean;
  * describe：描述
  */
 public class HomePageContact {
-    interface Presenter extends IPresenter<HomePageContact.View>{
+    interface Presenter extends IPresenter<View> {
         void requestCurrentWeather(String cityName);
+
         void requestDay7(String cityName);
+
         void startLocate(Context context);
     }
 
-    interface View extends IView{
+    interface View extends IView {
         void showSuccess(CurrentWeatherBean bean);
+
         void showFail();
 
         void day7Success(Day7WeatherBean bean);
+
         void showDay7Failed();
 
         void locateSuccess(AMapLocation location);
+
         void locateFailed();
     }
 }

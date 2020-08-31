@@ -59,13 +59,6 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
     @Override
     public void startLocate(Context context) {
         AMapLocationClient client = new AMapLocationClient(context);
-        AMapLocationClientOption option = new AMapLocationClientOption();
-        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
-        option.setOnceLocation(true);
-        option.setNeedAddress(true);
-        client.setLocationOption(option);
-        client.stopLocation();
-        client.startLocation();
         client.setLocationListener(aMapLocation -> {
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
                 mView.locateSuccess(aMapLocation);
@@ -73,6 +66,13 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
                 mView.locateFailed();
             }
         });
+        AMapLocationClientOption option = new AMapLocationClientOption();
+        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
+        option.setOnceLocation(true);
+        option.setNeedAddress(true);
+        client.setLocationOption(option);
+        client.stopLocation();
+        client.startLocation();
     }
 
     /**
