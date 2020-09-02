@@ -70,7 +70,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'io.reactivex.rxjava3:rxjava:3.0.5'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
@@ -92,5 +92,9 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     implementation 'org.greenrobot:greendao:3.3.0' // add library
+//    知乎图片选择器
+    implementation 'com.zhihu.android:matisse:0.5.2' // add library
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
 }

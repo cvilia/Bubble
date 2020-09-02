@@ -1,12 +1,25 @@
 package com.cvilia.bubbleweather.pages.home;
 
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.MotionEvent;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.location.AMapLocation;
 import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.R2;
@@ -16,6 +29,11 @@ import com.cvilia.bubbleweather.bean.Day7WeatherBean;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
 import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -24,6 +42,10 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     private static final String TAG = WeatherActivity.class.getSimpleName();
     private static final int REQUEST_CODE_SELECT_SITE = 0x1101;
+    private static final int REQUEST_CODE_SELECT_IMAGES = 0x1110;
+
+    @BindView(R2.id.mainPageLl)
+    LinearLayout mMainPageLl;
 
     @BindView(R2.id.locateTv)
     TextView mCityName;
@@ -83,8 +105,62 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
                 mPresenter.startLocate(this)
         );
 
-        mSelectSiteTv.setOnClickListener(view -> ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this, REQUEST_CODE_SELECT_SITE));
+        mSelectSiteTv.setOnClickListener(view -> {
+            Matisse.from(mContext)
+                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
+                    .countable(true)
+                    .maxSelectable(1)
+                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .thumbnailScale(0.8f)
+                    .originalEnable(true)
+                    .maxOriginalSize(2)
+                    .imageEngine(new GlideEngine())
+                    .forResult(REQUEST_CODE_SELECT_IMAGES);
+//            ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this, REQUEST_CODE_SELECT_SITE);
+        });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SELECT_IMAGES && resultCode == RESULT_OK) {
+            try {
+                ArrayList<Uri> imgs = (ArrayList<Uri>) Matisse.obtainResult(data);
+                Uri uri = imgs.get(0);
+                BitmapFactory.Options opts = new BitmapFactory.Options();
+                opts.inJustDecodeBounds = true;
+                opts.inSampleSize = 1;
+                Bitmap bitmap = BitmapFactory.decodeFile(getRealFilePath(uri), opts);
+                mMainPageLl.setBackground(new BitmapDrawable(getResources(),bitmap));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getRealFilePath(final Uri uri) {
+        if (null == uri) return null;
+        final String scheme = uri.getScheme();
+        String data = null;
+        if (scheme == null)
+            data = uri.getPath();
+        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
+            data = uri.getPath();
+        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+            Cursor cursor = this.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
+            if (null != cursor) {
+                if (cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    if (index > -1) {
+                        data = cursor.getString(index);
+                    }
+                }
+                cursor.close();
+            }
+        }
+        return data;
     }
 
     @Override
