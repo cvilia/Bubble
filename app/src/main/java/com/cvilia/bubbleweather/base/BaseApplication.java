@@ -13,6 +13,7 @@ import com.tencent.mmkv.MMKV;
  */
 public abstract class BaseApplication extends Application {
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -20,11 +21,12 @@ public abstract class BaseApplication extends Application {
         initMMKV();
     }
 
+
     /**
      * MMKV初始化
      */
     private void initMMKV() {
         String dir = MMKV.initialize(this);
-        Log.d("BaseApplication",dir);
+        Log.d("BaseApplication", dir);
     }
 }

@@ -42,12 +42,19 @@ android {
 
     buildTypes {
 
-        release{
+        release {
             minifyEnabled false //开启混淆
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
     }
+
+    greendao {
+        schemaVersion 1
+        targetGenDir 'src/main/java'
+        daoPackage "${android.defaultConfig.applicationId}.sql"
+    }
+
 }
 
 dependencies {
@@ -86,7 +93,7 @@ dependencies {
     implementation 'com.tencent:mmkv-static:1.2.2'
 
     implementation 'com.scwang.smart:refresh-layout-kernel:2.0.1'
-    implementation  'com.scwang.smart:refresh-header-radar:2.0.1'       //雷达刷新头
+    implementation 'com.scwang.smart:refresh-header-radar:2.0.1'       //雷达刷新头
 
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
     implementation 'com.jakewharton:butterknife:10.2.3'

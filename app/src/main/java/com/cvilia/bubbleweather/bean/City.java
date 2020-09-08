@@ -1,11 +1,9 @@
 package com.cvilia.bubbleweather.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
-
-import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * author: lzy
@@ -28,7 +26,8 @@ public class City {
      */
 
     @Id
-    private Long id;
+    private String id;
+
     @Property(nameInDb = "cityEn")
     private String cityEn;
 
@@ -56,8 +55,8 @@ public class City {
     @Property(nameInDb = "provinceZh")
     private String provinceZh;
 
-    @Generated(hash = 1584036377)
-    public City(Long id, String cityEn, String cityZh, String code, String lat,
+    @Generated(hash = 275414895)
+    public City(String id, String cityEn, String cityZh, String code, String lat,
             String leaderEn, String leaderZh, String lon, String provinceEn,
             String provinceZh) {
         this.id = id;
@@ -76,16 +75,16 @@ public class City {
     public City() {
     }
 
-    public Long getId() {
-        return id;
+    public String getId() {
+        return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     public String getCityEn() {
-        return cityEn;
+        return this.cityEn;
     }
 
     public void setCityEn(String cityEn) {
@@ -93,7 +92,7 @@ public class City {
     }
 
     public String getCityZh() {
-        return cityZh;
+        return this.cityZh;
     }
 
     public void setCityZh(String cityZh) {
@@ -101,7 +100,7 @@ public class City {
     }
 
     public String getCode() {
-        return code;
+        return this.code;
     }
 
     public void setCode(String code) {
@@ -109,7 +108,7 @@ public class City {
     }
 
     public String getLat() {
-        return lat;
+        return this.lat;
     }
 
     public void setLat(String lat) {
@@ -117,7 +116,7 @@ public class City {
     }
 
     public String getLeaderEn() {
-        return leaderEn;
+        return this.leaderEn;
     }
 
     public void setLeaderEn(String leaderEn) {
@@ -125,7 +124,7 @@ public class City {
     }
 
     public String getLeaderZh() {
-        return leaderZh;
+        return this.leaderZh;
     }
 
     public void setLeaderZh(String leaderZh) {
@@ -133,7 +132,7 @@ public class City {
     }
 
     public String getLon() {
-        return lon;
+        return this.lon;
     }
 
     public void setLon(String lon) {
@@ -141,7 +140,7 @@ public class City {
     }
 
     public String getProvinceEn() {
-        return provinceEn;
+        return this.provinceEn;
     }
 
     public void setProvinceEn(String provinceEn) {
@@ -149,10 +148,11 @@ public class City {
     }
 
     public String getProvinceZh() {
-        return provinceZh;
+        return this.provinceZh;
     }
 
     public void setProvinceZh(String provinceZh) {
         this.provinceZh = provinceZh;
     }
+
 }

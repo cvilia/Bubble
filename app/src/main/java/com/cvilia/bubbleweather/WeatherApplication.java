@@ -2,6 +2,8 @@ package com.cvilia.bubbleweather;
 
 
 import com.cvilia.bubbleweather.base.BaseApplication;
+import com.cvilia.bubbleweather.sql.DaoMaster;
+import com.cvilia.bubbleweather.sql.DaoSession;
 
 /**
  * author: lzy
@@ -10,8 +12,17 @@ import com.cvilia.bubbleweather.base.BaseApplication;
  */
 public class WeatherApplication extends BaseApplication {
 
+    private static DaoSession mDaosession;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        initGreenDao();
+    }
+
+    private void initGreenDao() {
+
+        DaoMaster.DevOpenHelper openHelper = new DaoMaster.DevOpenHelper(this,"");
+
     }
 }
