@@ -15,6 +15,7 @@ public class Constants {
     public static final String AMAPLOCATION = "amaplocation";
 
     public static final String FIRST_START = "first_start";//记录第一次启动
+    public static final String COPY_DB_ALREADY = "copy_db_already";//已经复制过db
 
     public static final String MAIN_PAGE_BG_PATH = "main_page_bg_path";//主页背景图地址
 

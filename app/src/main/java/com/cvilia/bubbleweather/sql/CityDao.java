@@ -25,15 +25,15 @@ public class CityDao extends AbstractDao<City, String> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, String.class, "id", true, "ID");
-        public final static Property CityEn = new Property(1, String.class, "cityEn", false, "cityEn");
-        public final static Property CityZh = new Property(2, String.class, "cityZh", false, "cityZh");
-        public final static Property Code = new Property(3, String.class, "code", false, "code");
-        public final static Property Lat = new Property(4, String.class, "lat", false, "lat");
-        public final static Property LeaderEn = new Property(5, String.class, "leaderEn", false, "leaderEn");
-        public final static Property LeaderZh = new Property(6, String.class, "leaderZh", false, "leaderZh");
-        public final static Property Lon = new Property(7, String.class, "lon", false, "lon");
-        public final static Property ProvinceEn = new Property(8, String.class, "provinceEn", false, "provinceEn");
-        public final static Property ProvinceZh = new Property(9, String.class, "provinceZh", false, "provinceZh");
+        public final static Property CityEn = new Property(1, String.class, "cityEn", false, "CITY_EN");
+        public final static Property CityZh = new Property(2, String.class, "cityZh", false, "CITY_ZH");
+        public final static Property Code = new Property(3, String.class, "code", false, "CODE");
+        public final static Property Lat = new Property(4, String.class, "lat", false, "LAT");
+        public final static Property LeaderEn = new Property(5, String.class, "leaderEn", false, "LEADER_EN");
+        public final static Property LeaderZh = new Property(6, String.class, "leaderZh", false, "LEADER_ZH");
+        public final static Property Lon = new Property(7, String.class, "lon", false, "LON");
+        public final static Property ProvinceEn = new Property(8, String.class, "provinceEn", false, "PROVINCE_EN");
+        public final static Property ProvinceZh = new Property(9, String.class, "provinceZh", false, "PROVINCE_ZH");
     }
 
 
@@ -50,15 +50,15 @@ public class CityDao extends AbstractDao<City, String> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"CITY\" (" + //
                 "\"ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: id
-                "\"cityEn\" TEXT," + // 1: cityEn
-                "\"cityZh\" TEXT," + // 2: cityZh
-                "\"code\" TEXT," + // 3: code
-                "\"lat\" TEXT," + // 4: lat
-                "\"leaderEn\" TEXT," + // 5: leaderEn
-                "\"leaderZh\" TEXT," + // 6: leaderZh
-                "\"lon\" TEXT," + // 7: lon
-                "\"provinceEn\" TEXT," + // 8: provinceEn
-                "\"provinceZh\" TEXT);"); // 9: provinceZh
+                "\"CITY_EN\" TEXT," + // 1: cityEn
+                "\"CITY_ZH\" TEXT," + // 2: cityZh
+                "\"CODE\" TEXT," + // 3: code
+                "\"LAT\" TEXT," + // 4: lat
+                "\"LEADER_EN\" TEXT," + // 5: leaderEn
+                "\"LEADER_ZH\" TEXT," + // 6: leaderZh
+                "\"LON\" TEXT," + // 7: lon
+                "\"PROVINCE_EN\" TEXT," + // 8: provinceEn
+                "\"PROVINCE_ZH\" TEXT);"); // 9: provinceZh
     }
 
     /** Drops the underlying database table. */

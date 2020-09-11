@@ -1,9 +1,10 @@
 package com.cvilia.bubbleweather.pages.selectcity;
 
-import android.content.Context;
-
 import com.cvilia.bubbleweather.IPresenter;
 import com.cvilia.bubbleweather.IView;
+import com.cvilia.bubbleweather.bean.City;
+
+import java.util.List;
 
 /**
  * author: lzy
@@ -13,11 +14,11 @@ import com.cvilia.bubbleweather.IView;
 public abstract class SelectCityContact {
 
     interface Presenter extends IPresenter<View> {
-        void readJson(Context context);
+        void readDb();
     }
 
     interface View extends IView {
-        void readJsonSuccess();
+        void readDbSuccess(List<City> cityList);
     }
 
 }

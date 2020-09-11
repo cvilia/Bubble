@@ -3,19 +3,11 @@ package com.cvilia.bubbleweather.component;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.cvilia.bubbleweather.R;
-import com.cvilia.bubbleweather.adapter.PermissionExplainAdapter;
-import com.cvilia.bubbleweather.listener.IPermissionAcceptClick;
-
-import java.util.ArrayList;
 
 /**
  * author: lzy

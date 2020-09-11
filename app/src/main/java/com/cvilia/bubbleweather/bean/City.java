@@ -28,31 +28,31 @@ public class City {
     @Id
     private String id;
 
-    @Property(nameInDb = "cityEn")
+    @Property
     private String cityEn;
 
-    @Property(nameInDb = "cityZh")
+    @Property
     private String cityZh;
 
-    @Property(nameInDb = "code")
+    @Property
     private String code;
 
-    @Property(nameInDb = "lat")
+    @Property
     private String lat;
 
-    @Property(nameInDb = "leaderEn")
+    @Property
     private String leaderEn;
 
-    @Property(nameInDb = "leaderZh")
+    @Property
     private String leaderZh;
 
-    @Property(nameInDb = "lon")
+    @Property
     private String lon;
 
-    @Property(nameInDb = "provinceEn")
+    @Property
     private String provinceEn;
 
-    @Property(nameInDb = "provinceZh")
+    @Property
     private String provinceZh;
 
     @Generated(hash = 275414895)
@@ -154,5 +154,5 @@ public class City {
     public void setProvinceZh(String provinceZh) {
         this.provinceZh = provinceZh;
     }
-
+    
 }
