@@ -10,7 +10,7 @@ import org.greenrobot.greendao.annotation.Property;
  * date: 2020/8/19
  * describe：描述
  */
-@Entity
+@Entity(nameInDb = "city")
 public class City {
 
     /**
@@ -28,41 +28,37 @@ public class City {
     @Id
     private String id;
 
-    @Property
+    @Property(nameInDb = "cityEn")
     private String cityEn;
 
-    @Property
+    @Property(nameInDb = "cityZh")
     private String cityZh;
 
-    @Property
-    private String code;
-
-    @Property
+    @Property(nameInDb = "lat")
     private String lat;
 
-    @Property
+    @Property(nameInDb = "leaderEn")
     private String leaderEn;
 
-    @Property
+    @Property(nameInDb = "leaderZh")
     private String leaderZh;
 
-    @Property
+    @Property(nameInDb = "lon")
     private String lon;
 
-    @Property
+    @Property(nameInDb = "provinceEn")
     private String provinceEn;
 
-    @Property
+    @Property(nameInDb = "provinceZh")
     private String provinceZh;
 
-    @Generated(hash = 275414895)
-    public City(String id, String cityEn, String cityZh, String code, String lat,
+    @Generated(hash = 1158235893)
+    public City(String id, String cityEn, String cityZh, String lat,
             String leaderEn, String leaderZh, String lon, String provinceEn,
             String provinceZh) {
         this.id = id;
         this.cityEn = cityEn;
         this.cityZh = cityZh;
-        this.code = code;
         this.lat = lat;
         this.leaderEn = leaderEn;
         this.leaderZh = leaderZh;
@@ -97,14 +93,6 @@ public class City {
 
     public void setCityZh(String cityZh) {
         this.cityZh = cityZh;
-    }
-
-    public String getCode() {
-        return this.code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getLat() {
@@ -154,5 +142,4 @@ public class City {
     public void setProvinceZh(String provinceZh) {
         this.provinceZh = provinceZh;
     }
-    
 }

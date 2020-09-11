@@ -32,14 +32,21 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
     private static final String TAG = HomePagePresenter.class.getSimpleName();
 
     @Override
-    public void requestCurrentWeather(String cityName) {
+    public void requestWeatherByName(String cityName) {
         if (!TextUtils.isEmpty(cityName)) {
             if (cityName.contains("市") || cityName.contains("区") || cityName.contains("县")) {
                 String district = cityName.substring(0, cityName.length() - 1);
-                requestWeather(district);
+                requestWeather(district, true);
             } else {
-                requestWeather(cityName);
+                requestWeather(cityName, true);
             }
+        }
+    }
+
+    @Override
+    public void requestWeatherByCode(String cityCode) {
+        if (!TextUtils.isEmpty(cityCode)) {
+            requestWeather(cityCode, false);
         }
     }
 
@@ -48,9 +55,9 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
         if (!TextUtils.isEmpty(cityName)) {
             if (cityName.contains("市") || cityName.contains("区") || cityName.contains("县")) {
                 String district = cityName.substring(0, cityName.length() - 1);
-                requestDay7Weather(district);
+                requestDay7Weather(district, true);
             } else {
-                requestDay7Weather(cityName);
+                requestDay7Weather(cityName, true);
             }
         }
 
@@ -80,7 +87,7 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
      *
      * @param cityName
      */
-    private void requestDay7Weather(String cityName) {
+    private void requestDay7Weather(String cityName, boolean isName) {
         HashMap<String, String> map = new HashMap<>();
         map.put("appid", WeatherApi.appid);
         map.put("appsecret", WeatherApi.appSecret);
@@ -105,13 +112,17 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
     /**
      * 请求当日天气
      *
-     * @param cityName
+     * @param cityInfo
      */
-    private void requestWeather(String cityName) {
+    private void requestWeather(String cityInfo, boolean isName) {
         HashMap<String, String> map = new HashMap<>();
         map.put("appid", WeatherApi.appid);
         map.put("appsecret", WeatherApi.appSecret);
-        map.put("city", cityName);
+        if (isName) {
+            map.put("city", cityInfo);
+        } else {
+            map.put("cityid", cityInfo);
+        }
         HttpManager.getInstance().get(Api.CURRENT_WEATHER, map, new HttpManager.MyCallback() {
             @Override
             public void success(Response res) throws IOException {

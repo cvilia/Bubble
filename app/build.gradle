@@ -50,9 +50,9 @@ android {
     }
 
     greendao {
-        schemaVersion 1
-        targetGenDir 'src/main/java'
-        daoPackage "${android.defaultConfig.applicationId}.sql"
+//        schemaVersion 1
+//        targetGenDir 'src/main/java'
+//        daoPackage "${android.defaultConfig.applicationId}.sql"
     }
 
 }

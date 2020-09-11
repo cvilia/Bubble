@@ -21,7 +21,6 @@ public class User {
     private int age;
     @Property
     private String gender;
-
     @Generated(hash = 1745186454)
     public User(long id, String name, int age, String gender) {
         this.id = id;
@@ -56,5 +55,5 @@ public class User {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
+    
 }

@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -18,13 +19,16 @@ import com.cvilia.bubbleweather.base.BaseActivity;
 import com.cvilia.bubbleweather.bean.CurrentWeatherBean;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
+import com.cvilia.bubbleweather.utils.CopyDb2Local;
 import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import butterknife.BindView;
 
 @Route(path = PageUrlConfig.MAIN_PAGE)
-public class WeatherActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View {
+public class WeatherActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, OnRefreshListener {
 
     private static final String TAG = WeatherActivity.class.getSimpleName();
     private static final int REQUEST_CODE_SELECT_SITE = 0x1101;
@@ -61,6 +65,9 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     @BindView(R2.id.selectSiteTv)
     TextView mSelectSiteTv;//跳转选择位置
 
+    private boolean selectCity = false;//是否是选择过城市
+    private String cityCode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,10 +93,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             isFirstIn = false;
             mRefreshLayout.autoRefresh();
         }
-        mRefreshLayout.setOnRefreshListener(refreshLayout ->
-                mPresenter.startLocate(this)
-        );
-
+        mRefreshLayout.setOnRefreshListener(this);
         mSelectSiteTv.setOnClickListener(view -> {
             ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this, REQUEST_CODE_SELECT_SITE);
         });
@@ -99,10 +103,19 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SELECT_SITE && resultCode == RESULT_OK) {
+            cityCode = data.getStringExtra("cityCode");
+            mCityName.setText(data.getStringExtra("cityName"));
+            selectCity = true;
+            mRefreshLayout.autoRefresh();
+        }
     }
 
     @Override
     protected void initData() {
+
+//        if (!MMKV.defaultMMKV().decodeBool(Constants.COPY_DB_ALREADY, false))
+        CopyDb2Local.copy2localdb(this);
     }
 
     @Override
@@ -161,6 +174,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         return aqi;
     }
 
+
     @Override
     public void showFail() {
 
@@ -178,14 +192,14 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     public void locateSuccess(AMapLocation location) {
-        mPresenter.requestCurrentWeather(location.getDistrict());
+        mPresenter.requestWeatherByName(location.getDistrict());
         mPresenter.requestDay7(location.getDistrict());
         mCityName.setText(location.getDistrict());
     }
 
     @Override
     public void locateFailed() {
-        mPresenter.requestCurrentWeather("北京市");
+        mPresenter.requestWeatherByName("北京市");
         mPresenter.requestDay7("北京市");
         mCityName.setText("北京市");
     }
@@ -200,4 +214,12 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     }
 
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        if (selectCity) {
+            mPresenter.startLocate(this);
+        } else {
+            mPresenter.requestWeatherByCode(cityCode);
+        }
+    }
 }

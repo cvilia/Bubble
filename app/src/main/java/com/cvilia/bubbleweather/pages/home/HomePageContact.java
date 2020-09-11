@@ -15,7 +15,8 @@ import com.cvilia.bubbleweather.bean.Day7WeatherBean;
  */
 public class HomePageContact {
     interface Presenter extends IPresenter<View> {
-        void requestCurrentWeather(String cityName);
+        void requestWeatherByName(String cityName);
+        void requestWeatherByCode(String cityCode);
 
         void requestDay7(String cityName);
 

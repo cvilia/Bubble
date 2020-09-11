@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -28,6 +29,8 @@ public class HttpManager {
         client = new OkHttpClient.Builder()
                 .followRedirects(true)
                 .followSslRedirects(true)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
                 .build();
     }
 

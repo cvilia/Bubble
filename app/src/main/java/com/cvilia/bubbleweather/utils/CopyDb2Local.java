@@ -24,11 +24,11 @@ public class CopyDb2Local {
         PackageInfo info = DeviceUtil.getAppInfo(context);
         String localPath = info != null && info.applicationInfo != null ? info.applicationInfo.dataDir : "";
         String dataPath = localPath + File.separator + "databases/";
-        File file = new File(localPath);
+        File file = new File(dataPath);
         if (!file.exists()) {
             file.mkdirs();
         }
-        File dbFile = new File(dataPath + "major.db");
+        File dbFile = new File(dataPath + "weatherDb.db");
         InputStream is = context.getResources().openRawResource(R.raw.major);
         if (!dbFile.exists()) {
             try {

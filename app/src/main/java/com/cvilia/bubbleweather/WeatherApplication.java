@@ -1,12 +1,8 @@
 package com.cvilia.bubbleweather;
 
 
-import android.database.sqlite.SQLiteDatabase;
-
 import com.cvilia.bubbleweather.base.BaseApplication;
-import com.cvilia.bubbleweather.sql.DaoMaster;
 import com.cvilia.bubbleweather.sql.DaoSession;
-import com.cvilia.bubbleweather.utils.CopyDb2Local;
 
 /**
  * author: lzy
@@ -24,12 +20,7 @@ public class WeatherApplication extends BaseApplication {
     }
 
     private void initGreenDao() {
-//        if (!MMKV.defaultMMKV().decodeBool(Constants.COPY_DB_ALREADY, false))
-        CopyDb2Local.copy2localdb(this);
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "major.db", null);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(db);
-        mDaosession = daoMaster.newSession();
+
     }
 
     public static DaoSession getDaoSessionInstance() {
