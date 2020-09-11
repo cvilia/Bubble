@@ -28,8 +28,8 @@ public class CopyDb2Local {
         if (!file.exists()) {
             file.mkdirs();
         }
-        File dbFile = new File(dataPath + "cities.db");
-        InputStream is = context.getResources().openRawResource(R.raw.cities);
+        File dbFile = new File(dataPath + "major.db");
+        InputStream is = context.getResources().openRawResource(R.raw.major);
         if (!dbFile.exists()) {
             try {
                 FileOutputStream fos = new FileOutputStream(dbFile);

@@ -26,7 +26,7 @@ public class WeatherApplication extends BaseApplication {
     private void initGreenDao() {
 //        if (!MMKV.defaultMMKV().decodeBool(Constants.COPY_DB_ALREADY, false))
         CopyDb2Local.copy2localdb(this);
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "cities.db", null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "major.db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         mDaosession = daoMaster.newSession();

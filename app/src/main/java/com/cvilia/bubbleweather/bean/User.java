@@ -3,6 +3,7 @@ package com.cvilia.bubbleweather.bean;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Property;
 
 /**
  * author: lzy
@@ -14,10 +15,13 @@ public class User {
 
     @Id(autoincrement = true)
     private long id;
-
+    @Property
     private String name;
+    @Property
     private int age;
+    @Property
     private String gender;
+
     @Generated(hash = 1745186454)
     public User(long id, String name, int age, String gender) {
         this.id = id;
