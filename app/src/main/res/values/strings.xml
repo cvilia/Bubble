@@ -6,6 +6,7 @@
     <string name="temperature_min_max">%1$s° / %2$s°</string>
     <string name="aqi">空气质量 %1$s</string>
     <string name="weather_day_7">7日天气</string>
+    <string name="weather_hour">小时天气</string>
 
     <string name="permission_explain_title">为给您提供更精准的服务\n气泡天气需要申请以下权限</string>
     <string name="permission_location">定位</string>
