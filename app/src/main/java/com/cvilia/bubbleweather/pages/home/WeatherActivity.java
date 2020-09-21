@@ -1,11 +1,16 @@
 package com.cvilia.bubbleweather.pages.home;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +31,7 @@ import com.cvilia.bubbleweather.bean.Day7WeatherBean.DataBean;
 import com.cvilia.bubbleweather.bean.WeatherInfo;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
 import com.cvilia.bubbleweather.utils.CopyDb2Local;
+import com.cvilia.bubbleweather.view.RecyclerViewDivider;
 import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -117,7 +123,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mDay7RecyclerView.setLayoutManager(linearLayoutManager);
-
+        mDay7RecyclerView.addItemDecoration(new RecyclerViewDivider(null, this));
     }
 
     @Override
