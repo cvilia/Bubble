@@ -84,9 +84,6 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     @BindView(R.id.hourRecyclerView)
     RecyclerView mHourRecycler;
 
-    private boolean isAutoRefresh = true;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -113,7 +110,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         }
         mRefreshLayout.setOnRefreshListener(this);
         mSelectSiteTv.setOnClickListener(view -> {
-            ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this, REQUEST_CODE_SELECT_SITE);
+            ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this,
+                    REQUEST_CODE_SELECT_SITE);
         });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -130,8 +128,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             cityCode = data.getStringExtra("cityCode");
             mCityName.setText(data.getStringExtra("cityName"));
             selectCity = true;
-            isAutoRefresh = false;
-            onRefresh(mRefreshLayout);
+//            onRefresh(mRefreshLayout);
+            mRefreshLayout.autoRefresh();
         }
     }
 
@@ -170,10 +168,12 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         if (todayInfo != null) {
             mTempTv.setText(String.format(getString(R.string.temperature), todayInfo.getTem()));
             mWeatherDescTv.setText(todayInfo.getWea());
-            mTempRangeTv.setText(String.format(getString(R.string.temperature_min_max), todayInfo.getTem1(), todayInfo.getTem2()));
+            mTempRangeTv.setText(String.format(getString(R.string.temperature_min_max),
+                    todayInfo.getTem1(), todayInfo.getTem2()));
             String exchange = getString(R.string.aqi, getAQI(todayInfo.getAir()));
             mAqiTv.setText(Html.fromHtml(exchange));
-            mUpdateTimeTv.setText(String.format(getString(R.string.last_update_time), bean.getUpdate_time().substring(11)));
+            mUpdateTimeTv.setText(String.format(getString(R.string.last_update_time),
+                    bean.getUpdate_time().substring(11)));
         }
         reloadDay7Weather(bean);
     }
@@ -214,10 +214,14 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
                 for (int i = 0; i < bean.getData().size(); i++) {
                     index = i;
 
-                    String tem1 = datas.get(i).getTem1().substring(0, datas.get(i).getTem1().length() - 1);
-                    String tem2 = datas.get(i).getTem2().substring(0, datas.get(i).getTem2().length() - 1);
-                    int max = TextUtils.isEmpty(datas.get(i).getTem1()) ? 10 : Integer.parseInt(tem1);
-                    int min = TextUtils.isEmpty(datas.get(i).getTem2()) ? 10 : Integer.parseInt(tem2);
+                    String tem1 = datas.get(i).getTem1().substring(0,
+                            datas.get(i).getTem1().length() - 1);
+                    String tem2 = datas.get(i).getTem2().substring(0,
+                            datas.get(i).getTem2().length() - 1);
+                    int max = TextUtils.isEmpty(datas.get(i).getTem1()) ? 10 :
+                            Integer.parseInt(tem1);
+                    int min = TextUtils.isEmpty(datas.get(i).getTem2()) ? 10 :
+                            Integer.parseInt(tem2);
                     WeatherInfo info = new WeatherInfo(max, min);
                     infos.add(info);
                 }
@@ -233,8 +237,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     @Override
     public void showRequestSuccess(Day7WeatherBean bean) {
         mRefreshLayout.finishRefresh();
-        if (bean != null)
-            runOnUiThread(() -> reloadCurrentInfo(bean));
+        if (bean != null) runOnUiThread(() -> reloadCurrentInfo(bean));
     }
 
     @Override
@@ -267,9 +270,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        if (isAutoRefresh) {
+        if (!selectCity) {
             mPresenter.startLocate(this);
-            isAutoRefresh = false;
         }
         if (selectCity) {
             mPresenter.requestWeatherInfo(cityCode);
