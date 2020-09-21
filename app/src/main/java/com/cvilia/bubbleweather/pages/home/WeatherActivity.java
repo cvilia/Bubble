@@ -2,6 +2,7 @@ package com.cvilia.bubbleweather.pages.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -20,8 +21,8 @@ import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.R2;
 import com.cvilia.bubbleweather.adapter.Day7Adapter;
 import com.cvilia.bubbleweather.base.BaseActivity;
-import com.cvilia.bubbleweather.bean.CurrentWeatherBean;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
+import com.cvilia.bubbleweather.bean.Day7WeatherBean.DataBean;
 import com.cvilia.bubbleweather.bean.WeatherInfo;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
 import com.cvilia.bubbleweather.utils.CopyDb2Local;
@@ -76,15 +77,15 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     private boolean selectCity = false;//是否是选择过城市
     private String cityCode;
 
-    //默认请求当日天气和7日天气未完成，主要是用来判断当都为true的时候取消刷新动作
-    private boolean finishCurrent = false;
-    private boolean finishDay7 = false;
 
     @BindView(R.id.day7RecyclerView)
     RecyclerView mDay7RecyclerView;
 
     @BindView(R.id.hourRecyclerView)
     RecyclerView mHourRecycler;
+
+    private boolean isAutoRefresh = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,17 +126,17 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SELECT_SITE && resultCode == RESULT_OK) {
+            assert data != null;
             cityCode = data.getStringExtra("cityCode");
             mCityName.setText(data.getStringExtra("cityName"));
             selectCity = true;
-            mRefreshLayout.autoRefresh();
+            isAutoRefresh = false;
+            onRefresh(mRefreshLayout);
         }
     }
 
     @Override
     protected void initData() {
-
-//        if (!MMKV.defaultMMKV().decodeBool(Constants.COPY_DB_ALREADY, false))
         CopyDb2Local.copy2localdb(this);
     }
 
@@ -158,28 +159,23 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         return new HomePagePresenter();
     }
 
-    @Override
-    public void showSuccess(CurrentWeatherBean bean) {
-        runOnUiThread(() -> reloadCurrentInfo(bean));
-    }
 
     /**
      * 重新加载当日天气信息
      *
      * @param bean
      */
-    private void reloadCurrentInfo(CurrentWeatherBean bean) {
-        finishCurrent = true;
-        if (finishDay7 && mRefreshLayout.isRefreshing()) {
-            mRefreshLayout.finishRefresh();
+    private void reloadCurrentInfo(Day7WeatherBean bean) {
+        DataBean todayInfo = bean.getData().get(0);
+        if (todayInfo != null) {
+            mTempTv.setText(String.format(getString(R.string.temperature), todayInfo.getTem()));
+            mWeatherDescTv.setText(todayInfo.getWea());
+            mTempRangeTv.setText(String.format(getString(R.string.temperature_min_max), todayInfo.getTem1(), todayInfo.getTem2()));
+            String exchange = getString(R.string.aqi, getAQI(todayInfo.getAir()));
+            mAqiTv.setText(Html.fromHtml(exchange));
+            mUpdateTimeTv.setText(String.format(getString(R.string.last_update_time), bean.getUpdate_time().substring(11)));
         }
-        if (bean != null) {
-            mTempTv.setText(String.format(getString(R.string.temperature), bean.getTem()));
-            mWeatherDescTv.setText(bean.getWea());
-            mTempRangeTv.setText(String.format(getString(R.string.temperature_min_max), bean.getTem_day(), bean.getTem_night()));
-            mAqiTv.setText(String.format(getString(R.string.aqi), getAQI(bean.getAir())));
-            mUpdateTimeTv.setText(String.format(getString(R.string.last_update_time), bean.getUpdate_time()));
-        }
+        reloadDay7Weather(bean);
     }
 
     private String getAQI(String air) {
@@ -203,43 +199,26 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         return aqi;
     }
 
-
-    @Override
-    public void showFail() {
-
-    }
-
-    @Override
-    public void day7Success(Day7WeatherBean bean) {
-        finishDay7 = true;
-        if (finishCurrent && mRefreshLayout.isRefreshing()) {
-            mRefreshLayout.finishRefresh();
-        }
-        runOnUiThread(() -> reloadDay7Weather(bean));
-    }
-
     /**
      * 加载7日天气信息
      *
      * @param bean
      */
     private void reloadDay7Weather(Day7WeatherBean bean) {
-
         List<WeatherInfo> infos = new ArrayList<>();
-        if (bean != null && bean.getData().size() > 0) {
-            List<Day7WeatherBean.DataBean> datas = bean.getData();
+        if (bean.getData().size() > 0) {
+            List<DataBean> datas = bean.getData();
             int index = 0;//用来记录抛出异常的数据
             try {
                 //todo 针对不为空的温度应该做类型转换异常判断（抛出并捕获异常，还需要针对温度字符串做正则表达式确认其只含有数字）
                 for (int i = 0; i < bean.getData().size(); i++) {
                     index = i;
-                    WeatherInfo info = new WeatherInfo();
+
                     String tem1 = datas.get(i).getTem1().substring(0, datas.get(i).getTem1().length() - 1);
                     String tem2 = datas.get(i).getTem2().substring(0, datas.get(i).getTem2().length() - 1);
                     int max = TextUtils.isEmpty(datas.get(i).getTem1()) ? 10 : Integer.parseInt(tem1);
                     int min = TextUtils.isEmpty(datas.get(i).getTem2()) ? 10 : Integer.parseInt(tem2);
-                    info.setMaxTemp(max);
-                    info.setMinTemp(min);
+                    WeatherInfo info = new WeatherInfo(max, min);
                     infos.add(info);
                 }
             } catch (Exception e) {
@@ -252,21 +231,27 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     }
 
     @Override
-    public void showDay7Failed() {
+    public void showRequestSuccess(Day7WeatherBean bean) {
+        mRefreshLayout.finishRefresh();
+        if (bean != null)
+            runOnUiThread(() -> reloadCurrentInfo(bean));
+    }
+
+    @Override
+    public void showRequestFailed() {
 
     }
 
     @Override
     public void locateSuccess(AMapLocation location) {
-        mPresenter.requestWeatherByName(location.getDistrict());
-        mPresenter.requestDay7(location.getDistrict());
+        mPresenter.requestWeatherInfo(location.getDistrict());
         mCityName.setText(location.getDistrict());
     }
 
     @Override
     public void locateFailed() {
-        mPresenter.requestWeatherByName("北京市");
-        mPresenter.requestDay7("北京市");
+        mRefreshLayout.finishRefresh();
+        mPresenter.requestWeatherInfo("北京市");
         mCityName.setText("北京市");
     }
 
@@ -282,10 +267,12 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        if (!selectCity) {//还没有手动选择城市
+        if (isAutoRefresh) {
             mPresenter.startLocate(this);
-        } else {
-            mPresenter.requestWeatherByCode(cityCode);
+            isAutoRefresh = false;
+        }
+        if (selectCity) {
+            mPresenter.requestWeatherInfo(cityCode);
         }
     }
 }

@@ -12,11 +12,8 @@ public class WeatherInfo implements ITempData {
     private int maxTemp;
     private int minTemp;
 
-    public void setMaxTemp(int maxTemp) {
+    public WeatherInfo(int maxTemp, int minTemp) {
         this.maxTemp = maxTemp;
-    }
-
-    public void setMinTemp(int minTemp) {
         this.minTemp = minTemp;
     }
 

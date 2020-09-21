@@ -24,7 +24,7 @@
         android:layout_marginTop="10dp"
         android:text="晴"
         android:textColor="@color/white"
-        android:textSize="12sp" />
+        android:textSize="8sp" />
 
     <com.cvilia.bubbleweather.view.WeatherLineView
         android:id="@+id/lineView"

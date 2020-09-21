@@ -64,15 +64,6 @@ public class WeatherLineView<T extends ITempData> extends View {
 
     public void setDatas(List<T> datas, int maxTemp, int minTemp, int position) {
 
-        for (int i = 0; i < datas.size(); i++) {
-            Log.d("cvilias", "最高温度为" + datas.get(i).getMaxTemp() + "   ");
-        }
-
-        System.out.print("*********************************");
-        for (int i = 0; i < datas.size(); i++) {
-            Log.d("cvilias", "最低温度为" + datas.get(i).getMinTemp() + "   ");
-        }
-
         this.datas = datas;
         this.maxTemp = maxTemp;
         this.minTemp = minTemp;
@@ -145,6 +136,7 @@ public class WeatherLineView<T extends ITempData> extends View {
         mLinePaint.setStyle(Paint.Style.FILL);
         mLinePaint.setStrokeWidth(DimenUtil.dp2px(mContext, 1f));
         mLinePaint.setColor(Color.WHITE);
+        mLinePaint.setAlpha(100);
 
     }
 
@@ -238,6 +230,9 @@ public class WeatherLineView<T extends ITempData> extends View {
 
         T t = datas.get(position);
         Point[] dotPoints = getDotPoints(t);
+        for (int i = 0; i < dotPoints.length; i++) {
+            System.out.print("(" + dotPoints[i].x + "," + dotPoints[i].y + ")");
+        }
         drawDots(canvas, dotPoints);
 
         Point[] tempBaseLinePoints = getTempBaseLinePoints(t, dotPoints);
@@ -254,8 +249,8 @@ public class WeatherLineView<T extends ITempData> extends View {
         //只要不是最右边的点都需要话右边的线
         if (position < datas.size() - 1) {
             T nextT = datas.get(position + 1);
-            Point[] nextPoints = getRightPoints(dotPoints, nextT);
-            drawLine(dotPoints, nextPoints, canvas);
+            Point[] rightPoints = getRightPoints(dotPoints, nextT);
+            drawLine(dotPoints, rightPoints, canvas);
         }
 
     }
@@ -325,7 +320,7 @@ public class WeatherLineView<T extends ITempData> extends View {
         Point[] points = new Point[2];
 
         //通过计算上面点的纵坐标减去点的半径再减去文字距离点的距离就是文字的纵坐标
-        int topY = dotPoints[0].y - dotRadisu - temp2Dot - Math.abs((int) (fontMetrics.bottom - fontMetrics.ascent));
+        int topY = dotPoints[0].y - dotRadisu - temp2Dot;
         int topX = (w - (int) mTempPaint.measureText(t.getMaxTemp() + "")) / 2;
 
         Point topTemp = new Point(topX, topY);
@@ -364,7 +359,7 @@ public class WeatherLineView<T extends ITempData> extends View {
         Point topPoint = new Point(w / 2, topY);
 
         //下面点的纵坐标
-        int bottomY = baseY + (t.getMaxTemp() - t.getMinTemp()) * heightPerTemp;
+        int bottomY = topY + (t.getMaxTemp() - t.getMinTemp()) * heightPerTemp;
         Point bottomPoint = new Point(w / 2, bottomY);
         points[0] = topPoint;
         points[1] = bottomPoint;

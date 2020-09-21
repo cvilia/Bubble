@@ -23,7 +23,7 @@ android {
         }
 
         ndk {
-//            abiFilters "armeabi-v7a"
+            abiFilters "armeabi-v7a"
         }
 
 //        如果项目中用到注解，需要显示声明注释处理器

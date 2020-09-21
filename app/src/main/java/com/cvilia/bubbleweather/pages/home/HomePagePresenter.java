@@ -32,35 +32,16 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
     private static final String TAG = HomePagePresenter.class.getSimpleName();
 
     @Override
-    public void requestWeatherByName(String cityName) {
-        if (!TextUtils.isEmpty(cityName)) {
-            if (cityName.contains("市") || cityName.contains("区") || cityName.contains("县")) {
-                String district = cityName.substring(0, cityName.length() - 1);
-                requestWeather(district, true);
-            } else {
-                requestWeather(cityName, true);
+    public void requestWeatherInfo(String cityInfo) {
+        String regex = "^[0-9]+$";
+        if (cityInfo.matches(regex)) {
+            requestWeather(cityInfo, false);
+        } else {
+            if (cityInfo.contains("市") || cityInfo.contains("区") || cityInfo.contains("县")) {
+                cityInfo = cityInfo.substring(0, cityInfo.length() - 1);
             }
+            requestWeather(cityInfo, true);
         }
-    }
-
-    @Override
-    public void requestWeatherByCode(String cityCode) {
-        if (!TextUtils.isEmpty(cityCode)) {
-            requestWeather(cityCode, false);
-        }
-    }
-
-    @Override
-    public void requestDay7(String cityName) {
-        if (!TextUtils.isEmpty(cityName)) {
-            if (cityName.contains("市") || cityName.contains("区") || cityName.contains("县")) {
-                String district = cityName.substring(0, cityName.length() - 1);
-                requestDay7Weather(district, true);
-            } else {
-                requestDay7Weather(cityName, true);
-            }
-        }
-
     }
 
     @Override
@@ -85,53 +66,23 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
     /**
      * 请求7日天气
      *
-     * @param cityName
+     * @param cityInfo 城市id或城市名称
      */
-    private void requestDay7Weather(String cityName, boolean isName) {
+    private void requestWeather(String cityInfo, boolean isName) {
         HashMap<String, String> map = new HashMap<>();
         map.put("appid", WeatherApi.appid);
         map.put("appsecret", WeatherApi.appSecret);
-        map.put("city", cityName);
+        if (isName)
+            map.put("city", cityInfo);
+        else
+            map.put("cityid", cityInfo);
         HttpManager.getInstance().get(Api.OTHERS, map, new HttpManager.MyCallback() {
             @Override
             public void success(Response res) throws IOException {
                 if (res != null) {
                     Gson gson = new Gson();
                     Day7WeatherBean bean = gson.fromJson(Objects.requireNonNull(res.body().string()), Day7WeatherBean.class);
-                    mView.day7Success(bean);
-                }
-            }
-
-            @Override
-            public void failed(IOException e) {
-
-            }
-        });
-    }
-
-    /**
-     * 请求当日天气
-     *
-     * @param cityInfo
-     */
-    private void requestWeather(String cityInfo, boolean isName) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("appid", WeatherApi.appid);
-        map.put("appsecret", WeatherApi.appSecret);
-        if (isName) {
-            map.put("city", cityInfo);
-        } else {
-            map.put("cityid", cityInfo);
-        }
-        HttpManager.getInstance().get(Api.CURRENT_WEATHER, map, new HttpManager.MyCallback() {
-            @Override
-            public void success(Response res) throws IOException {
-                if (res != null) {
-                    Gson gson = new Gson();
-                    String json = Objects.requireNonNull(res.body()).string();
-                    CurrentWeatherBean bean = gson.fromJson(json, CurrentWeatherBean.class);
-                    Log.d(TAG, bean.toString());
-                    mView.showSuccess(bean);
+                    mView.showRequestSuccess(bean);
                 }
             }
 

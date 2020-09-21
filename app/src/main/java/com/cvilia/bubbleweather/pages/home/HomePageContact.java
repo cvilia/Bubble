@@ -15,22 +15,15 @@ import com.cvilia.bubbleweather.bean.Day7WeatherBean;
  */
 public class HomePageContact {
     interface Presenter extends IPresenter<View> {
-        void requestWeatherByName(String cityName);
-        void requestWeatherByCode(String cityCode);
-
-        void requestDay7(String cityName);
+        void requestWeatherInfo(String cityInfo);
 
         void startLocate(Context context);
     }
 
     interface View extends IView {
-        void showSuccess(CurrentWeatherBean bean);
+        void showRequestSuccess(Day7WeatherBean bean);
 
-        void showFail();
-
-        void day7Success(Day7WeatherBean bean);
-
-        void showDay7Failed();
+        void showRequestFailed();
 
         void locateSuccess(AMapLocation location);
 
