@@ -1,8 +1,16 @@
 package com.cvilia.bubbleweather;
 
 
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+
 import com.cvilia.bubbleweather.base.BaseApplication;
 import com.cvilia.bubbleweather.sql.DaoSession;
+
+import java.util.List;
 
 /**
  * author: lzy

@@ -334,18 +334,18 @@ public class Day7WeatherBean implements Serializable {
              * win_speed : <3级
              */
 
-            private String hours;
+            private String day;
             private String wea;
             private String tem;
             private String win;
             private String win_speed;
 
-            public String getHours() {
-                return hours;
+            public String getDay() {
+                return day;
             }
 
-            public void setHours(String hours) {
-                this.hours = hours;
+            public void setDay(String day) {
+                this.day = day;
             }
 
             public String getWea() {

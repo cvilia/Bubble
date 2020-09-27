@@ -7,6 +7,11 @@ import com.cvilia.bubbleweather.IPresenter;
 import com.cvilia.bubbleweather.IView;
 import com.cvilia.bubbleweather.bean.CurrentWeatherBean;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
+import com.cvilia.bubbleweather.bean.WeatherInfo;
+
+import java.util.List;
+
+import static com.cvilia.bubbleweather.bean.Day7WeatherBean.*;
 
 /**
  * author: lzy
@@ -18,6 +23,8 @@ public class HomePageContact {
         void requestWeatherInfo(String cityInfo);
 
         void startLocate(Context context);
+
+
     }
 
     interface View extends IView {
@@ -28,5 +35,6 @@ public class HomePageContact {
         void locateSuccess(AMapLocation location);
 
         void locateFailed();
+
     }
 }

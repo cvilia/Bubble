@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * author: lzy
  * date: 2020/8/20
- * describe：描述
+ * describe：温度双曲线
  */
 public class WeatherLineView<T extends ITempData> extends View {
 
@@ -62,13 +62,65 @@ public class WeatherLineView<T extends ITempData> extends View {
     private int width = -1;
     private int height = -1;
 
-    public void setDatas(List<T> datas, int maxTemp, int minTemp, int position) {
+    public void setDatas(List<T> datas, int position) {
 
         this.datas = datas;
-        this.maxTemp = maxTemp;
-        this.minTemp = minTemp;
         this.position = position;
+        getExtremeTemp(datas);
         postInvalidate();
+    }
+
+    /**
+     * 计算最大和最小天气
+     *
+     * @param infos
+     */
+    private void getExtremeTemp(List<T> infos) {
+
+        int[] heigh = new int[infos.size()];
+        int[] low = new int[infos.size()];
+        for (int i = 0; i < infos.size(); i++) {
+            heigh[i] = infos.get(i).getMaxTemp();
+            low[i] = infos.get(i).getMinTemp();
+        }
+
+        int[] array = new int[heigh.length + low.length];
+
+        for (int i = 0; i < infos.size() * 2; i++) {
+            if (i < infos.size()) {
+                array[i] = heigh[i];
+            } else {
+                array[i] = low[i - infos.size()];
+            }
+        }
+        this.maxTemp = result(array, true);
+        this.minTemp = result(array, false);
+
+    }
+
+    /**
+     * 冒泡排序求最大最小值
+     *
+     * @param nums
+     * @param needMax
+     * @return
+     */
+    private int result(int[] nums, boolean needMax) {
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = 0; j < nums.length - 1 - i; j++) {
+                if (nums[j] > nums[j + 1]) {
+                    int s = nums[j];
+                    nums[j] = nums[j + 1];
+                    nums[j + 1] = s;
+                }
+            }
+
+        }
+        for (int temp : nums) {
+            System.out.print(temp + "---");
+        }
+        return needMax ? nums[nums.length - 1] : nums[0];
     }
 
     public WeatherLineView(Context context) {
@@ -230,9 +282,6 @@ public class WeatherLineView<T extends ITempData> extends View {
 
         T t = datas.get(position);
         Point[] dotPoints = getDotPoints(t);
-        for (int i = 0; i < dotPoints.length; i++) {
-            System.out.print("(" + dotPoints[i].x + "," + dotPoints[i].y + ")");
-        }
         drawDots(canvas, dotPoints);
 
         Point[] tempBaseLinePoints = getTempBaseLinePoints(t, dotPoints);

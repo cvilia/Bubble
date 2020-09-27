@@ -41,12 +41,15 @@ public class PermissionExplainActivity extends AppCompatActivity {
      */
     private void requestPermissions() {
         RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_PHONE_STATE)
-                .subscribe(granted -> {
-                    if (granted) {
+        rxPermissions.requestEachCombined(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(permission -> {
+                    if (permission.granted) {//只要有一个权限同意都能进入
                         enterMainPage();
-                    } else {
+                    } else if (permission.shouldShowRequestPermissionRationale){//有一个失败也能进入应用
                         Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
+                    }else {
+
+                        Toast.makeText(this, "不再询问", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

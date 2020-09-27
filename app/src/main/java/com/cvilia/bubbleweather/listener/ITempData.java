@@ -8,4 +8,5 @@ package com.cvilia.bubbleweather.listener;
 public interface ITempData {
     int getMaxTemp();
     int getMinTemp();
+    int getNormalTemp();
 }

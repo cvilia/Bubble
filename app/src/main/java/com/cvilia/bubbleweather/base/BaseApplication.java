@@ -13,10 +13,12 @@ import com.tencent.mmkv.MMKV;
  */
 public abstract class BaseApplication extends Application {
 
+    public static BaseApplication app;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        app = this;
         ARouter.init(this);
         initMMKV();
     }

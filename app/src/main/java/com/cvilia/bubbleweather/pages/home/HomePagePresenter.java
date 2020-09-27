@@ -11,16 +11,22 @@ import com.amap.api.location.AMapLocationListener;
 import com.cvilia.bubbleweather.base.BasePresenter;
 import com.cvilia.bubbleweather.bean.CurrentWeatherBean;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
+import com.cvilia.bubbleweather.bean.Day7WeatherBean.DataBean.HoursBean;
+import com.cvilia.bubbleweather.bean.WeatherInfo;
 import com.cvilia.bubbleweather.net.Api;
 import com.cvilia.bubbleweather.net.HttpManager;
 import com.cvilia.bubbleweather.net.WeatherApi;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import okhttp3.Response;
+
+import static com.cvilia.bubbleweather.bean.Day7WeatherBean.*;
 
 /**
  * author: lzy

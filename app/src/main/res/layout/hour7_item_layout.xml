@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="60dp"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_horizontal">
 
     <TextView
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:text="周一"
+        android:text="08时"
         android:textColor="@color/white"
         android:textSize="12sp" />
 
@@ -33,14 +33,22 @@
         android:layout_below="@id/weatherDescTv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:src="@mipmap/icon_suny"/>
+        android:src="@mipmap/icon_suny" />
 
-    <com.cvilia.bubbleweather.view.WeatherLineView
+    <com.cvilia.bubbleweather.view.SingleWeatherLine
         android:id="@+id/lineView"
         android:layout_width="60dp"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:layout_below="@id/weatherIv"
         app:tempSize="10sp" />
+
+    <ImageView
+        android:id="@+id/windDirectionIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_suny"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/lineView"/>
 
 
 </RelativeLayout>

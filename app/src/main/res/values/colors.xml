@@ -10,6 +10,8 @@
     <color name="app_main">#4483C3</color>
     <color name="app_transparent">#00000000</color>
 
+    <color name="alpha_63fafafa">#63fafafa</color>
+
     <color name="bg_fafafa">#fafafa</color>
     <color name="bg_ddd9d9">#ddd9d9</color>
     <color name="bg_35b0cd">#35b0cd</color>

@@ -1,16 +1,10 @@
 package com.cvilia.bubbleweather.pages.home;
 
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,10 +19,10 @@ import com.amap.api.location.AMapLocation;
 import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.R2;
 import com.cvilia.bubbleweather.adapter.Day7Adapter;
+import com.cvilia.bubbleweather.adapter.Hour7Adapter;
 import com.cvilia.bubbleweather.base.BaseActivity;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean.DataBean;
-import com.cvilia.bubbleweather.bean.WeatherInfo;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
 import com.cvilia.bubbleweather.utils.CopyDb2Local;
 import com.cvilia.bubbleweather.view.RecyclerViewDivider;
@@ -36,9 +30,6 @@ import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -97,6 +88,13 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLocalChangedReceiver.unRegister();
+        mLocalChangedReceiver = null;
+    }
+
+    @Override
     protected void onViewCreated() {
         setFullScreen(false);
         super.onViewCreated();
@@ -106,6 +104,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     protected void initWidget() {
         mRefreshLayout.setPrimaryColorsId(R.color.bg_2d3093, R.color.app_main);
     }
+
 
     @Override
     protected void initWidgetEvent() {
@@ -120,10 +119,15 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
                     REQUEST_CODE_SELECT_SITE);
         });
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mDay7RecyclerView.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager day7Lp = new LinearLayoutManager(this);
+        day7Lp.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mDay7RecyclerView.setLayoutManager(day7Lp);
         mDay7RecyclerView.addItemDecoration(new RecyclerViewDivider(null, this));
+        LinearLayoutManager hour7Lp = new LinearLayoutManager(this);
+
+        hour7Lp.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mHourRecycler.setLayoutManager(hour7Lp);
+        mHourRecycler.addItemDecoration(new RecyclerViewDivider(null, this));
     }
 
     @Override
@@ -134,10 +138,10 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             cityCode = data.getStringExtra("cityCode");
             mCityName.setText(data.getStringExtra("cityName"));
             selectCity = true;
-//            onRefresh(mRefreshLayout);
             mRefreshLayout.autoRefresh();
         }
     }
+
 
     @Override
     protected void initData() {
@@ -211,32 +215,11 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
      * @param bean
      */
     private void reloadDay7Weather(Day7WeatherBean bean) {
-        List<WeatherInfo> infos = new ArrayList<>();
-        if (bean.getData().size() > 0) {
-            List<DataBean> datas = bean.getData();
-            int index = 0;//用来记录抛出异常的数据
-            try {
-                //todo 针对不为空的温度应该做类型转换异常判断（抛出并捕获异常，还需要针对温度字符串做正则表达式确认其只含有数字）
-                for (int i = 0; i < bean.getData().size(); i++) {
-                    index = i;
-
-                    String tem1 = datas.get(i).getTem1().substring(0,
-                            datas.get(i).getTem1().length() - 1);
-                    String tem2 = datas.get(i).getTem2().substring(0,
-                            datas.get(i).getTem2().length() - 1);
-                    int max = TextUtils.isEmpty(datas.get(i).getTem1()) ? 10 :
-                            Integer.parseInt(tem1);
-                    int min = TextUtils.isEmpty(datas.get(i).getTem2()) ? 10 :
-                            Integer.parseInt(tem2);
-                    WeatherInfo info = new WeatherInfo(max, min);
-                    infos.add(info);
-                }
-            } catch (Exception e) {
-                Log.e(TAG, "第" + index + "条数据出错");
-            }
-        }
-        Day7Adapter day7Adapter = new Day7Adapter(bean, infos, this);
+        Day7Adapter day7Adapter = new Day7Adapter(bean, this);
         mDay7RecyclerView.setAdapter(day7Adapter);
+
+        Hour7Adapter adapter = new Hour7Adapter(bean, this);
+        mHourRecycler.setAdapter(adapter);
 
     }
 
@@ -263,6 +246,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         mPresenter.requestWeatherInfo("北京市");
         mCityName.setText("北京市");
     }
+
 
     @Override
     public void loading() {
