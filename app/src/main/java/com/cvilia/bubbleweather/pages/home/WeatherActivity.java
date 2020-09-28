@@ -1,9 +1,11 @@
 package com.cvilia.bubbleweather.pages.home;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import com.cvilia.bubbleweather.bean.Day7WeatherBean.DataBean;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
 import com.cvilia.bubbleweather.utils.CopyDb2Local;
 import com.cvilia.bubbleweather.view.RecyclerViewDivider;
+import com.cvilia.bubbleweather.view.SunRiseView;
 import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -81,6 +84,11 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     @BindView(R.id.hourRecyclerView)
     RecyclerView mHourRecycler;
 
+    @BindView(R2.id.sunRise)
+    SunRiseView mSunrise;
+
+    private ObjectAnimator mSunriseAnim;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -115,8 +123,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         }
         mRefreshLayout.setOnRefreshListener(this);
         mSelectSiteTv.setOnClickListener(view -> {
-            ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this,
-                    REQUEST_CODE_SELECT_SITE);
+            ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this, REQUEST_CODE_SELECT_SITE);
         });
 
         LinearLayoutManager day7Lp = new LinearLayoutManager(this);
@@ -178,14 +185,25 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         if (todayInfo != null) {
             mTempTv.setText(String.format(getString(R.string.temperature), todayInfo.getTem()));
             mWeatherDescTv.setText(todayInfo.getWea());
-            mTempRangeTv.setText(String.format(getString(R.string.temperature_min_max),
-                    todayInfo.getTem1(), todayInfo.getTem2()));
+            mTempRangeTv.setText(String.format(getString(R.string.temperature_min_max), todayInfo.getTem1(),
+                    todayInfo.getTem2()));
             String exchange = getString(R.string.aqi, getAQI(todayInfo.getAir()));
             mAqiTv.setText(Html.fromHtml(exchange));
-            mUpdateTimeTv.setText(String.format(getString(R.string.last_update_time),
-                    bean.getUpdate_time().substring(11)));
+            mUpdateTimeTv.setText(String.format(getString(R.string.last_update_time), bean.getUpdate_time().substring(11)));
+            loadSunAnim(bean);
         }
         reloadDay7Weather(bean);
+    }
+
+    /**
+     * 加载日出日落动画
+     *
+     * @param bean
+     */
+    private void loadSunAnim(Day7WeatherBean bean) {
+        mSunriseAnim = ObjectAnimator.ofFloat(mSunrise, "progress", 0, 6*60+10);
+        mSunriseAnim.setDuration(1000);
+        mSunriseAnim.start();
     }
 
     private String getAQI(String air) {

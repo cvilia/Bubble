@@ -100,10 +100,20 @@
 
                 <com.cvilia.bubbleweather.view.SunRiseView
                     android:id="@+id/sunRise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/updateTimeTv"/>
+                    app:layout_constraintTop_toBottomOf="@id/updateTimeTv" />
+
+                <com.cvilia.bubbleweather.view.SunRiseView
+                    android:id="@+id/sunSet"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toEndOf="@id/sunRise"
+                    app:layout_constraintTop_toTopOf="@id/sunRise" />
 
                 <View
                     android:id="@+id/divider1"
