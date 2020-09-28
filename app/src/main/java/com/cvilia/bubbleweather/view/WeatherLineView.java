@@ -353,8 +353,8 @@ public class WeatherLineView<T extends ITempData> extends View {
      * @param t
      */
     private void drawTempText(Point[] tempBaseLinePoints, Canvas canvas, T t) {
-        canvas.drawText(t.getMaxTemp() + "", tempBaseLinePoints[0].x, tempBaseLinePoints[0].y, mTempPaint);
-        canvas.drawText(t.getMinTemp() + "", tempBaseLinePoints[1].x, tempBaseLinePoints[1].y, mTempPaint);
+        canvas.drawText(t.getMaxTemp() + "℃", tempBaseLinePoints[0].x, tempBaseLinePoints[0].y, mTempPaint);
+        canvas.drawText(t.getMinTemp() + "℃", tempBaseLinePoints[1].x, tempBaseLinePoints[1].y, mTempPaint);
     }
 
     /**

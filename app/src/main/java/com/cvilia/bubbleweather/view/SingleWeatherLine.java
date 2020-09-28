@@ -34,7 +34,7 @@ public class SingleWeatherLine<T extends ITempData> extends View {
     //温度，点，线的画笔
     private Paint mTempPaint, mDotPaint, mLinePaint;
 
-    private static final int DEFAULT_HEIGHT = 120;
+    private static final int DEFAULT_HEIGHT = 80;
     private static final int DEFAULT_WIDTH = 60;
 
     //整个view的宽高
@@ -255,7 +255,7 @@ public class SingleWeatherLine<T extends ITempData> extends View {
         canvas.drawCircle(dotPoint.x, dotPoint.y, dotRadisu, mDotPaint);
 
         Point tempPoint = getTempPoint(t, dotPoint);
-        canvas.drawText(t.getNormalTemp() + "", tempPoint.x, tempPoint.y, mTempPaint);
+        canvas.drawText(t.getNormalTemp() + "℃", tempPoint.x, tempPoint.y, mTempPaint);
 
         if (position > 0) {//除了第一个点，所有点画左边的曲线
             T preT = datas.get(position - 1);

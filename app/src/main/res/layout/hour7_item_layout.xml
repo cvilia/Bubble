@@ -38,7 +38,7 @@
     <com.cvilia.bubbleweather.view.SingleWeatherLine
         android:id="@+id/lineView"
         android:layout_width="60dp"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_below="@id/weatherIv"
         app:tempSize="10sp" />
 

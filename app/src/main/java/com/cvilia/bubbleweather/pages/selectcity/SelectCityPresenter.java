@@ -19,7 +19,6 @@ import java.util.List;
 public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> implements SelectCityContact.Presenter {
     @Override
     public void readDb() {
-
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper((Activity) mView, "weatherDb.db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);

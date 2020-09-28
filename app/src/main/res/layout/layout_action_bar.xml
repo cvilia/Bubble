@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#0affffff"
+    >
+    <ImageView
+        android:id="@+id/backIv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/icon_back"
+        android:layout_marginStart="10dp"/>
+    <TextView
+        android:id="@+id/centerTitleTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="title文本"
+        android:textSize="18sp"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

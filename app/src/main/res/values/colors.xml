@@ -11,6 +11,7 @@
     <color name="app_transparent">#00000000</color>
 
     <color name="alpha_63fafafa">#63fafafa</color>
+    <color name="alpha_aaffffff">#aaffffff</color>
 
     <color name="bg_fafafa">#fafafa</color>
     <color name="bg_ddd9d9">#ddd9d9</color>

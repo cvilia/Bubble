@@ -26,6 +26,6 @@ public class SelectCityAdapter extends BaseQuickAdapter<City, BaseViewHolder> {
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, City city) {
-        baseViewHolder.setText(R.id.cityName, city.getProvinceZh() + " · " + city.getLeaderZh() + " · " + city.getCityZh());
+        baseViewHolder.setText(R.id.cityName, city.getLeaderZh() + " · " + city.getCityZh());
     }
 }

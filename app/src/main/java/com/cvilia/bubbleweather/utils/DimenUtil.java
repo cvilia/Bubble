@@ -31,5 +31,4 @@ public class DimenUtil {
         final float scale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (sp * scale + 0.5f);
     }
-
 }

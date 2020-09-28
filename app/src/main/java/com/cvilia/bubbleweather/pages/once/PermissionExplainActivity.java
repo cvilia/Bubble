@@ -20,11 +20,13 @@ import com.cvilia.bubbleweather.utils.StatusUtil;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.tencent.mmkv.MMKV;
 
+import me.jessyan.autosize.internal.CustomAdapt;
+
 /**
  * 权限说明页 一般首次启动的时候回显示当前页面
  */
 @Route(path = PageUrlConfig.PERMISSION_EXPLAIN_PAGE)
-public class PermissionExplainActivity extends AppCompatActivity {
+public class PermissionExplainActivity extends AppCompatActivity implements CustomAdapt {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,9 @@ public class PermissionExplainActivity extends AppCompatActivity {
                 .subscribe(permission -> {
                     if (permission.granted) {//只要有一个权限同意都能进入
                         enterMainPage();
-                    } else if (permission.shouldShowRequestPermissionRationale){//有一个失败也能进入应用
+                    } else if (permission.shouldShowRequestPermissionRationale) {//有一个失败也能进入应用
                         Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
-                    }else {
-
+                    } else {
                         Toast.makeText(this, "不再询问", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -73,5 +74,15 @@ public class PermissionExplainActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return true;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 0;
     }
 }

@@ -9,7 +9,7 @@ import com.cvilia.bubbleweather.utils.DimenUtil
 /**
  * author: lzy
  * date: 2020/9/27
- * describe：描述
+ * describe：流式布局，需要手动挨个儿添加子view
  *
  */
 
