@@ -84,11 +84,6 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     @BindView(R.id.hourRecyclerView)
     RecyclerView mHourRecycler;
 
-    @BindView(R2.id.sunRise)
-    SunRiseView mSunrise;
-
-    private ObjectAnimator mSunriseAnim;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -190,20 +185,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             String exchange = getString(R.string.aqi, getAQI(todayInfo.getAir()));
             mAqiTv.setText(Html.fromHtml(exchange));
             mUpdateTimeTv.setText(String.format(getString(R.string.last_update_time), bean.getUpdate_time().substring(11)));
-            loadSunAnim(bean);
         }
         reloadDay7Weather(bean);
-    }
-
-    /**
-     * 加载日出日落动画
-     *
-     * @param bean
-     */
-    private void loadSunAnim(Day7WeatherBean bean) {
-        mSunriseAnim = ObjectAnimator.ofFloat(mSunrise, "progress", 0, 6*60+10);
-        mSunriseAnim.setDuration(1000);
-        mSunriseAnim.start();
     }
 
     private String getAQI(String air) {

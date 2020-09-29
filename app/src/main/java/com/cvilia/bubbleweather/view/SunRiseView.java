@@ -26,8 +26,6 @@ public class SunRiseView extends View {
     private Paint mTimePaint, mTextPaint, mCirclePaint, mBoldPaint;
     private Context context;
     private int radius = 60;
-    private int width = 2 * radius;
-    private int height = radius;
 
     private RectF rectF;
 
@@ -56,8 +54,6 @@ public class SunRiseView extends View {
     public SunRiseView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        width = DimenUtil.dp2px(context, width);
-        height = DimenUtil.dp2px(context, height);
         radius = DimenUtil.dp2px(context, radius);
         rectF = new RectF();
         initPaint();
@@ -75,7 +71,7 @@ public class SunRiseView extends View {
         mCirclePaint = new Paint();
         mCirclePaint.setColor(Color.WHITE);
         mCirclePaint.setAntiAlias(true);
-        mCirclePaint.setStrokeWidth(DimenUtil.dp2px(context, 5));
+        mCirclePaint.setStrokeWidth(DimenUtil.dp2px(context, 1));
         mCirclePaint.setStyle(Paint.Style.STROKE);
         mCirclePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mCirclePaint.setStrokeCap(Paint.Cap.ROUND);
@@ -83,44 +79,11 @@ public class SunRiseView extends View {
         mBoldPaint = new Paint();
         mBoldPaint.setColor(Color.WHITE);
         mBoldPaint.setAntiAlias(true);
-        mBoldPaint.setStrokeWidth(DimenUtil.dp2px(context, 10));
+        mBoldPaint.setStrokeWidth(DimenUtil.dp2px(context, 4));
         mBoldPaint.setStyle(Paint.Style.STROKE);
         mBoldPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mBoldPaint.setStrokeCap(Paint.Cap.ROUND);
 
-    }
-
-
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//
-//        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-//        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-//
-//        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-//        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-//
-//        int widthResult = getSize(widthSize, widthMode, true);
-//        int heightResult = getSize(heightSize, heightMode, false);
-//        setMeasuredDimension(widthResult, heightResult);
-//    }
-
-    private int getSize(int size, int mode, boolean isWidth) {
-        int result = -1;
-        if (mode == MeasureSpec.EXACTLY) {
-            return size;
-        } else {
-            if (isWidth) {
-                result = width + getPaddingLeft() + getPaddingRight();
-            } else {
-                result = height + getPaddingTop() + getPaddingBottom();
-            }
-            if (mode == MeasureSpec.AT_MOST) {
-                result = Math.min(size, result);
-            }
-        }
-        return result;
     }
 
     @Override
@@ -130,8 +93,8 @@ public class SunRiseView extends View {
         float centerX = getWidth() / 2;
         float centerY = getHeight() / 2;
         rectF.set(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
-        canvas.drawArc(rectF, 180, 360, false, mCirclePaint);
-        canvas.drawArc(rectF, 180, 180 + 180 * progress / (12*60), false, mBoldPaint);
+        canvas.drawArc(rectF, 180, 180, false, mCirclePaint);
+        canvas.drawArc(rectF, 180, 180 * progress / (12 * 60), false, mBoldPaint);
 
         FontMetrics dm = mTextPaint.getFontMetrics();
         canvas.drawText("日出", (getWidth() - mTextPaint.measureText("日出")) / 2, getHeight() / 2, mTextPaint);
