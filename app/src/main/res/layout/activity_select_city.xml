@@ -25,6 +25,42 @@
                 android:background="@color/alpha_63fafafa"
                 android:gravity="center_vertical"
                 android:paddingStart="15dp"
+                android:text="当前定位"
+                android:textSize="15sp"
+                tools:ignore="RtlSymmetry" />
+
+            <RelativeLayout
+                android:id="@+id/currentLocationRl"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="10dp">
+
+                <TextView
+                    android:id="@+id/cityNameTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:text="北京市"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@mipmap/icon_current_location" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/alpha_63fafafa"
+                android:gravity="center_vertical"
+                android:paddingStart="15dp"
                 android:text="省份选择"
                 android:textSize="15sp" />
 
@@ -33,17 +69,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:overScrollMode="never"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:overScrollMode="never">
 
             </androidx.recyclerview.widget.RecyclerView>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/alpha_63fafafa"
                 android:gravity="center_vertical"
                 android:paddingStart="15dp"
-                android:layout_marginTop="10dp"
                 android:text="城市选择"
                 android:textSize="15sp" />
 
@@ -52,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:overScrollMode="never"/>
+                android:overScrollMode="never" />
 
 
         </LinearLayout>

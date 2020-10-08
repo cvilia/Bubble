@@ -1,11 +1,9 @@
 package com.cvilia.bubbleweather.pages.home;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,10 +23,11 @@ import com.cvilia.bubbleweather.adapter.Hour7Adapter;
 import com.cvilia.bubbleweather.base.BaseActivity;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean.DataBean;
+import com.cvilia.bubbleweather.config.Constants;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
 import com.cvilia.bubbleweather.utils.CopyDb2Local;
+import com.cvilia.bubbleweather.utils.MMKVUtil;
 import com.cvilia.bubbleweather.view.RecyclerViewDivider;
-import com.cvilia.bubbleweather.view.SunRiseView;
 import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -76,6 +75,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     private boolean selectCity = false;//是否是选择过城市
     private String cityCode;
+    private String cityName;
 
 
     @BindView(R.id.day7RecyclerView)
@@ -138,6 +138,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         if (requestCode == REQUEST_CODE_SELECT_SITE && resultCode == RESULT_OK) {
             assert data != null;
             cityCode = data.getStringExtra("cityCode");
+            cityName = data.getStringExtra("cityName");
             mCityName.setText(data.getStringExtra("cityName"));
             selectCity = true;
             mRefreshLayout.autoRefresh();
@@ -237,15 +238,25 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     public void locateSuccess(AMapLocation location) {
-        mPresenter.requestWeatherInfo(location.getDistrict());
-        mCityName.setText(location.getDistrict());
+        if (TextUtils.isEmpty(MMKVUtil.getString(Constants.SELECTED_CITY))) {
+            mPresenter.requestWeatherInfo(location.getDistrict());
+            mCityName.setText(location.getDistrict());
+        } else {
+            mPresenter.requestWeatherInfo(MMKVUtil.getString(Constants.SELECTED_CITY));
+            mCityName.setText(MMKVUtil.getString(Constants.SELECTED_CITY));
+        }
     }
 
     @Override
     public void locateFailed() {
-        mRefreshLayout.finishRefresh();
-        mPresenter.requestWeatherInfo("北京市");
-        mCityName.setText("北京市");
+        if (TextUtils.isEmpty(MMKVUtil.getString(Constants.SELECTED_CITY))) {
+            mRefreshLayout.finishRefresh();
+            mPresenter.requestWeatherInfo("北京市");
+            mCityName.setText("北京市");
+        } else {
+            mPresenter.requestWeatherInfo(MMKVUtil.getString(Constants.SELECTED_CITY));
+            mCityName.setText(MMKVUtil.getString(Constants.SELECTED_CITY));
+        }
     }
 
 
@@ -262,10 +273,14 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         if (!selectCity) {
-            mPresenter.startLocate(this);
+            mPresenter.startLocate();
         }
         if (selectCity) {
-            mPresenter.requestWeatherInfo(cityCode);
+            if (TextUtils.isEmpty(cityCode)) {
+                mPresenter.requestWeatherInfo(cityName);
+            } else {
+                mPresenter.requestWeatherInfo(cityCode);
+            }
         }
     }
 }

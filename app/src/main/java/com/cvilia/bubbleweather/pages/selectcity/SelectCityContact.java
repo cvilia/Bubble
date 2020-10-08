@@ -1,5 +1,6 @@
 package com.cvilia.bubbleweather.pages.selectcity;
 
+import com.amap.api.location.AMapLocation;
 import com.cvilia.bubbleweather.IPresenter;
 import com.cvilia.bubbleweather.IView;
 import com.cvilia.bubbleweather.bean.City;
@@ -15,10 +16,16 @@ public abstract class SelectCityContact {
 
     interface Presenter extends IPresenter<View> {
         void readDb();
+
+        void startLocate();
     }
 
     interface View extends IView {
         void readDbSuccess(List<City> cityList);
+
+        void locateSuccess(AMapLocation location);
+
+        void locateFailed();
     }
 
 }

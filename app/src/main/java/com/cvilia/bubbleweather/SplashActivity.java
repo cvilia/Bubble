@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.cvilia.bubbleweather.config.Constants;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
 import com.cvilia.bubbleweather.utils.CopyDb2Local;
+import com.cvilia.bubbleweather.utils.MMKVUtil;
 import com.cvilia.bubbleweather.utils.StatusUtil;
 import com.tencent.mmkv.MMKV;
 
@@ -32,18 +33,14 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
         super.onCreate(savedInstanceState);
         StatusUtil.hideStatusBar(this);
         setContentView(R.layout.activity_splash);
-        Observable.timer(3, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> {
-                    MMKV mmkv = MMKV.defaultMMKV();
-                    boolean isFirstStart = mmkv.decodeBool(Constants.FIRST_START, true);
-                    ARouter.getInstance().build(isFirstStart ? PageUrlConfig.PERMISSION_EXPLAIN_PAGE : PageUrlConfig.MAIN_PAGE).navigation(this, new NavCallback() {
-                        @Override
-                        public void onArrival(Postcard postcard) {
-                            finish();
-                        }
-                    });
-                });
+        Observable.timer(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+            boolean isFirstStart = MMKVUtil.getBool(Constants.FIRST_START, true);
+            ARouter.getInstance().build(isFirstStart ? PageUrlConfig.PERMISSION_EXPLAIN_PAGE : PageUrlConfig.MAIN_PAGE).navigation(this, new NavCallback() {
+                @Override
+                public void onArrival(Postcard postcard) {
+                    finish();
+                }
+            });
+        });
     }
 }

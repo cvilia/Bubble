@@ -3,6 +3,8 @@ package com.cvilia.bubbleweather.pages.selectcity;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
 import com.cvilia.bubbleweather.base.BasePresenter;
 import com.cvilia.bubbleweather.bean.City;
 import com.cvilia.bubbleweather.sql.CityDao;
@@ -27,5 +29,24 @@ public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> i
         List<City> cities = dao.loadAll();
         if (cities != null)
             mView.readDbSuccess(cities);
+    }
+
+    @Override
+    public void startLocate() {
+        AMapLocationClient client = new AMapLocationClient((Activity)mView);
+        client.setLocationListener(aMapLocation -> {
+            if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
+                mView.locateSuccess(aMapLocation);
+            } else {
+                mView.locateFailed();
+            }
+        });
+        AMapLocationClientOption option = new AMapLocationClientOption();
+        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
+        option.setOnceLocation(true);
+        option.setNeedAddress(true);
+        client.setLocationOption(option);
+        client.stopLocation();
+        client.startLocation();
     }
 }

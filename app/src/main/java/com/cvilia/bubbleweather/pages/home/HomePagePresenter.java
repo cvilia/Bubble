@@ -1,5 +1,6 @@
 package com.cvilia.bubbleweather.pages.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -51,8 +52,8 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
     }
 
     @Override
-    public void startLocate(Context context) {
-        AMapLocationClient client = new AMapLocationClient(context);
+    public void startLocate() {
+        AMapLocationClient client = new AMapLocationClient((Activity)mView);
         client.setLocationListener(aMapLocation -> {
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
                 mView.locateSuccess(aMapLocation);
