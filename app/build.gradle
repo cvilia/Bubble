@@ -26,6 +26,10 @@ android {
             abiFilters "armeabi-v7a"
         }
 
+        viewBinding {
+            enabled = true
+        }
+
 //        如果项目中用到注解，需要显示声明注释处理器
         javaCompileOptions {
             annotationProcessorOptions {

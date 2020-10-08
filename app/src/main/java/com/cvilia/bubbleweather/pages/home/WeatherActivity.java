@@ -38,7 +38,7 @@ import butterknife.BindView;
 @Route(path = PageUrlConfig.MAIN_PAGE)
 public class WeatherActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, OnRefreshListener {
 
-    private static final String TAG = WeatherActivity.class.getSimpleName();
+//    private static final String TAG = WeatherActivity.class.getSimpleName();
     private static final int REQUEST_CODE_SELECT_SITE = 0x1101;
 
     @BindView(R2.id.mainPageLl)
@@ -87,6 +87,9 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+//        ActivityMainBinding mViewBind = ActivityMainBinding.inflate(getLayoutInflater());
+//        setContentView(mViewBind.getRoot());
+
         super.onCreate(savedInstanceState);
     }
 
@@ -117,9 +120,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             mRefreshLayout.autoRefresh();
         }
         mRefreshLayout.setOnRefreshListener(this);
-        mSelectSiteTv.setOnClickListener(view -> {
-            ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this, REQUEST_CODE_SELECT_SITE);
-        });
+        mSelectSiteTv.setOnClickListener(view -> ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this, REQUEST_CODE_SELECT_SITE));
 
         LinearLayoutManager day7Lp = new LinearLayoutManager(this);
         day7Lp.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -174,7 +175,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     /**
      * 重新加载当日天气信息
      *
-     * @param bean
+     * @param bean 天气实体类
      */
     private void reloadCurrentInfo(Day7WeatherBean bean) {
         DataBean todayInfo = bean.getData().get(0);
@@ -214,7 +215,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     /**
      * 加载7日天气信息
      *
-     * @param bean
+     * @param bean 天气信息
      */
     private void reloadDay7Weather(Day7WeatherBean bean) {
         Day7Adapter day7Adapter = new Day7Adapter(bean, this);
