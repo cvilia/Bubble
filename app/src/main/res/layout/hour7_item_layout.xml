@@ -26,29 +26,21 @@
         android:textColor="@color/white"
         android:textSize="8sp" />
 
-    <ImageView
-        android:id="@+id/weatherIv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/weatherDescTv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:src="@mipmap/icon_suny" />
+<!--    <ImageView-->
+<!--        android:id="@+id/weatherIv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/weatherDescTv"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:src="@mipmap/icon_suny" />-->
 
     <com.cvilia.bubbleweather.view.SingleWeatherLine
         android:id="@+id/lineView"
         android:layout_width="60dp"
         android:layout_height="80dp"
-        android:layout_below="@id/weatherIv"
+        android:layout_below="@id/weatherDescTv"
         app:tempSize="10sp" />
-
-    <ImageView
-        android:id="@+id/windDirectionIv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/icon_suny"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/lineView"/>
 
 
 </RelativeLayout>

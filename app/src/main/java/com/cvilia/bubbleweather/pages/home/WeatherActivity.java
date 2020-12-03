@@ -77,7 +77,6 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     private String cityCode;
     private String cityName;
 
-
     @BindView(R.id.day7RecyclerView)
     RecyclerView mDay7RecyclerView;
 

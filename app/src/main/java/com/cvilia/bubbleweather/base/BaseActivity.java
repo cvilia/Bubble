@@ -79,7 +79,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         StatusBarUtil.setTranslucent(mContext, 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             StatusBarUtil.setDarkMode(this);
-
         }
     }
 
@@ -106,6 +105,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.detachView();
         }
+        ActivityManager.getInstance().removeActivity(this);
     }
 
     @Override

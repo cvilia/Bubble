@@ -8,7 +8,6 @@
     </style>
 
     <style name="AppNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-
         <item name="colorPrimaryDark">@color/app_transparent</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowContentOverlay">@null</item>

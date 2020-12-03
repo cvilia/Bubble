@@ -128,8 +128,8 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
     @Override
     public void locateSuccess(AMapLocation location) {
-        currentCity = location.getCity();
-        mCityNameTv.setText(currentCity);
+        currentCity = location.getDistrict();
+        mCityNameTv.setText(String.format("%s · %s · %s", location.getProvince(), location.getCity(), currentCity));
     }
 
     @Override

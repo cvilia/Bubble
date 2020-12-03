@@ -18,7 +18,7 @@ public class ActivityManager {
     }
 
     private ActivityManager() {
-        activities = new Stack<Activity>();
+        activities = new Stack<>();
     }
 
     public static ActivityManager getInstance() {
@@ -38,6 +38,10 @@ public class ActivityManager {
         activities.add(activity);
     }
 
+    /**
+     * 移除当亲Activity
+     * @param activity 当前Activity
+     */
     public void removeActivity(Activity activity) {
         if (activities != null && activities.size() > 0) {
             if (activity != null) {
