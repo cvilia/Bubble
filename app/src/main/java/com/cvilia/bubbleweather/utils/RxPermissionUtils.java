@@ -165,18 +165,17 @@ public class RxPermissionUtils {
      * 跳转到权限设置界面
      */
     public static void toAppSetting(Context context) {
-        Intent localIntent = new Intent();
-        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        localIntent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        localIntent.setData(Uri.fromParts("package", context.getPackageName(), null));
-        context.startActivity(localIntent);
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.fromParts("package", context.getPackageName(), null));
+        context.startActivity(intent);
     }
 
 
     public interface OnPermissionCallBack {
         void onPermissionsGranted();//所有权限都授予
 
-        //修改一下连个回调方法的参数为String 即Permission的name参数，name参数是将所有拒绝的权限name组成一个字符串
         void onAtLeastOneReject(Permission permission);//至少有一个权限点击了拒绝（不管其他是同意还是拒绝并不再询问）
 
         void onAllRejectAndDoNotAskAgain(Permission permission);//所有权限都点击了拒绝且不再询问
