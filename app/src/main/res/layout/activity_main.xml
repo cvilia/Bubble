@@ -5,9 +5,9 @@
     android:id="@+id/mainPageLl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_page_bg"
+    android:background="@color/app_main"
     android:orientation="vertical"
-    tools:context=".pages.home.WeatherActivity">
+    tools:context=".activity.home.WeatherActivity">
 
     <include layout="@layout/layout_home_actionbar" />
 

@@ -1,4 +1,4 @@
-package com.cvilia.bubbleweather.pages.selectcity;
+package com.cvilia.bubbleweather.activity.selectcity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,15 +6,12 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.amap.api.location.AMapLocation;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.R2;
 import com.cvilia.bubbleweather.adapter.ProvinceAdapter;

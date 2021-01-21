@@ -1,4 +1,4 @@
-package com.cvilia.bubbleweather.pages.home;
+package com.cvilia.bubbleweather.activity.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -107,7 +107,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     protected void initWidget() {
-        mRefreshLayout.setPrimaryColorsId(R.color.bg_2d3093, R.color.app_main);
+        mRefreshLayout.setPrimaryColorsId(R.color.bg_90b8d1, R.color.app_main);
     }
 
 

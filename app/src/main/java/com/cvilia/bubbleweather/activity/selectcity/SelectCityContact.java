@@ -1,29 +1,31 @@
-package com.cvilia.bubbleweather.pages.home;
+package com.cvilia.bubbleweather.activity.selectcity;
 
 import com.amap.api.location.AMapLocation;
 import com.cvilia.bubbleweather.IPresenter;
 import com.cvilia.bubbleweather.IView;
-import com.cvilia.bubbleweather.bean.Day7WeatherBean;
+import com.cvilia.bubbleweather.bean.City;
+
+import java.util.List;
 
 /**
  * author: lzy
- * date: 2020/8/18
+ * date: 2020/8/31
  * describe：描述
  */
-public class HomePageContact {
+public abstract class SelectCityContact {
+
     interface Presenter extends IPresenter<View> {
-        void requestWeatherInfo(String cityInfo);
+        void readDb();
+
         void startLocate();
     }
 
     interface View extends IView {
-        void showRequestSuccess(Day7WeatherBean bean);
-
-        void showRequestFailed();
+        void readDbSuccess(List<City> cityList);
 
         void locateSuccess(AMapLocation location);
 
         void locateFailed();
-
     }
+
 }

@@ -1,5 +1,6 @@
 package com.cvilia.bubbleweather;
 
+import android.Manifest;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +10,14 @@ import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cvilia.bubbleweather.config.Constants;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
+import com.cvilia.bubbleweather.listener.TwoButtonClickListener;
 import com.cvilia.bubbleweather.utils.CopyDb2Local;
 import com.cvilia.bubbleweather.utils.MMKVUtil;
+import com.cvilia.bubbleweather.utils.RxPermissionUtils;
 import com.cvilia.bubbleweather.utils.StatusUtil;
+import com.cvilia.bubbleweather.view.MessageTwoButtonDialog;
+import com.tbruyelle.rxpermissions3.Permission;
+import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.tencent.mmkv.MMKV;
 
 import java.util.concurrent.TimeUnit;
@@ -28,19 +34,46 @@ import me.jessyan.autosize.internal.CancelAdapt;
 
 public class SplashActivity extends AppCompatActivity implements CancelAdapt {
 
+    private static final String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusUtil.hideStatusBar(this);
         setContentView(R.layout.activity_splash);
         Observable.timer(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-            boolean isFirstStart = MMKVUtil.getBool(Constants.FIRST_START, true);
-            ARouter.getInstance().build(isFirstStart ? PageUrlConfig.PERMISSION_EXPLAIN_PAGE : PageUrlConfig.MAIN_PAGE).navigation(this, new NavCallback() {
-                @Override
-                public void onArrival(Postcard postcard) {
-                    finish();
-                }
-            });
+            if (!RxPermissionUtils.checkPermissions(this, PERMISSIONS)) {
+                MessageTwoButtonDialog dialog = new MessageTwoButtonDialog(this, getString(R.string.permission_explain_location), new TwoButtonClickListener() {
+                    @Override
+                    public void onConfirm() {
+                        RxPermissionUtils.requestPermissions(SplashActivity.this, PERMISSIONS, new RxPermissionUtils.OnPermissionCallBack() {
+                            @Override
+                            public void onPermissionsGranted() {
+                                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation();
+                            }
+
+                            @Override
+                            public void onAtLeastOneReject(Permission permission) {
+                                finish();
+                            }
+
+                            @Override
+                            public void onAllRejectAndDoNotAskAgain(Permission permission) {
+                                RxPermissionUtils.toAppSetting(SplashActivity.this);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancle() {
+                        finish();
+                    }
+                });
+                dialog.show();
+            }else {
+                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation();
+            }
+
         });
     }
 }

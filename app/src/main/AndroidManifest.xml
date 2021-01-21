@@ -26,8 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".pages.selectcity.SelectCityActivity" />
-        <activity android:name=".pages.once.PermissionExplainActivity" />
+        <activity android:name=".activity.selectcity.SelectCityActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppNoActionBar">
@@ -38,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".pages.home.WeatherActivity"
+            android:name=".activity.home.WeatherActivity"
             android:launchMode="singleTask" />
         <!-- 今日头条适配 -->
         <meta-data

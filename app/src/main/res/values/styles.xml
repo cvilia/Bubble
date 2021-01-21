@@ -33,15 +33,6 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="PermissionItem">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">70dp</item>
-        <item name="layout_constraintRight_toRightOf">parent</item>
-        <item name="android:paddingHorizontal">10dp</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:background">@drawable/permission_border</item>
-    </style>
-
     <style name="PermissionItemText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
