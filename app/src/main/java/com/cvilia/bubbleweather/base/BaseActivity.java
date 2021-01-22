@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -22,7 +23,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Objects;
 
-import butterknife.ButterKnife;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 import static com.cvilia.bubbleweather.base.BaseApplication.app;
@@ -48,11 +48,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         ARouter.getInstance().inject(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        if (getLayoutId() != 0) {
-            setContentView(getLayoutId());
-            ButterKnife.bind(this);
-
-        }
+        setContentView(inflatRootView());
 
         mLocalChangedReceiver = new LocalChangedBroadcastReceiver();
 
@@ -82,6 +78,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
     }
 
+    protected abstract View inflatRootView();
+
     protected abstract void initWidget();
 
     protected abstract void initWidgetEvent();
@@ -93,9 +91,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     private boolean registerEventBus() {
         return false;
     }
-
-
-    protected abstract int getLayoutId();
 
     protected abstract T getPresenter();
 

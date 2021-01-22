@@ -3,31 +3,25 @@ package com.cvilia.bubbleweather.activity.selectcity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.amap.api.location.AMapLocation;
 import com.cvilia.bubbleweather.R;
-import com.cvilia.bubbleweather.R2;
 import com.cvilia.bubbleweather.adapter.ProvinceAdapter;
 import com.cvilia.bubbleweather.adapter.SelectCityAdapter;
 import com.cvilia.bubbleweather.base.BaseActivity;
 import com.cvilia.bubbleweather.bean.City;
 import com.cvilia.bubbleweather.config.Constants;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
+import com.cvilia.bubbleweather.databinding.ActivitySelectCityBinding;
 import com.cvilia.bubbleweather.utils.MMKVUtil;
 import com.cvilia.bubbleweather.view.ProvinceDivider;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * 选择城市
@@ -36,24 +30,12 @@ import butterknife.OnClick;
 public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implements SelectCityContact.View,
         View.OnClickListener {
 
-    @BindView(R2.id.cityRecyclerView)
-    RecyclerView mCityRecycler;
-    @BindView(R2.id.provienceRecyclerView)
-    RecyclerView mProvinceRecycler;
+    private ActivitySelectCityBinding mBindings;
 
-    @BindView(R2.id.centerTitleTv)
-    TextView mTitleView;
-
-    @BindView(R2.id.currentLocationRl)
-    RelativeLayout mCurrentRl;
-
-    @BindView(R2.id.cityNameTv)
-    TextView mCityNameTv;
 
     private List<City> mCityInfos;
-    private List<String> mProvinces;//省份
-    private List<String> mCities;//市
-    private List<String> mdistricts;//区
+    //    private List<String> mCities;//市
+//    private List<String> mdistricts;//区
 
     private String currentCity = "北京市";
 
@@ -74,10 +56,17 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     }
 
     @Override
+    protected View inflatRootView() {
+        mBindings = ActivitySelectCityBinding.inflate(getLayoutInflater());
+
+        return mBindings.getRoot();
+    }
+
+    @Override
     protected void initWidgetEvent() {
-        mCityRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mProvinceRecycler.setLayoutManager(new GridLayoutManager(this, 4));
-        mTitleView.setText("城市选择");
+        mBindings.cityRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mBindings.provienceRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        mBindings.actionBar.centerTitleTv.setText("城市选择");
     }
 
     @Override
@@ -90,10 +79,6 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_select_city;
-    }
 
     @Override
     protected SelectCityPresenter getPresenter() {
@@ -126,12 +111,12 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     @Override
     public void locateSuccess(AMapLocation location) {
         currentCity = location.getDistrict();
-        mCityNameTv.setText(String.format("%s · %s · %s", location.getProvince(), location.getCity(), currentCity));
+        mBindings.cityNameTv.setText(String.format("%s · %s · %s", location.getProvince(), location.getCity(), currentCity));
     }
 
     @Override
     public void locateFailed() {
-        mCityNameTv.setText(currentCity);
+        mBindings.cityNameTv.setText(currentCity);
     }
 
     /**
@@ -144,16 +129,17 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
             list.add(city.getProvinceZh());
         }
 
-        mProvinces = new ArrayList<>();
+        //省份
+        List<String> mProvinces = new ArrayList<>();
 
         for (String province : list) {
             if (!mProvinces.contains(province)) {
                 mProvinces.add(province);
             }
         }
-        mProvinceRecycler.addItemDecoration(new ProvinceDivider(this));
+        mBindings.provienceRecyclerView.addItemDecoration(new ProvinceDivider(this));
         ProvinceAdapter adapter = new ProvinceAdapter(R.layout.layout_province_item, mProvinces);
-        mProvinceRecycler.setAdapter(adapter);
+        mBindings.provienceRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             List<City> selectedInfos = new ArrayList<>();
             for (City city : mCityInfos) {
@@ -169,11 +155,11 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     /**
      * 加载选定省份的城市
      *
-     * @param selectedInfos
+     * @param selectedInfos 选择的省份信息
      */
     private void getSlectedProvinceInfo(List<City> selectedInfos) {
         SelectCityAdapter adapter = new SelectCityAdapter(R.layout.layout_city_item, selectedInfos);
-        mCityRecycler.setAdapter(adapter);
+        mBindings.cityRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             City city = selectedInfos.get(position);
             MMKVUtil.saveString(Constants.SELECTED_CITY, city.getCityZh());
@@ -185,20 +171,20 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
         });
     }
 
-    @OnClick({R2.id.backIv, R2.id.currentLocationRl})
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.backIv:
-                finish();
-                break;
-            case R.id.currentLocationRl:
-                Intent intent = new Intent();
-                intent.putExtra("cityCode", "");
-                intent.putExtra("cityName", currentCity);
-                setResult(RESULT_OK, intent);
-                finish();
-                break;
+
+        if (v.getId() == R.id.backIv) {
+            finish();
         }
+        if (v.getId() == R.id.currentLocationRl) {
+
+            Intent intent = new Intent();
+            intent.putExtra("cityCode", "");
+            intent.putExtra("cityName", currentCity);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+
     }
 }

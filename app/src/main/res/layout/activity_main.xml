@@ -9,7 +9,8 @@
     android:orientation="vertical"
     tools:context=".activity.home.WeatherActivity">
 
-    <include layout="@layout/layout_home_actionbar" />
+    <include android:id="@+id/actionBar"
+        layout="@layout/layout_home_actionbar" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/refreshL"
