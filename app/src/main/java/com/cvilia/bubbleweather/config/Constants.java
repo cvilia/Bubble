@@ -18,6 +18,7 @@ public class Constants {
     public static final String COPY_DB_ALREADY = "copy_db_already";//已经复制过db
 
     public static final String MAIN_PAGE_BG_PATH = "main_page_bg_path";//主页背景图地址
+    public static final String SPLASH_IMG_PATH = "splash_img_path";//开屏页壁纸
 
     public static final String SELECTED_CITY = "selected_city";//记录手动选择的城市
 

@@ -15,8 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.cvilia.bubbleweather.ActivityManager;
-import com.cvilia.bubbleweather.IView;
+import com.cvilia.bubbleweather.manager.ActivityManager;
 import com.jaeger.library.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;

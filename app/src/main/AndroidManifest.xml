@@ -28,7 +28,7 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".activity.selectcity.SelectCityActivity" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".activity.SplashActivity"
             android:theme="@style/AppNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.cvilia.bubbleweather;
+package com.cvilia.bubbleweather.activity;
 
 import android.Manifest;
 import android.os.Bundle;
@@ -8,17 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.cvilia.bubbleweather.config.Constants;
+import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.config.PageUrlConfig;
 import com.cvilia.bubbleweather.listener.TwoButtonClickListener;
-import com.cvilia.bubbleweather.utils.CopyDb2Local;
-import com.cvilia.bubbleweather.utils.MMKVUtil;
 import com.cvilia.bubbleweather.utils.RxPermissionUtils;
 import com.cvilia.bubbleweather.utils.StatusUtil;
 import com.cvilia.bubbleweather.view.MessageTwoButtonDialog;
 import com.tbruyelle.rxpermissions3.Permission;
-import com.tbruyelle.rxpermissions3.RxPermissions;
-import com.tencent.mmkv.MMKV;
 
 import java.util.concurrent.TimeUnit;
 
@@ -49,7 +45,12 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
                         RxPermissionUtils.requestPermissions(SplashActivity.this, PERMISSIONS, new RxPermissionUtils.OnPermissionCallBack() {
                             @Override
                             public void onPermissionsGranted() {
-                                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation();
+                                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation(SplashActivity.this, new NavCallback() {
+                                    @Override
+                                    public void onArrival(Postcard postcard) {
+                                        finish();
+                                    }
+                                });
                             }
 
                             @Override
@@ -70,7 +71,7 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
                     }
                 });
                 dialog.show();
-            }else {
+            } else {
                 ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation();
             }
 

@@ -1,8 +1,8 @@
 package com.cvilia.bubbleweather.activity.home;
 
 import com.amap.api.location.AMapLocation;
-import com.cvilia.bubbleweather.IPresenter;
-import com.cvilia.bubbleweather.IView;
+import com.cvilia.bubbleweather.base.IPresenter;
+import com.cvilia.bubbleweather.base.IView;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
 
 /**

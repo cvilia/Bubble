@@ -1,4 +1,4 @@
-package com.cvilia.bubbleweather;
+package com.cvilia.bubbleweather.base;
 
 public interface IView {
     /**

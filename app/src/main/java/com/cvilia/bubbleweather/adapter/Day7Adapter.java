@@ -48,8 +48,8 @@ public class Day7Adapter extends RecyclerView.Adapter<Day7Adapter.ViewHolder> {
                 //todo 针对不为空的温度应该做类型转换异常判断（抛出并捕获异常，还需要针对温度字符串做正则表达式确认其只含有数字）
                 for (int i = 0; i < day7Bean.getData().size(); i++) {
                     index = i;
-                    int max = TempParseUtil.getTemp(datas.get(i).getTem1());
-                    int min = TempParseUtil.getTemp(datas.get(i).getTem2());
+                    int max = Integer.parseInt(datas.get(i).getTem1());
+                    int min = Integer.parseInt(datas.get(i).getTem2());
                     WeatherInfo info = new WeatherInfo(max, min, 0);
                     infos.add(info);
                 }

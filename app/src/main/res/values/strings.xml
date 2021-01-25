@@ -4,7 +4,7 @@
     <string name="home_actionbar_site">地点</string>
     <string name="temperature">%1$s</string>
     <string name="temperature_min_max">%1$s / %2$s</string>
-    <string name="aqi">空气质量 <Data><![CDATA[<font size="18"><b>%1$s</b>]]></Data></string>
+    <string name="aqi">AQI: <Data><![CDATA[<font size="18"><b>%1$s</b>]]></Data></string>
     <string name="weather_day_7">7日天气</string>
     <string name="weather_hour">小时天气</string>
 

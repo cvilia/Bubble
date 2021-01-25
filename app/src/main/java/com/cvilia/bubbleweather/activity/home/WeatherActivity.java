@@ -2,7 +2,6 @@ package com.cvilia.bubbleweather.activity.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,12 +31,8 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 @Route(path = PageUrlConfig.MAIN_PAGE)
 public class WeatherActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, OnRefreshListener {
 
-    //    private static final String TAG = WeatherActivity.class.getSimpleName();
     private static final int REQUEST_CODE_SELECT_SITE = 0x1101;
-
     private ActivityMainBinding mBindings;
-
-
     private static boolean isFirstIn = true;
 
     private boolean selectCity = false;//是否是选择过城市
@@ -82,7 +77,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             mBindings.refreshL.autoRefresh();
         }
         mBindings.refreshL.setOnRefreshListener(this);
-        mBindings.actionBar.selectSiteTv.setOnClickListener(view -> ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this, REQUEST_CODE_SELECT_SITE));
+        mBindings.actionBar.leftIv.setOnClickListener(view -> ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this, REQUEST_CODE_SELECT_SITE));
 
         LinearLayoutManager day7Lp = new LinearLayoutManager(this);
         day7Lp.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -102,7 +97,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             assert data != null;
             cityCode = data.getStringExtra("cityCode");
             cityName = data.getStringExtra("cityName");
-            mBindings.locateTv.setText(data.getStringExtra("cityName"));
+            mBindings.actionBar.centerTv.setText(data.getStringExtra("cityName"));
             selectCity = true;
             mBindings.refreshL.autoRefresh();
         }
@@ -137,36 +132,12 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     private void reloadCurrentInfo(Day7WeatherBean bean) {
         DataBean todayInfo = bean.getData().get(0);
         if (todayInfo != null) {
-            mBindings.tempTv.setText(String.format(getString(R.string.temperature), todayInfo.getTem()));
+            mBindings.tempTv.setText(todayInfo.getTem());
             mBindings.weatherDescTv.setText(todayInfo.getWea());
-            mBindings.tempRangeTv.setText(String.format(getString(R.string.temperature_min_max), todayInfo.getTem1(),
-                    todayInfo.getTem2()));
-            String exchange = getString(R.string.aqi, getAQI(todayInfo.getAir()));
-            mBindings.AQITv.setText(Html.fromHtml(exchange));
-            mBindings.updateTimeTv.setText(String.format(getString(R.string.last_update_time), bean.getUpdate_time().substring(11)));
+            mBindings.AQITv.setText(String.format("AQI：%s（%s）", todayInfo.getAir(), todayInfo.getAir_level()));
+            mBindings.updateTimeTv.setText(String.format("上次更新：%s", bean.getUpdate_time().substring(11)));
         }
         reloadDay7Weather(bean);
-    }
-
-    private String getAQI(String air) {
-        String aqi = "未知";
-        if (!TextUtils.isEmpty(air)) {
-            int intAqi = Integer.parseInt(air);
-            if (intAqi <= 50) {
-                aqi = "优";
-            } else if (intAqi <= 100) {
-                aqi = "良";
-            } else if (intAqi <= 150) {
-                aqi = "轻度污染";
-            } else if (intAqi <= 200) {
-                aqi = "中度污染";
-            } else if (intAqi <= 300) {
-                aqi = "重度污染";
-            } else {
-                aqi = "严重污染";
-            }
-        }
-        return aqi;
     }
 
     /**
@@ -178,7 +149,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         Day7Adapter day7Adapter = new Day7Adapter(bean, this);
         mBindings.day7RecyclerView.setAdapter(day7Adapter);
 
-        Hour7Adapter adapter = new Hour7Adapter(bean, this);
+        Hour7Adapter adapter = new Hour7Adapter(bean.getData().get(0).getHours(), this);
         mBindings.hourRecyclerView.setAdapter(adapter);
 
     }
@@ -198,10 +169,10 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     public void locateSuccess(AMapLocation location) {
         if (TextUtils.isEmpty(MMKVUtil.getString(Constants.SELECTED_CITY))) {
             mPresenter.requestWeatherInfo(location.getDistrict());
-            mBindings.locateTv.setText(location.getDistrict());
+            mBindings.actionBar.centerTv.setText(location.getDistrict());
         } else {
             mPresenter.requestWeatherInfo(MMKVUtil.getString(Constants.SELECTED_CITY));
-            mBindings.locateTv.setText(MMKVUtil.getString(Constants.SELECTED_CITY));
+            mBindings.actionBar.centerTv.setText(MMKVUtil.getString(Constants.SELECTED_CITY));
         }
     }
 
@@ -210,10 +181,10 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         if (TextUtils.isEmpty(MMKVUtil.getString(Constants.SELECTED_CITY))) {
             mBindings.refreshL.finishRefresh();
             mPresenter.requestWeatherInfo("北京市");
-            mBindings.locateTv.setText("北京市");
+            mBindings.actionBar.centerTv.setText("北京市");
         } else {
             mPresenter.requestWeatherInfo(MMKVUtil.getString(Constants.SELECTED_CITY));
-            mBindings.locateTv.setText(MMKVUtil.getString(Constants.SELECTED_CITY));
+            mBindings.actionBar.centerTv.setText(MMKVUtil.getString(Constants.SELECTED_CITY));
         }
     }
 

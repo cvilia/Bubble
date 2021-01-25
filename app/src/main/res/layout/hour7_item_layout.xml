@@ -1,46 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="60dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="10dp">
 
     <TextView
-        android:id="@+id/weekTv"
+        android:id="@+id/hourTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:text="08时"
+        android:alpha="0.8"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/weatherDescTv"
+        android:id="@+id/tempTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/weekTv"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="晴"
+        android:text="4°"
         android:textColor="@color/white"
-        android:textSize="8sp" />
+        android:textSize="12sp" />
 
-<!--    <ImageView-->
-<!--        android:id="@+id/weatherIv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/weatherDescTv"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginTop="5dp"-->
-<!--        android:src="@mipmap/icon_suny" />-->
+    <ImageView
+        android:id="@+id/weatherIv"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginVertical="15dp"
+        android:src="@drawable/icon_weather" />
 
-    <com.cvilia.bubbleweather.view.SingleWeatherLine
-        android:id="@+id/lineView"
-        android:layout_width="60dp"
-        android:layout_height="80dp"
-        android:layout_below="@id/weatherDescTv"
-        app:tempSize="10sp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/windDriectionIv"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/icon_northeast" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/windLevelTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.8"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:ignore="SmallSp" />
+    </LinearLayout>
+</LinearLayout>

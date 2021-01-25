@@ -67,6 +67,7 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
         HashMap<String, String> map = new HashMap<>();
         map.put("appid", WeatherApi.appid);
         map.put("appsecret", WeatherApi.appSecret);
+        map.put("version", WeatherApi.v9);
         if (isName)
             map.put("city", cityInfo);
         else

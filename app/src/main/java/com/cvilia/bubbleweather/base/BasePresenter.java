@@ -1,8 +1,5 @@
 package com.cvilia.bubbleweather.base;
 
-import com.cvilia.bubbleweather.IPresenter;
-import com.cvilia.bubbleweather.IView;
-
 
 public class BasePresenter<T extends IView> implements IPresenter<T> {
 
