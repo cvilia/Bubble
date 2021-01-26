@@ -72,7 +72,12 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
                 });
                 dialog.show();
             } else {
-                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation();
+                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation(this, new NavCallback() {
+                    @Override
+                    public void onArrival(Postcard postcard) {
+                        finish();
+                    }
+                });
             }
 
         });

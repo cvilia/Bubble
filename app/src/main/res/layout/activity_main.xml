@@ -170,22 +170,6 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/day7RecyclerView" />
 
-                <com.cvilia.bubbleweather.view.SunRiseView
-                    android:id="@+id/sunRise"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider4"/>
-
-                <com.cvilia.bubbleweather.view.SunSetView
-                    android:id="@+id/sunSet"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintTop_toTopOf="@id/sunRise"/>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>

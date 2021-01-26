@@ -10,24 +10,24 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_alignParentStart="true"
-        android:src="@drawable/icon_add" />
+        android:src="@drawable/icon_menu" />
 
     <TextView
         android:id="@+id/centerTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/leftIv"
-        android:layout_alignEnd="@id/menuIv"
+        android:layout_alignEnd="@id/rightIv"
         android:gravity="center"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="16sp" />
 
     <ImageView
-        android:id="@+id/menuIv"
+        android:id="@+id/rightIv"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/icon_menu" />
+        android:src="@drawable/icon_add" />
 
 </RelativeLayout>

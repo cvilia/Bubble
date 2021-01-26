@@ -67,6 +67,7 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
         mBindings.cityRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mBindings.provienceRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         mBindings.actionBar.centerTitleTv.setText("城市选择");
+        mBindings.currentLocationRl.setOnClickListener(this);
     }
 
     @Override
@@ -178,7 +179,6 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
             finish();
         }
         if (v.getId() == R.id.currentLocationRl) {
-
             Intent intent = new Intent();
             intent.putExtra("cityCode", "");
             intent.putExtra("cityName", currentCity);
