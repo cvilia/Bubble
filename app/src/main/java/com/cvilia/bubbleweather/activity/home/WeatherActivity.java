@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,8 +38,10 @@ import com.cvilia.bubbleweather.listener.TwoButtonClickListener;
 import com.cvilia.bubbleweather.utils.CopyDb2Local;
 import com.cvilia.bubbleweather.utils.MMKVUtil;
 import com.cvilia.bubbleweather.utils.RxPermissionUtils;
+import com.cvilia.bubbleweather.utils.StatusUtil;
 import com.cvilia.bubbleweather.view.MessageTwoButtonDialog;
 import com.cvilia.bubbleweather.view.RecyclerViewDivider;
+import com.jaeger.library.StatusBarUtil;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.tbruyelle.rxpermissions3.Permission;
@@ -48,6 +51,7 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.engine.impl.PicassoEngine;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,11 +82,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     protected void onViewCreated() {
-        setFullScreen(false);
-        super.onViewCreated();
-        if (TextUtils.isEmpty(MMKVUtil.getString(Constants.MAIN_PAGE_BG_PATH))) {
-            mBindings.mainPageLl.setBackgroundResource(R.drawable.home_page_bg);
-        } else {
+        StatusBarUtil.setTranslucent(this, 0);
+        if (!TextUtils.isEmpty(MMKVUtil.getString(Constants.MAIN_PAGE_BG_PATH))) {
             File file = new File(MMKVUtil.getString(Constants.MAIN_PAGE_BG_PATH));
             if (!file.isFile()) {
                 return;
@@ -173,8 +174,10 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
         if (requestCode == REQUEST_CODE_SELECT_SITE) {
-            assert data != null;
             cityCode = data.getStringExtra("cityCode");
             cityName = data.getStringExtra("cityName");
             mBindings.actionBar.centerTv.setText(data.getStringExtra("cityName"));
@@ -183,25 +186,24 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
         } else if (requestCode == REQUEST_CODE_SELECT_IMG) {
             ArrayList<Uri> imgs = (ArrayList<Uri>) Matisse.obtainResult(data);
             Uri uri = imgs.get(0);
+            getRealFilePath(uri);
             setBackgroundImg(uri);
         }
     }
 
     private void setBackgroundImg(Uri uri) {
-
         try {
-            BitmapFactory.Options opts = new BitmapFactory.Options();
-            opts.inJustDecodeBounds = true;
-            opts.inSampleSize = 1;
-            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, opts);
-            mBindings.mainPageLl.setBackground(new BitmapDrawable(getResources(), bitmap));
+            Drawable drawable = Drawable.createFromStream(getContentResolver().openInputStream(uri), "abc");
+            mBindings.mainBg.setBackground(drawable);
         } catch (Exception e) {
             Log.d("lizhenyu", e.toString());
         }
     }
 
-    public String getRealFilePath(final Uri uri) {
-        if (null == uri) return null;
+    public void getRealFilePath(final Uri uri) {
+        if (null == uri) {
+            return;
+        }
         final String scheme = uri.getScheme();
         String data = null;
         if (scheme == null)
@@ -221,7 +223,6 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             }
         }
         MMKVUtil.saveString(Constants.MAIN_PAGE_BG_PATH, data);
-        return data;
     }
 
 

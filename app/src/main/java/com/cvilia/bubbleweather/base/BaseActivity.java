@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +13,11 @@ import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.manager.ActivityManager;
 import com.jaeger.library.StatusBarUtil;
 
@@ -33,26 +36,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     protected T mPresenter;
 
-    private boolean isFullScreen = true;
-
     public LocalChangedBroadcastReceiver mLocalChangedReceiver;//用于监听系统语言切换
-
-    public void setFullScreen(boolean fullScreen) {
-        isFullScreen = fullScreen;
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ARouter.getInstance().inject(this);
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(inflatRootView());
-
         mLocalChangedReceiver = new LocalChangedBroadcastReceiver();
-
         mContext = this;
-
         ActivityManager.getInstance().addActivity(this);
         mPresenter = getPresenter();
         if (mPresenter != null) {
@@ -69,13 +61,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     }
 
-
-    protected void onViewCreated() {
-        StatusBarUtil.setTranslucent(mContext, 0);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            StatusBarUtil.setDarkMode(this);
-        }
-    }
+    protected abstract void onViewCreated();
 
     protected abstract View inflatRootView();
 

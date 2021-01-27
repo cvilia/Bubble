@@ -51,7 +51,6 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
     @Override
     protected void onViewCreated() {
-        super.onViewCreated();
         mPresenter.startLocate();
     }
 

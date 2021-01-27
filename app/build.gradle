@@ -5,12 +5,12 @@ apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "com.cvilia.bubbleweather"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -23,7 +23,7 @@ android {
         }
 
         ndk {
-            abiFilters "armeabi-v7a"
+//            abiFilters "armeabi-v7a"
         }
 
         viewBinding {
