@@ -8,8 +8,12 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -28,6 +32,7 @@ import java.util.Objects;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 import static com.cvilia.bubbleweather.base.BaseApplication.app;
+import static com.cvilia.bubbleweather.utils.DeviceUtil.hideSoftKeyboard;
 
 
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements IView, CustomAdapt {
@@ -43,6 +48,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         super.onCreate(savedInstanceState);
         ARouter.getInstance().inject(this);
         setContentView(inflatRootView());
+        setupUI(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
         mLocalChangedReceiver = new LocalChangedBroadcastReceiver();
         mContext = this;
         ActivityManager.getInstance().addActivity(this);
@@ -88,6 +94,24 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
         ActivityManager.getInstance().removeActivity(this);
     }
+
+    public void setupUI(View view) {
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener((v, event) -> {
+                hideSoftKeyboard(BaseActivity.this);
+                v.performClick();
+                return false;
+            });
+        }
+
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
 
     @Override
     public boolean isBaseOnWidth() {

@@ -1,9 +1,16 @@
 package com.cvilia.bubbleweather.activity.cities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -17,19 +24,25 @@ import com.cvilia.bubbleweather.bean.City;
 import com.cvilia.bubbleweather.config.Constants;
 import com.cvilia.bubbleweather.route.PageUrlConfig;
 import com.cvilia.bubbleweather.databinding.ActivitySelectCityBinding;
+import com.cvilia.bubbleweather.utils.DeviceUtil;
+import com.cvilia.bubbleweather.utils.DisplayUtil;
 import com.cvilia.bubbleweather.utils.MMKVUtil;
 import com.cvilia.bubbleweather.view.ProvinceDivider;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * 选择城市
  */
 @Route(path = PageUrlConfig.SELECT_CITY_PAGE)
 public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implements SelectCityContact.View,
-        View.OnClickListener {
+        View.OnClickListener, TextView.OnEditorActionListener {
 
     private ActivitySelectCityBinding mBindings;
 
@@ -44,14 +57,43 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     }
 
     @Override
-    protected void initWidget() {
+    protected void onResume() {
+        super.onResume();
 
+    }
+
+    @Override
+    protected void initWidget() {
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_search_333333, null);
+        drawable.setBounds(0, 0, DisplayUtil.dp2px(this, 16), DisplayUtil.dp2px(this, 16));
+        mBindings.keywordEt.setCompoundDrawables(drawable, null, null, null);
     }
 
     @Override
     protected void onViewCreated() {
         StatusBarUtil.setLightMode(this);
         mPresenter.startLocate();
+        showKeyboard();
+    }
+
+    /**
+     * 设置进入该页面后自动获取EditText焦点并弹出软键盘
+     */
+    private void showKeyboard() {
+        mBindings.keywordEt.requestFocus();
+        /**
+         * 定时器是为了保证所有UI都加载完毕
+         */
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(mBindings.keywordEt, 0);
+            }
+        }, 200);
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(mBindings.keywordEt, 0);
     }
 
     @Override
@@ -63,10 +105,13 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
     @Override
     protected void initWidgetEvent() {
-        mBindings.cityRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mBindings.provienceRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        mBindings.actionBar.centerTitleTv.setText("城市选择");
-        mBindings.currentLocationRl.setOnClickListener(this);
+//        mBindings.cityRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mBindings.provienceRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+//        mBindings.actionBar.centerTitleTv.setText("城市选择");
+//        mBindings.currentLocationRl.setOnClickListener(this);
+        mBindings.cancelTv.setOnClickListener(v -> finish());
+        mBindings.keywordEt.setOnEditorActionListener(this);
+
     }
 
     @Override
@@ -111,12 +156,12 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     @Override
     public void locateSuccess(AMapLocation location) {
         currentCity = location.getDistrict();
-        mBindings.cityNameTv.setText(String.format("%s · %s · %s", location.getProvince(), location.getCity(), currentCity));
+//        mBindings.cityNameTv.setText(String.format("%s · %s · %s", location.getProvince(), location.getCity(), currentCity));
     }
 
     @Override
     public void locateFailed() {
-        mBindings.cityNameTv.setText(currentCity);
+//        mBindings.cityNameTv.setText(currentCity);
     }
 
     /**
@@ -137,9 +182,9 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
                 mProvinces.add(province);
             }
         }
-        mBindings.provienceRecyclerView.addItemDecoration(new ProvinceDivider(this));
+//        mBindings.provienceRecyclerView.addItemDecoration(new ProvinceDivider(this));
         ProvinceAdapter adapter = new ProvinceAdapter(R.layout.layout_province_item, mProvinces);
-        mBindings.provienceRecyclerView.setAdapter(adapter);
+//        mBindings.provienceRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             List<City> selectedInfos = new ArrayList<>();
             for (City city : mCityInfos) {
@@ -159,7 +204,7 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
      */
     private void getSlectedProvinceInfo(List<City> selectedInfos) {
         SelectCityAdapter adapter = new SelectCityAdapter(R.layout.layout_city_item, selectedInfos);
-        mBindings.cityRecyclerView.setAdapter(adapter);
+//        mBindings.cityRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             City city = selectedInfos.get(position);
             MMKVUtil.saveString(Constants.SELECTED_CITY, city.getCityZh());
@@ -174,16 +219,38 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.backIv) {
-            finish();
-        }
-        if (v.getId() == R.id.currentLocationRl) {
-            Intent intent = new Intent();
-            intent.putExtra("cityCode", "");
-            intent.putExtra("cityName", currentCity);
-            setResult(RESULT_OK, intent);
-            finish();
-        }
+//        if (v.getId() == R.id.backIv) {
+//            finish();
+//        }
+//        if (v.getId() == R.id.currentLocationRl) {
+//            Intent intent = new Intent();
+//            intent.putExtra("cityCode", "");
+//            intent.putExtra("cityName", currentCity);
+//            setResult(RESULT_OK, intent);
+//            finish();
+//        }
 
     }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (null != event && KeyEvent.KEYCODE_ENTER == event.getKeyCode()) {
+            if (event.getAction() == KeyEvent.ACTION_UP) {
+                Toast.makeText(this, "回车", Toast.LENGTH_SHORT).show();
+                DeviceUtil.hideSoftKeyboard(SelectCityActivity.this);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 监听软键盘的回车按钮
+     *
+     * @param v
+     * @param actionId
+     * @param event
+     * @return
+     */
+
 }

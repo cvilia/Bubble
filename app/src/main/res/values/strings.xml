@@ -12,6 +12,10 @@
 
     <string name="reject">拒绝</string>
     <string name="agree">同意</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+
+    <string name="city_search_tip">请输入市级名称</string>
 
     <string name="last_update_time">上次更新:%1$s</string>
 

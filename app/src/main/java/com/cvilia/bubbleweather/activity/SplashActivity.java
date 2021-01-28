@@ -1,6 +1,7 @@
 package com.cvilia.bubbleweather.activity;
 
 import android.Manifest;
+import android.os.AsyncTask.Status;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.cvilia.bubbleweather.listener.TwoButtonClickListener;
 import com.cvilia.bubbleweather.utils.RxPermissionUtils;
 import com.cvilia.bubbleweather.utils.StatusUtil;
 import com.cvilia.bubbleweather.view.MessageTwoButtonDialog;
+import com.jaeger.library.StatusBarUtil;
 import com.tbruyelle.rxpermissions3.Permission;
 
 import java.util.concurrent.TimeUnit;
@@ -30,22 +32,26 @@ import me.jessyan.autosize.internal.CancelAdapt;
 
 public class SplashActivity extends AppCompatActivity implements CancelAdapt {
 
-    private static final String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+    private static final String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusUtil.hideStatusBar(this);
+        StatusBarUtil.setTranslucent(this, 0);
         setContentView(R.layout.activity_splash);
         Observable.timer(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (!RxPermissionUtils.checkPermissions(this, PERMISSIONS)) {
-                MessageTwoButtonDialog dialog = new MessageTwoButtonDialog(this, getString(R.string.permission_explain_location), new TwoButtonClickListener() {
+                MessageTwoButtonDialog dialog = new MessageTwoButtonDialog(this,
+                        getString(R.string.permission_explain_location), new TwoButtonClickListener() {
                     @Override
                     public void onConfirm() {
-                        RxPermissionUtils.requestPermissions(SplashActivity.this, PERMISSIONS, new RxPermissionUtils.OnPermissionCallBack() {
+                        RxPermissionUtils.requestPermissions(SplashActivity.this, PERMISSIONS,
+                                new RxPermissionUtils.OnPermissionCallBack() {
                             @Override
                             public void onPermissionsGranted() {
-                                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation(SplashActivity.this, new NavCallback() {
+                                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation(SplashActivity.this,
+                                        new NavCallback() {
                                     @Override
                                     public void onArrival(Postcard postcard) {
                                         finish();

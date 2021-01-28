@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,94 +8,140 @@
     android:orientation="vertical"
     tools:context=".activity.cities.SelectCityActivity">
 
-    <include
-        android:id="@+id/actionBar"
-        layout="@layout/layout_action_bar" />
+    <LinearLayout
+        android:id="@+id/searchLl"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/search_divider"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintEnd_toStartOf="@id/cancelTv"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never">
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/keywordEt"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="25dp"
+            android:alpha="0.6"
+            android:background="@null"
+            android:cursorVisible="true"
+            android:drawablePadding="15dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:hint="@string/city_search_tip"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="@color/text_333333"
+            android:textColorHint="#222222"
+            android:textCursorDrawable="@drawable/cursor_style"
+            android:textSize="15sp" />
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@color/alpha_63fafafa"
-                android:gravity="center_vertical"
-                android:paddingStart="15dp"
-                android:text="当前定位"
-                android:textSize="15sp"
-                tools:ignore="RtlSymmetry" />
+    <TextView
+        android:id="@+id/cancelTv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textColor="@color/text_4f9bfa"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/searchLl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/searchLl"
+        app:layout_constraintTop_toTopOf="@id/searchLl" />
 
-            <RelativeLayout
-                android:id="@+id/currentLocationRl"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="10dp">
+    <!--    <androidx.core.widget.NestedScrollView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:overScrollMode="never"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/searchLl">-->
 
-                <TextView
-                    android:id="@+id/cityNameTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_alignParentStart="true"
-                    android:gravity="center_vertical"
-                    android:text="北京市"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    tools:ignore="RtlSymmetry" />
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:orientation="vertical">-->
 
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_alignParentEnd="true"
-                    android:src="@mipmap/icon_current_location" />
+    <!--            <TextView-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="30dp"-->
+    <!--                android:background="@color/alpha_63fafafa"-->
+    <!--                android:gravity="center_vertical"-->
+    <!--                android:paddingStart="15dp"-->
+    <!--                android:text="当前定位"-->
+    <!--                android:textSize="15sp"-->
+    <!--                tools:ignore="RtlSymmetry" />-->
 
-            </RelativeLayout>
+    <!--            <RelativeLayout-->
+    <!--                android:id="@+id/currentLocationRl"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="40dp"-->
+    <!--                android:gravity="center_vertical"-->
+    <!--                android:paddingHorizontal="10dp">-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@color/alpha_63fafafa"
-                android:gravity="center_vertical"
-                android:paddingStart="15dp"
-                android:text="省份选择"
-                android:textSize="15sp" />
+    <!--                <TextView-->
+    <!--                    android:id="@+id/cityNameTv"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="30dp"-->
+    <!--                    android:layout_alignParentStart="true"-->
+    <!--                    android:gravity="center_vertical"-->
+    <!--                    android:text="北京市"-->
+    <!--                    android:textColor="@color/white"-->
+    <!--                    android:textSize="15sp"-->
+    <!--                    tools:ignore="RtlSymmetry" />-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/provienceRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:overScrollMode="never">
+    <!--                <ImageView-->
+    <!--                    android:layout_width="28dp"-->
+    <!--                    android:layout_height="28dp"-->
+    <!--                    android:layout_alignParentEnd="true"-->
+    <!--                    android:src="@mipmap/icon_current_location" />-->
 
-            </androidx.recyclerview.widget.RecyclerView>
+    <!--            </RelativeLayout>-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/alpha_63fafafa"
-                android:gravity="center_vertical"
-                android:paddingStart="15dp"
-                android:text="城市选择"
-                android:textSize="15sp" />
+    <!--            <TextView-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="30dp"-->
+    <!--                android:background="@color/alpha_63fafafa"-->
+    <!--                android:gravity="center_vertical"-->
+    <!--                android:paddingStart="15dp"-->
+    <!--                android:text="省份选择"-->
+    <!--                android:textSize="15sp" />-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cityRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:overScrollMode="never" />
+    <!--            <androidx.recyclerview.widget.RecyclerView-->
+    <!--                android:id="@+id/provienceRecyclerView"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="center_horizontal"-->
+    <!--                android:layout_marginTop="5dp"-->
+    <!--                android:overScrollMode="never">-->
+
+    <!--            </androidx.recyclerview.widget.RecyclerView>-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="30dp"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:background="@color/alpha_63fafafa"-->
+    <!--                android:gravity="center_vertical"-->
+    <!--                android:paddingStart="15dp"-->
+    <!--                android:text="城市选择"-->
+    <!--                android:textSize="15sp" />-->
+
+    <!--            <androidx.recyclerview.widget.RecyclerView-->
+    <!--                android:id="@+id/cityRecyclerView"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginTop="5dp"-->
+    <!--                android:overScrollMode="never" />-->
 
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    <!--        </LinearLayout>-->
+    <!--    </androidx.core.widget.NestedScrollView>-->
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

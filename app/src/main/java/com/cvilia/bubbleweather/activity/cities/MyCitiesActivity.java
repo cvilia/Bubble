@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.adapter.MyCitiesAdapter;
 import com.cvilia.bubbleweather.base.BaseActivity;
 import com.cvilia.bubbleweather.databinding.ActivityMyCitiesBinding;
