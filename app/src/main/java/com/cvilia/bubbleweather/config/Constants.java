@@ -34,4 +34,6 @@ public class Constants {
             "霾转晴", "小到中雪转多云", "大雪转多云", "雨夹雪转小雨", "大雨转阴", "浮尘转多云", "多云转霾", "晴转雾", "小雨转中雪", "阵雨转小雪", "晴转雷阵雨", "阴转雾"};
 
 
+    public static final String MY_CITIES = "my_cities";//我所添加的城市，最多只有五个
+
 }

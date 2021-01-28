@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_main"
+    android:background="@color/bg_fafafa"
     android:orientation="vertical"
-    tools:context=".activity.selectcity.SelectCityActivity">
+    tools:context=".activity.cities.SelectCityActivity">
 
-    <include android:id="@+id/actionBar"
+    <include
+        android:id="@+id/actionBar"
         layout="@layout/layout_action_bar" />
 
     <androidx.core.widget.NestedScrollView

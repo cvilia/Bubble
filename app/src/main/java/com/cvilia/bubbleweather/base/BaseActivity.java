@@ -55,6 +55,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
         getIntentData();
         initWidget();
+        StatusBarUtil.setTranslucent(this, 0);
         onViewCreated();
         initWidgetEvent();
         initData();

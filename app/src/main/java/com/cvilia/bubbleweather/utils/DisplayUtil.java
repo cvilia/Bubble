@@ -7,7 +7,7 @@ import android.content.Context;
  * date: 2020/9/18
  * describe：dimen转化工具类
  */
-public class DimenUtil {
+public class DisplayUtil {
 
     public static int px2dp(Context context, float px) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -30,5 +30,15 @@ public class DimenUtil {
 
         final float scale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (sp * scale + 0.5f);
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+
+        return px2dp(context, result);
     }
 }

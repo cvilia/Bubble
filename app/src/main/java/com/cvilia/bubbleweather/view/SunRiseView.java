@@ -11,7 +11,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.cvilia.bubbleweather.utils.DimenUtil;
+import com.cvilia.bubbleweather.utils.DisplayUtil;
 
 /**
  * author: lzy
@@ -54,7 +54,7 @@ public class SunRiseView extends View {
     public SunRiseView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        radius = DimenUtil.dp2px(context, radius);
+        radius = DisplayUtil.dp2px(context, radius);
         rectF = new RectF();
         initPaint();
     }
@@ -66,12 +66,12 @@ public class SunRiseView extends View {
 
         mTextPaint = new Paint();
         mTextPaint.setColor(Color.WHITE);
-        mTextPaint.setTextSize(DimenUtil.sp2px(context, 15));
+        mTextPaint.setTextSize(DisplayUtil.sp2px(context, 15));
 
         mCirclePaint = new Paint();
         mCirclePaint.setColor(Color.WHITE);
         mCirclePaint.setAntiAlias(true);
-        mCirclePaint.setStrokeWidth(DimenUtil.dp2px(context, 1));
+        mCirclePaint.setStrokeWidth(DisplayUtil.dp2px(context, 1));
         mCirclePaint.setStyle(Paint.Style.STROKE);
         mCirclePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mCirclePaint.setStrokeCap(Paint.Cap.ROUND);
@@ -79,7 +79,7 @@ public class SunRiseView extends View {
         mBoldPaint = new Paint();
         mBoldPaint.setColor(Color.WHITE);
         mBoldPaint.setAntiAlias(true);
-        mBoldPaint.setStrokeWidth(DimenUtil.dp2px(context, 4));
+        mBoldPaint.setStrokeWidth(DisplayUtil.dp2px(context, 4));
         mBoldPaint.setStyle(Paint.Style.STROKE);
         mBoldPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mBoldPaint.setStrokeCap(Paint.Cap.ROUND);

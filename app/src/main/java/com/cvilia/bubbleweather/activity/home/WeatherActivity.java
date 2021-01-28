@@ -5,9 +5,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +13,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,28 +28,21 @@ import com.cvilia.bubbleweather.base.BaseActivity;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean.DataBean;
 import com.cvilia.bubbleweather.config.Constants;
-import com.cvilia.bubbleweather.config.PageUrlConfig;
+import com.cvilia.bubbleweather.route.PageUrlConfig;
 import com.cvilia.bubbleweather.databinding.ActivityMainBinding;
-import com.cvilia.bubbleweather.listener.TwoButtonClickListener;
 import com.cvilia.bubbleweather.utils.CopyDb2Local;
+import com.cvilia.bubbleweather.utils.DisplayUtil;
 import com.cvilia.bubbleweather.utils.MMKVUtil;
-import com.cvilia.bubbleweather.utils.RxPermissionUtils;
-import com.cvilia.bubbleweather.utils.StatusUtil;
-import com.cvilia.bubbleweather.view.MessageTwoButtonDialog;
+import com.cvilia.bubbleweather.view.HomePopupVew;
 import com.cvilia.bubbleweather.view.RecyclerViewDivider;
-import com.jaeger.library.StatusBarUtil;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
-import com.tbruyelle.rxpermissions3.Permission;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.engine.impl.PicassoEngine;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 
 @Route(path = PageUrlConfig.MAIN_PAGE)
 public class WeatherActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, OnRefreshListener {
@@ -68,6 +57,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     private String cityCode;
     private String cityName;
 
+    private HomePopupVew popupVew;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +72,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     }
 
     @Override
-    protected void onViewCreated() {
-        StatusBarUtil.setTranslucent(this, 0);
+    protected void onResume() {
+        super.onResume();
         if (!TextUtils.isEmpty(MMKVUtil.getString(Constants.MAIN_PAGE_BG_PATH))) {
             File file = new File(MMKVUtil.getString(Constants.MAIN_PAGE_BG_PATH));
             if (!file.isFile()) {
@@ -94,6 +85,14 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
     }
 
     @Override
+    protected void onViewCreated() {
+        //自定义actionbar
+//        LinearLayout.LayoutParams lp = (LinearLayoBut.LayoutParams) mBindings.actionBar.actionBarRl.getLayoutParams();
+//        lp.topMargin = DisplayUtil.getStatusBarHeight(this)+10;
+
+    }
+
+    @Override
     protected View inflatRootView() {
         mBindings = ActivityMainBinding.inflate(getLayoutInflater());
         return mBindings.getRoot();
@@ -101,6 +100,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     protected void initWidget() {
+        popupVew = new HomePopupVew(this);
         mBindings.refreshL.setPrimaryColorsId(R.color.bg_90b8d1, R.color.app_main);
     }
 
@@ -113,38 +113,42 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             mBindings.refreshL.autoRefresh();
         }
         mBindings.refreshL.setOnRefreshListener(this);
-        mBindings.actionBar.rightIv.setOnClickListener(view -> ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this, REQUEST_CODE_SELECT_SITE));
-        mBindings.actionBar.leftIv.setOnClickListener(view -> {
-            if (RxPermissionUtils.checkPermissions(this, PERMISSIONS)) {
-                selectImg();
-            } else {
-                RxPermissionUtils.requestPermissions(this, PERMISSIONS, new RxPermissionUtils.OnPermissionCallBack() {
-                    @Override
-                    public void onPermissionsGranted() {
-                        selectImg();
-                    }
-
-                    @Override
-                    public void onAtLeastOneReject(Permission permission) {
-                        Toast.makeText(mContext, "请求文件读写权限失败", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onAllRejectAndDoNotAskAgain(Permission permission) {
-                        MessageTwoButtonDialog messageTwoButtonDialog = new MessageTwoButtonDialog(mContext, "访问系统相册需要文件读写权限，是否前往系统设置授予权限？", new TwoButtonClickListener() {
-                            @Override
-                            public void onConfirm() {
-                                RxPermissionUtils.toAppSetting(mContext);
-                            }
-
-                            @Override
-                            public void onCancle() {
-                            }
-                        });
-                    }
-                });
-            }
+        mBindings.actionBar.leftIv.setOnClickListener(view -> ARouter.getInstance().build(PageUrlConfig.CITIES_PAGE).navigation());
+//        mBindings.actionBar.rightIv.setVisibility(View.INVISIBLE);
+        mBindings.actionBar.rightIv.setOnClickListener(view -> {
+            popupVew.showAsDropDown(view, DisplayUtil.dp2px(this, -60), DisplayUtil.dp2px(this, 10));
+//            if (RxPermissionUtils.checkPermissions(this, PERMISSIONS)) {
+//                selectImg();
+//            } else {
+//                RxPermissionUtils.requestPermissions(this, PERMISSIONS, new RxPermissionUtils.OnPermissionCallBack() {
+//                    @Override
+//                    public void onPermissionsGranted() {
+//                        selectImg();
+//                    }
+//
+//                    @Override
+//                    public void onAtLeastOneReject(Permission permission) {
+//                        Toast.makeText(mContext, "请求文件读写权限失败", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onAllRejectAndDoNotAskAgain(Permission permission) {
+//                        MessageTwoButtonDialog messageTwoButtonDialog = new MessageTwoButtonDialog(mContext, "访问系统相册需要文件读写权限，是否前往系统设置授予权限？", new TwoButtonClickListener() {
+//                            @Override
+//                            public void onConfirm() {
+//                                RxPermissionUtils.toAppSetting(mContext);
+//                            }
+//
+//                            @Override
+//                            public void onCancle() {
+//                            }
+//                        });
+//                    }
+//                });
+//            }
         });
+
+
         LinearLayoutManager day7Lp = new LinearLayoutManager(this);
         day7Lp.setOrientation(LinearLayoutManager.HORIZONTAL);
         mBindings.day7RecyclerView.setLayoutManager(day7Lp);

@@ -2,15 +2,13 @@ package com.cvilia.bubbleweather.view;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cvilia.bubbleweather.utils.DeviceUtil;
-import com.cvilia.bubbleweather.utils.DimenUtil;
+import com.cvilia.bubbleweather.utils.DisplayUtil;
 
 /**
  * author: lzy
@@ -25,7 +23,7 @@ public class ProvinceDivider extends RecyclerView.ItemDecoration {
     private Context context;
 
     public ProvinceDivider(Context context) {
-        int totalViewWidth = DimenUtil.dp2px(context, 320);
+        int totalViewWidth = DisplayUtil.dp2px(context, 320);
         horizontal = (DeviceUtil.getPxWidth(context) - totalViewWidth) / 6;
         this.context = context;
     }
@@ -33,8 +31,8 @@ public class ProvinceDivider extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        outRect.top = DimenUtil.dp2px(context, 5);
-        outRect.bottom = DimenUtil.dp2px(context, 5);
+        outRect.top = DisplayUtil.dp2px(context, 5);
+        outRect.bottom = DisplayUtil.dp2px(context, 5);
         if (parent.getChildAdapterPosition(view) % 4 == 0) {
             outRect.right = 0;
             outRect.left = horizontal;

@@ -1,4 +1,4 @@
-package com.cvilia.bubbleweather.activity.selectcity;
+package com.cvilia.bubbleweather.activity.cities;
 
 import com.amap.api.location.AMapLocation;
 import com.cvilia.bubbleweather.base.IPresenter;

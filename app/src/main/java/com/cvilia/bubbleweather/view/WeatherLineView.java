@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.listener.ITempData;
-import com.cvilia.bubbleweather.utils.DimenUtil;
+import com.cvilia.bubbleweather.utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,22 +153,22 @@ public class WeatherLineView<T extends ITempData> extends View {
      */
     private void setAttrsPrority() {
         if (width == -1) {
-            width = DimenUtil.dp2px(mContext, DEFAULT_WIDTH);
+            width = DisplayUtil.dp2px(mContext, DEFAULT_WIDTH);
         }
         if (height == -1) {
-            height = DimenUtil.dp2px(mContext, DEFAULT_HEIGHT);
+            height = DisplayUtil.dp2px(mContext, DEFAULT_HEIGHT);
         }
         if (textSize == -1) {
-            textSize = DimenUtil.sp2px(mContext, TEXT_SIZE);
+            textSize = DisplayUtil.sp2px(mContext, TEXT_SIZE);
         }
         if (temp2Top == -1) {
-            temp2Top = DimenUtil.dp2px(mContext, TEMP2TOP);
+            temp2Top = DisplayUtil.dp2px(mContext, TEMP2TOP);
         }
         if (temp2Dot == -1) {
-            temp2Dot = DimenUtil.dp2px(mContext, TEMP2DOT);
+            temp2Dot = DisplayUtil.dp2px(mContext, TEMP2DOT);
         }
         if (dotRadisu == -1) {
-            dotRadisu = DimenUtil.dp2px(mContext, DEFAULT_DOT_RADIUS);
+            dotRadisu = DisplayUtil.dp2px(mContext, DEFAULT_DOT_RADIUS);
         }
     }
 
@@ -186,7 +186,7 @@ public class WeatherLineView<T extends ITempData> extends View {
 
         mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mLinePaint.setStyle(Paint.Style.FILL);
-        mLinePaint.setStrokeWidth(DimenUtil.dp2px(mContext, 1f));
+        mLinePaint.setStrokeWidth(DisplayUtil.dp2px(mContext, 1f));
         mLinePaint.setColor(Color.WHITE);
         mLinePaint.setAlpha(100);
 

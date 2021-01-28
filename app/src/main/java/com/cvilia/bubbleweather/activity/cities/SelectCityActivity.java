@@ -1,4 +1,4 @@
-package com.cvilia.bubbleweather.activity.selectcity;
+package com.cvilia.bubbleweather.activity.cities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,10 +15,11 @@ import com.cvilia.bubbleweather.adapter.SelectCityAdapter;
 import com.cvilia.bubbleweather.base.BaseActivity;
 import com.cvilia.bubbleweather.bean.City;
 import com.cvilia.bubbleweather.config.Constants;
-import com.cvilia.bubbleweather.config.PageUrlConfig;
+import com.cvilia.bubbleweather.route.PageUrlConfig;
 import com.cvilia.bubbleweather.databinding.ActivitySelectCityBinding;
 import com.cvilia.bubbleweather.utils.MMKVUtil;
 import com.cvilia.bubbleweather.view.ProvinceDivider;
+import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,6 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
 
     private List<City> mCityInfos;
-    //    private List<String> mCities;//市
-//    private List<String> mdistricts;//区
 
     private String currentCity = "北京市";
 
@@ -51,6 +50,7 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
     @Override
     protected void onViewCreated() {
+        StatusBarUtil.setLightMode(this);
         mPresenter.startLocate();
     }
 

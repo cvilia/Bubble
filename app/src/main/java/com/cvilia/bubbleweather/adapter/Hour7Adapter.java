@@ -37,7 +37,7 @@ public class Hour7Adapter extends RecyclerView.Adapter<Hour7Adapter.ViewHolder> 
 
     public Hour7Adapter(List<HoursBean> hoursInfo, Context context) {
         this.hoursInfo = hoursInfo;
-        this.weakActivity = new WeakReference<AppCompatActivity>((AppCompatActivity) context);
+        this.weakActivity = new WeakReference<>((AppCompatActivity) context);
     }
 
 

@@ -11,8 +11,8 @@ android {
         applicationId "com.cvilia.bubbleweather"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -101,7 +101,7 @@ dependencies {
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
     implementation 'org.greenrobot:greendao:3.3.0' // add library
 //    知乎图片选择器
-    implementation 'com.zhihu.android:matisse:0.5.2' // add library
+    implementation 'com.zhihu.android:matisse:0.5.3-beta3'
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'

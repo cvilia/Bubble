@@ -1,4 +1,4 @@
-package com.cvilia.bubbleweather.activity.selectcity;
+package com.cvilia.bubbleweather.activity.cities;
 
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;

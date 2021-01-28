@@ -24,7 +24,7 @@ public class MessageTwoButtonDialog extends Dialog implements View.OnClickListen
     private DialogMessageTwoButtonBinding mBinding;
 
     public MessageTwoButtonDialog(@NonNull Context context, String message, TwoButtonClickListener listener) {
-        super(context, R.style.PermissionExplainDialog);
+        super(context, R.style.CommonDialog);
         mListener = listener;
         mMessage = message;
     }

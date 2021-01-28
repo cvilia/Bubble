@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import com.cvilia.bubbleweather.utils.DimenUtil
+import com.cvilia.bubbleweather.utils.DisplayUtil
 
 /**
  * author: lzy
@@ -21,8 +21,8 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
     //记录每一行的最大高度，layout阶段使用
     private val mLineHeight = mutableListOf<Int>()
 
-    private val mHorizontalSpace = DimenUtil.dp2px(context, 16f)
-    private val mVerticalSpace = DimenUtil.dp2px(context, 8f)
+    private val mHorizontalSpace = DisplayUtil.dp2px(context, 16f)
+    private val mVerticalSpace = DisplayUtil.dp2px(context, 8f)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)

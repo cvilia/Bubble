@@ -9,7 +9,7 @@ import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cvilia.bubbleweather.R;
-import com.cvilia.bubbleweather.config.PageUrlConfig;
+import com.cvilia.bubbleweather.route.PageUrlConfig;
 import com.cvilia.bubbleweather.listener.TwoButtonClickListener;
 import com.cvilia.bubbleweather.utils.RxPermissionUtils;
 import com.cvilia.bubbleweather.utils.StatusUtil;
