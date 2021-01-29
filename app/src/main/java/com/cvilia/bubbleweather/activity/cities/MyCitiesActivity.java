@@ -22,6 +22,7 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
 
     private ActivityMyCitiesBinding mBindings;
     private MyCitiesAdapter mAdapter;
+    String currentCity = "北京";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +46,9 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
 
     @Override
     protected void initWidgetEvent() {
-        mBindings.searchLl.setOnClickListener(v -> ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation(this));
+        mBindings.searchLl.setOnClickListener(v -> ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation());
         mBindings.backIv.setOnClickListener(v -> finish());
-        mAdapter = new MyCitiesAdapter(this);
+        mAdapter = new MyCitiesAdapter(this, currentCity);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mBindings.recyclerView.setLayoutManager(manager);
@@ -56,10 +57,10 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
-                if (parent.getChildAdapterPosition(view) == 0){
+                if (parent.getChildAdapterPosition(view) == 0) {
                     outRect.top = 0;
-                }else {
-                    outRect.top = DisplayUtil.dp2px(MyCitiesActivity.this,15);
+                } else {
+                    outRect.top = DisplayUtil.dp2px(MyCitiesActivity.this, 15);
                 }
             }
         });

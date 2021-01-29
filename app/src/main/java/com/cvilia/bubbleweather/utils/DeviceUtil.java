@@ -31,7 +31,6 @@ public class DeviceUtil {
      */
     public static int getPxWidth(Context context){
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
-
         return dm.widthPixels;
     }
 

@@ -29,7 +29,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.cities.MyCitiesActivity"></activity>
+        <activity android:name=".activity.cities.MyCitiesActivity"/>
         <activity android:name=".activity.center.CenterActivity" />
         <activity android:name=".activity.share.ShareActivity" />
         <activity android:name=".activity.center.SettingActivity" />

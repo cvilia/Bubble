@@ -15,8 +15,7 @@ import java.util.List;
 public abstract class SelectCityContact {
 
     interface Presenter extends IPresenter<View> {
-        void readDb();
-
+        void readDb(String cityName);
         void startLocate();
     }
 

@@ -23,7 +23,7 @@ android {
         }
 
         ndk {
-//            abiFilters "armeabi-v7a"
+            abiFilters "armeabi-v7a"
         }
 
         viewBinding {
@@ -44,9 +44,24 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    signingConfigs {
+        release {
+            storeFile file('../keystore/bubble.jks')
+            storePassword "Cvilia123"
+            keyAlias "bubble"
+            keyPassword "Bubble123"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false //开启混淆
+            shrinkResources false
+            zipAlignEnabled true
+            debuggable false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

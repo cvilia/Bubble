@@ -3,6 +3,7 @@ package com.cvilia.bubbleweather.activity.share;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cvilia.bubbleweather.R;
@@ -15,5 +16,6 @@ public class ShareActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
+        Log.d("BaseActivity", "新的实例");
     }
 }

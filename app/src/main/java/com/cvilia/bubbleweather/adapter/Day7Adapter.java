@@ -1,7 +1,6 @@
 package com.cvilia.bubbleweather.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.bean.Day7WeatherBean;
 import com.cvilia.bubbleweather.bean.WeatherInfo;
-import com.cvilia.bubbleweather.utils.TempParseUtil;
 import com.cvilia.bubbleweather.view.WeatherLineView;
 
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ import java.util.List;
  * date: 2020/9/18
  * describe：描述
  */
-public class Day7Adapter extends RecyclerView.Adapter<Day7Adapter.ViewHolder> {
+public class Day7Adapter extends RecyclerView.Adapter<ViewHolder> {
 
     private static final String TAG = Day7Adapter.class.getSimpleName();
 
@@ -104,15 +102,4 @@ public class Day7Adapter extends RecyclerView.Adapter<Day7Adapter.ViewHolder> {
     public int getItemCount() {
         return infos.size();
     }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        public View view;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            view = itemView;
-        }
-    }
-
 }

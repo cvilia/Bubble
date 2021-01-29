@@ -27,7 +27,7 @@ import static com.cvilia.bubbleweather.bean.Day7WeatherBean.DataBean.HoursBean;
  * date: 2020/9/27
  * describe：描述
  */
-public class Hour7Adapter extends RecyclerView.Adapter<Hour7Adapter.ViewHolder> {
+public class Hour7Adapter extends RecyclerView.Adapter<ViewHolder> {
 
 
     private static final String TAG = Hour7Adapter.class.getSimpleName();
@@ -92,13 +92,13 @@ public class Hour7Adapter extends RecyclerView.Adapter<Hour7Adapter.ViewHolder> 
         return hoursInfo.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        public View view;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            view = itemView;
-        }
-    }
+//    class ViewHolder extends RecyclerView.ViewHolder {
+//
+//        public View view;
+//
+//        public ViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            view = itemView;
+//        }
+//    }
 }

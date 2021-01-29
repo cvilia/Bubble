@@ -36,4 +36,9 @@ public class Constants {
 
     public static final String MY_CITIES = "my_cities";//我所添加的城市，最多只有五个
 
+    public static String[] PROVINCIAL_CAPITAL = {"信阳市", "北京市", "上海市", "广州市", "深圳市", "珠海市", "佛山市"
+            , "南京市", "苏州市", "厦门市", "南宁市", "成都市", "长沙市"
+            , "福州市", "杭州市", "武汉市", "青岛市", "西安市", "石家庄"
+            , "沈阳市", "重庆市", "天津市"};
+
 }

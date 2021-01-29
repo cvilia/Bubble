@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_fafafa"
-    android:orientation="vertical"
     tools:context=".activity.cities.SelectCityActivity">
 
     <LinearLayout
@@ -16,6 +15,7 @@
         android:background="@drawable/search_divider"
         android:gravity="center_vertical"
         android:paddingHorizontal="10dp"
+        app:layout_constraintBottom_toTopOf="@id/hotCityCl"
         app:layout_constraintEnd_toStartOf="@id/cancelTv"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,91 +57,77 @@
         app:layout_constraintStart_toEndOf="@id/searchLl"
         app:layout_constraintTop_toTopOf="@id/searchLl" />
 
-    <!--    <androidx.core.widget.NestedScrollView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:overScrollMode="never"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/searchLl">-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/hotCityCl"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/searchLl"
+        app:layout_constraintTop_toBottomOf="@id/searchLl">
 
-    <!--        <LinearLayout-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            android:orientation="vertical">-->
+        <TextView
+            android:id="@+id/locateTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:alpha="0.6"
+            android:text="@string/locate_city"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/locateCityTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!--            <TextView-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="30dp"-->
-    <!--                android:background="@color/alpha_63fafafa"-->
-    <!--                android:gravity="center_vertical"-->
-    <!--                android:paddingStart="15dp"-->
-    <!--                android:text="当前定位"-->
-    <!--                android:textSize="15sp"-->
-    <!--                tools:ignore="RtlSymmetry" />-->
+        <TextView
+            android:id="@+id/locateCityTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:alpha="0.8"
+            android:background="@drawable/single_text_shap"
+            android:gravity="center"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="7dp"
+            android:text="郑州市"
+            android:textColor="@color/text_333333"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/hotCityTv"
+            app:layout_constraintStart_toStartOf="@id/locateTitleTv"
+            app:layout_constraintTop_toBottomOf="@id/locateTitleTv" />
 
-    <!--            <RelativeLayout-->
-    <!--                android:id="@+id/currentLocationRl"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="40dp"-->
-    <!--                android:gravity="center_vertical"-->
-    <!--                android:paddingHorizontal="10dp">-->
+        <TextView
+            android:id="@+id/hotCityTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:alpha="0.6"
+            android:text="@string/hot_cities"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/locateCityTv"
+            app:layout_constraintTop_toBottomOf="@id/locateCityTv" />
 
-    <!--                <TextView-->
-    <!--                    android:id="@+id/cityNameTv"-->
-    <!--                    android:layout_width="match_parent"-->
-    <!--                    android:layout_height="30dp"-->
-    <!--                    android:layout_alignParentStart="true"-->
-    <!--                    android:gravity="center_vertical"-->
-    <!--                    android:text="北京市"-->
-    <!--                    android:textColor="@color/white"-->
-    <!--                    android:textSize="15sp"-->
-    <!--                    tools:ignore="RtlSymmetry" />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hotCityRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hotCityTv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--                <ImageView-->
-    <!--                    android:layout_width="28dp"-->
-    <!--                    android:layout_height="28dp"-->
-    <!--                    android:layout_alignParentEnd="true"-->
-    <!--                    android:src="@mipmap/icon_current_location" />-->
+    <RelativeLayout
+        android:id="@+id/searchCityRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/searchLl"
+        app:layout_constraintTop_toBottomOf="@id/searchLl" />
 
-    <!--            </RelativeLayout>-->
-
-    <!--            <TextView-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="30dp"-->
-    <!--                android:background="@color/alpha_63fafafa"-->
-    <!--                android:gravity="center_vertical"-->
-    <!--                android:paddingStart="15dp"-->
-    <!--                android:text="省份选择"-->
-    <!--                android:textSize="15sp" />-->
-
-    <!--            <androidx.recyclerview.widget.RecyclerView-->
-    <!--                android:id="@+id/provienceRecyclerView"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_gravity="center_horizontal"-->
-    <!--                android:layout_marginTop="5dp"-->
-    <!--                android:overScrollMode="never">-->
-
-    <!--            </androidx.recyclerview.widget.RecyclerView>-->
-
-    <!--            <TextView-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="30dp"-->
-    <!--                android:layout_marginTop="10dp"-->
-    <!--                android:background="@color/alpha_63fafafa"-->
-    <!--                android:gravity="center_vertical"-->
-    <!--                android:paddingStart="15dp"-->
-    <!--                android:text="城市选择"-->
-    <!--                android:textSize="15sp" />-->
-
-    <!--            <androidx.recyclerview.widget.RecyclerView-->
-    <!--                android:id="@+id/cityRecyclerView"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_marginTop="5dp"-->
-    <!--                android:overScrollMode="never" />-->
-
-
-    <!--        </LinearLayout>-->
-    <!--    </androidx.core.widget.NestedScrollView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,23 +5,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.cvilia.bubbleweather.R;
 import com.cvilia.bubbleweather.manager.ActivityManager;
 import com.jaeger.library.StatusBarUtil;
 
@@ -37,6 +31,8 @@ import static com.cvilia.bubbleweather.utils.DeviceUtil.hideSoftKeyboard;
 
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements IView, CustomAdapt {
 
+    protected static final String TAG = BaseActivity.class.getSimpleName();
+
     protected Activity mContext;
 
     protected T mPresenter;
@@ -46,9 +42,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ARouter.getInstance().inject(this);
         setContentView(inflatRootView());
-        setupUI(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
+        ARouter.getInstance().inject(this);
+        Log.d(TAG, "新的实例");
+//        setupUI(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
         mLocalChangedReceiver = new LocalChangedBroadcastReceiver();
         mContext = this;
         ActivityManager.getInstance().addActivity(this);
@@ -95,6 +92,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         ActivityManager.getInstance().removeActivity(this);
     }
 
+    /**
+     * 会导致重复创建实例
+     *
+     * @param view
+     */
     public void setupUI(View view) {
         if (!(view instanceof EditText)) {
             view.setOnTouchListener((v, event) -> {
