@@ -2,7 +2,6 @@ package com.cvilia.bubbleweather.activity.cities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.amap.api.location.AMapLocation;
 import com.cvilia.bubbleweather.R;
+import com.cvilia.bubbleweather.adapter.SearchCityAdapter;
 import com.cvilia.bubbleweather.adapter.SelectCityAdapter;
 import com.cvilia.bubbleweather.adapter.SingleTextAdapter;
 import com.cvilia.bubbleweather.base.BaseActivity;
@@ -32,7 +32,6 @@ import com.cvilia.bubbleweather.utils.DeviceUtil;
 import com.cvilia.bubbleweather.utils.DisplayUtil;
 import com.cvilia.bubbleweather.utils.MMKVUtil;
 import com.cvilia.bubbleweather.view.MessageSingleButtonDialog;
-import com.cvilia.bubbleweather.view.MessageTwoButtonDialog;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -65,7 +64,7 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
     @Override
     protected void initWidget() {
-        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_search_333333, null);
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_search_333333_6, null);
         drawable.setBounds(0, 0, DisplayUtil.dp2px(this, 16), DisplayUtil.dp2px(this, 16));
         mBindings.keywordEt.setCompoundDrawables(drawable, null, null, null);
     }
@@ -111,7 +110,8 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
         mBindings.hotCityRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mBindings.hotCityRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
-            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent,
+                                       @NonNull RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
                 int index = parent.getChildAdapterPosition(view);
                 if (index != 0 && index != 1 && index != 2) {
@@ -172,13 +172,12 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
     @Override
     public void searchSuccess(List<String> cities) {
+        mBindings.hotCityCl.setVisibility(View.GONE);
+        mBindings.searchCityRecycler.setVisibility(View.VISIBLE);
         mBindings.searchCityRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mBindings.searchCityRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                super.onDraw(c, parent, state);
-            }
-        });
+        SearchCityAdapter adapter = new SearchCityAdapter(cities);
+        adapter.setEmptyView(R.layout.layout_data_empty);
+        mBindings.searchCityRecycler.setAdapter(adapter);
     }
 
     @Override
@@ -266,13 +265,11 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
                 DeviceUtil.hideSoftKeyboard(SelectCityActivity.this);
                 String cityName = mBindings.keywordEt.getText().toString();
                 if (TextUtils.isEmpty(cityName)) {
-                    MessageSingleButtonDialog dialog = new MessageSingleButtonDialog(this, getString(R.string.search_content_nonull));
+                    MessageSingleButtonDialog dialog = new MessageSingleButtonDialog(this,
+                            getString(R.string.search_content_nonull));
                     dialog.show();
                 } else {
-                    if (cityName.contains("区") ||
-                            cityName.contains("县") ||
-                            cityName.contains("乡") ||
-                            cityName.contains("镇")) {
+                    if (cityName.contains("区") || cityName.contains("县") || cityName.contains("乡") || cityName.contains("镇")) {
                         cityName = cityName.substring(0, cityName.length() - 1);
                     }
                     mPresenter.readDb(cityName);

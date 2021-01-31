@@ -19,6 +19,8 @@
 
     <string name="last_update_time">上次更新:%1$s</string>
 
+    <string name="added">已添加</string>
+
     <string name="cities_mamager">城市管理</string>
     <string name="hot_cities">热门城市</string>
     <string name="locate_city">当前位置</string>

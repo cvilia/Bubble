@@ -39,7 +39,7 @@ public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> i
                     result = getSearchResults(cityName, cities);
                     break;
                 } else if (city.getCityZh().equals(cityName)) {
-                    result.add(cityName + " · " + city.getLeaderZh() + " · " + city.getProvinceZh());
+                    result.add(cityName + " - " + city.getLeaderZh() + " · " + city.getProvinceZh());
                     break;
                 }
             }
@@ -51,7 +51,7 @@ public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> i
         List<String> results = new ArrayList<>();
         for (City city : cities) {
             if (city.getLeaderZh().equals(higherAreaName)) {
-                results.add(city.getCityZh() + " · " + higherAreaName + " · " + city.getProvinceZh());
+                results.add(city.getCityZh() + " - " + higherAreaName + " · " + city.getProvinceZh());
             }
         }
         return results;
