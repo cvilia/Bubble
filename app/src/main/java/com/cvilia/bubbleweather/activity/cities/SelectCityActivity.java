@@ -114,7 +114,7 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
                                        @NonNull RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
                 int index = parent.getChildAdapterPosition(view);
-                if (index != 0 && index != 1 && index != 2) {
+                if (index > 2) {
                     outRect.top = DisplayUtil.dp2px(SelectCityActivity.this, 15);
                 }
             }
@@ -269,7 +269,7 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
                             getString(R.string.search_content_nonull));
                     dialog.show();
                 } else {
-                    if (cityName.contains("区") || cityName.contains("县") || cityName.contains("乡") || cityName.contains("镇")) {
+                    if (cityName.contains("区") || cityName.contains("县") || cityName.contains("乡") || cityName.contains("镇") || cityName.contains("州") || cityName.contains("市")) {
                         cityName = cityName.substring(0, cityName.length() - 1);
                     }
                     mPresenter.readDb(cityName);

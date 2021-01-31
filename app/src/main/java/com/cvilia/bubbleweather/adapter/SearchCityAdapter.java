@@ -1,10 +1,15 @@
 package com.cvilia.bubbleweather.adapter;
 
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.cvilia.bubbleweather.R;
+import com.cvilia.bubbleweather.config.Constants;
+import com.cvilia.bubbleweather.utils.MMKVUtil;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,7 +29,31 @@ public class SearchCityAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, String city) {
+        String myCities = MMKVUtil.getString(Constants.MY_CITIES, null);
         TextView cityName = baseViewHolder.itemView.findViewById(R.id.cityNameTv);
         cityName.setText(city);
+        ImageView addIv = baseViewHolder.itemView.findViewById(R.id.addCityIv);
+        TextView addedTv = baseViewHolder.itemView.findViewById(R.id.addedTv);
+
+        if (!TextUtils.isEmpty(myCities)) {
+            if (myCities.contains(city)) {
+                addIv.setVisibility(View.GONE);
+                addedTv.setVisibility(View.VISIBLE);
+            } else {
+                addIv.setVisibility(View.VISIBLE);
+                addedTv.setVisibility(View.GONE);
+            }
+        }
+        addIv.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(myCities)) {
+                if (myCities.split(",").length < 5) {
+                    MMKVUtil.saveString(Constants.MY_CITIES, myCities + "," + city);
+                    addIv.setVisibility(View.GONE);
+                    addedTv.setVisibility(View.VISIBLE);
+                } else {
+                    //todo 如果已经有四个就不再保存，并弹窗提示
+                }
+            }
+        });
     }
 }
