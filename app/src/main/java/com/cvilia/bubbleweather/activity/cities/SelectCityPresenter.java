@@ -37,12 +37,13 @@ public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> i
             for (City city : cities) {
                 if (city.getLeaderZh().equals(cityName)) {//说明当前搜索的是市或者区
                     result = getSearchResults(cityName, cities);
-                    //todo 发送数据到view
+                    break;
+                } else if (city.getCityZh().equals(cityName)) {
+                    result.add(cityName + " · " + city.getLeaderZh() + " · " + city.getProvinceZh());
                     break;
                 }
             }
-
-            mView.readDbSuccess(cities);
+            mView.searchSuccess(result);
         }
     }
 

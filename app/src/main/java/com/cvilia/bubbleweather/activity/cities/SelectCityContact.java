@@ -21,6 +21,7 @@ public abstract class SelectCityContact {
 
     interface View extends IView {
         void readDbSuccess(List<City> cityList);
+        void searchSuccess(List<String> cities);
 
         void locateSuccess(AMapLocation location);
 

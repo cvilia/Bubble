@@ -2,6 +2,7 @@ package com.cvilia.bubbleweather.activity.cities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -164,12 +166,19 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     public void readDbSuccess(List<City> cityList) {
         if (cityList != null) {
             this.mCityInfos = cityList;
-//            SelectCityAdapter adapter = new SelectCityAdapter(R.layout.layout_city_item, cityList);
-//            adapter.setOnItemClickListener(this);
-//            mCityRecycler.setAdapter(adapter);
-//            this.mCityInfos = cityList;
             getProvinces();
         }
+    }
+
+    @Override
+    public void searchSuccess(List<String> cities) {
+        mBindings.searchCityRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mBindings.searchCityRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                super.onDraw(c, parent, state);
+            }
+        });
     }
 
     @Override

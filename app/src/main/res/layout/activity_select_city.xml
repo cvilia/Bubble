@@ -61,7 +61,7 @@
         android:id="@+id/hotCityCl"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/searchCityRecycler"
         app:layout_constraintStart_toStartOf="@id/searchLl"
         app:layout_constraintTop_toBottomOf="@id/searchLl">
 
@@ -121,13 +121,14 @@
             app:layout_constraintTop_toBottomOf="@id/hotCityTv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchCityRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/searchLl"
-        app:layout_constraintTop_toBottomOf="@id/searchLl" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hotCityCl"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
