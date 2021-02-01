@@ -262,6 +262,8 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
             mBindings.weatherDescTv.setText(todayInfo.getWea());
             mBindings.AQITv.setText(String.format("AQI：%s（%s）", todayInfo.getAir(), todayInfo.getAir_level()));
             mBindings.updateTimeTv.setText(String.format("上次更新：%s", bean.getUpdate_time().substring(11)));
+            mBindings.sunriseTimeTV.setText(todayInfo.getSunrise());
+            mBindings.sunsetTimeTV.setText(todayInfo.getSunset());
         }
         reloadDay7Weather(bean);
     }
