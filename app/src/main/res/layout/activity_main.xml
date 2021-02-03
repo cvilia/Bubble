@@ -189,72 +189,72 @@
                         android:layout_marginStart="3dp" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/windLevelTv"
-                    style="@style/CommonWhiteText"
-                    android:layout_marginStart="20dp"
-                    android:text="风力"
-                    app:layout_constraintEnd_toStartOf="@id/humidityTv"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sunriseInfoLl" />
+<!--                <TextView-->
+<!--                    android:id="@+id/windLevelTv"-->
+<!--                    style="@style/CommonWhiteText"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:text="风力"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/humidityTv"-->
+<!--                    app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/sunriseInfoLl" />-->
 
-                <TextView
-                    android:id="@+id/humidityTv"
-                    style="@style/CommonWhiteText"
-                    android:text="风力"
-                    app:layout_constraintEnd_toStartOf="@id/visibilityTv"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toEndOf="@id/windLevelTv"
-                    app:layout_constraintTop_toTopOf="@id/windLevelTv" />
+<!--                <TextView-->
+<!--                    android:id="@+id/humidityTv"-->
+<!--                    style="@style/CommonWhiteText"-->
+<!--                    android:text="风力"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/visibilityTv"-->
+<!--                    app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/windLevelTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/windLevelTv" />-->
 
-                <TextView
-                    android:id="@+id/visibilityTv"
-                    style="@style/CommonWhiteText"
-                    android:text="风力"
-                    app:layout_constraintEnd_toStartOf="@id/pressureTv"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toEndOf="@id/humidityTv"
-                    app:layout_constraintTop_toTopOf="@id/humidityTv" />
+<!--                <TextView-->
+<!--                    android:id="@+id/visibilityTv"-->
+<!--                    style="@style/CommonWhiteText"-->
+<!--                    android:text="风力"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/pressureTv"-->
+<!--                    app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/humidityTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/humidityTv" />-->
 
-                <TextView
-                    android:id="@+id/pressureTv"
-                    style="@style/CommonWhiteText"
-                    android:layout_marginEnd="20dp"
-                    android:text="风力"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toEndOf="@id/visibilityTv"
-                    app:layout_constraintTop_toTopOf="@id/visibilityTv" />
+<!--                <TextView-->
+<!--                    android:id="@+id/pressureTv"-->
+<!--                    style="@style/CommonWhiteText"-->
+<!--                    android:layout_marginEnd="20dp"-->
+<!--                    android:text="风力"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/visibilityTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/visibilityTv" />-->
 
-                <TextView
-                    android:id="@+id/windLevelTitleTv"
-                    style="@style/CommonWhiteAlphaText"
-                    android:layout_marginTop="5dp"
-                    android:text="风力"
-                    app:layout_constraintStart_toStartOf="@id/windLevelTv"
-                    app:layout_constraintTop_toBottomOf="@id/windLevelTv" />
+<!--                <TextView-->
+<!--                    android:id="@+id/windLevelTitleTv"-->
+<!--                    style="@style/CommonWhiteAlphaText"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:text="风力"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/windLevelTv"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/windLevelTv" />-->
 
-                <TextView
-                    android:id="@+id/humidityTitleTv"
-                    style="@style/CommonWhiteAlphaText"
-                    android:text="湿度"
-                    app:layout_constraintStart_toStartOf="@id/humidityTv"
-                    app:layout_constraintTop_toTopOf="@id/windLevelTitleTv" />
+<!--                <TextView-->
+<!--                    android:id="@+id/humidityTitleTv"-->
+<!--                    style="@style/CommonWhiteAlphaText"-->
+<!--                    android:text="湿度"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/humidityTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/windLevelTitleTv" />-->
 
-                <TextView
-                    android:id="@+id/visibilityTitleTv"
-                    style="@style/CommonWhiteAlphaText"
-                    android:text="能见度"
-                    app:layout_constraintStart_toStartOf="@id/visibilityTv"
-                    app:layout_constraintTop_toTopOf="@id/windLevelTitleTv" />
+<!--                <TextView-->
+<!--                    android:id="@+id/visibilityTitleTv"-->
+<!--                    style="@style/CommonWhiteAlphaText"-->
+<!--                    android:text="能见度"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/visibilityTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/windLevelTitleTv" />-->
 
-                <TextView
-                    android:id="@+id/pressureTitleTv"
-                    style="@style/CommonWhiteAlphaText"
-                    android:text="气压"
-                    app:layout_constraintStart_toStartOf="@id/pressureTv"
-                    app:layout_constraintTop_toTopOf="@id/windLevelTitleTv" />
+<!--                <TextView-->
+<!--                    android:id="@+id/pressureTitleTv"-->
+<!--                    style="@style/CommonWhiteAlphaText"-->
+<!--                    android:text="气压"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/pressureTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/windLevelTitleTv" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>

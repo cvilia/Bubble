@@ -26,7 +26,7 @@
         android:textColor="@color/white"
         android:textSize="8sp" />
 
-    <com.cvilia.bubbleweather.view.WeatherLineView
+    <com.cvilia.bubble.view.WeatherLineView
         android:id="@+id/lineView"
         android:layout_width="60dp"
         android:layout_height="120dp"

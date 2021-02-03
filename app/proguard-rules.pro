@@ -147,7 +147,7 @@ public static java.lang.String TABLENAME;
 -dontwarn com.squareup.okhttp3.**
 -keep class com.squareup.okhttp3.** { *;}
 # Gson
--keep class com.cvilia.bubbleweather.bean.**{*;}
+-keep class com.cvilia.bubble.bean.**{*;}
 -keep class com.google.gson.** {*;}
 -keep class com.google.**{*;}
 -keep class sun.misc.Unsafe { *; }

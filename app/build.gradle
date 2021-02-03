@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.cvilia.bubbleweather"
+        applicationId "com.cvilia.bubble"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 2
