@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.cvilia.bubbleweather",
+  "applicationId": "com.cvilia.bubble",
   "variantName": "release",
   "elements": [
     {
@@ -14,7 +14,7 @@
       "versionCode": 1,
       "versionName": "1.0",
       "enabled": true,
-      "outputFile": "app-release.apk"
+      "outputFile": "泡圈娱乐.apk"
     }
   ]
 }

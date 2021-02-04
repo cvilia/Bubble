@@ -22,7 +22,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
-        android:name="com.cvilia.bubble.WeatherApplication"
+        android:name="com.cvilia.bubble.BubbleApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -42,7 +42,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.cvilia.bubble.activity.home.WeatherActivity"
+            android:name="com.cvilia.bubble.activity.home.BubbleActivity"
             android:launchMode="singleTask" /> <!-- 今日头条适配 -->
         <meta-data
             android:name="design_width_in_dp"

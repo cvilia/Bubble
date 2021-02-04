@@ -1,20 +1,26 @@
 package com.cvilia.bubble.activity.home;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.cvilia.bubble.base.BasePresenter;
 import com.cvilia.bubble.bean.Day7WeatherBean;
+import com.cvilia.bubble.bean.RandomImage;
+import com.cvilia.bubble.config.Constants;
 import com.cvilia.bubble.net.Api;
 import com.cvilia.bubble.net.HttpManager;
 import com.cvilia.bubble.net.WeatherApi;
+import com.cvilia.bubble.utils.MMKVUtil;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 /**
@@ -41,7 +47,7 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
 
     @Override
     public void startLocate() {
-        AMapLocationClient client = new AMapLocationClient((Activity)mView);
+        AMapLocationClient client = new AMapLocationClient((Activity) mView);
         client.setLocationListener(aMapLocation -> {
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
                 mView.locateSuccess(aMapLocation);
@@ -56,6 +62,33 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
         client.setLocationOption(option);
         client.stopLocation();
         client.startLocation();
+    }
+
+    @Override
+    public void requestLauncherBg() {
+        //请求随机图片
+        HashMap<String, String> map = new HashMap<>();
+        map.put("method", "mobile");
+        map.put("format", "json");
+        map.put("lx", "suiji");
+
+        HttpManager.getInstance().get(Api.LAUNCHER_IMAGE, map, new HttpManager.MyCallback() {
+            @Override
+            public void success(Response res) throws IOException {
+                Gson gson = new Gson();
+                if (res != null) {
+                    RandomImage randomImage = gson.fromJson(Objects.requireNonNull(res.body()).string(), RandomImage.class);
+                    if (randomImage.getCode().equals("200")) {
+                        MMKVUtil.saveString(Constants.LAUNCHER_IMAGE, randomImage.getImgurl());
+                    }
+                }
+            }
+
+            @Override
+            public void failed(IOException e) {
+
+            }
+        });
     }
 
     /**

@@ -14,6 +14,7 @@ public class HomePageContact {
     interface Presenter extends IPresenter<View> {
         void requestWeatherInfo(String cityInfo);
         void startLocate();
+        void requestLauncherBg();
     }
 
     interface View extends IView {

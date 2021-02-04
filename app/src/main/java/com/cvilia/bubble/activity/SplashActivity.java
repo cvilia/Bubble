@@ -2,15 +2,20 @@ package com.cvilia.bubble.activity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.Glide;
 import com.cvilia.bubble.R;
+import com.cvilia.bubble.config.Constants;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.listener.TwoButtonClickListener;
+import com.cvilia.bubble.utils.MMKVUtil;
 import com.cvilia.bubble.utils.RxPermissionUtils;
 import com.cvilia.bubble.view.MessageTwoButtonDialog;
 import com.jaeger.library.StatusBarUtil;
@@ -38,6 +43,10 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
         super.onCreate(savedInstanceState);
         StatusBarUtil.setTranslucent(this, 0);
         setContentView(R.layout.activity_splash);
+        if (!TextUtils.isEmpty(MMKVUtil.getString(Constants.LAUNCHER_IMAGE))) {
+            ImageView imageView = findViewById(R.id.backgroundIv);
+            Glide.with(this).load(MMKVUtil.getString(Constants.LAUNCHER_IMAGE)).centerCrop().into(imageView);
+        }
         Observable.timer(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (!RxPermissionUtils.checkPermissions(this, PERMISSIONS)) {
                 MessageTwoButtonDialog dialog = new MessageTwoButtonDialog(this,
@@ -46,27 +55,27 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
                     public void onConfirm() {
                         RxPermissionUtils.requestPermissions(SplashActivity.this, PERMISSIONS,
                                 new RxPermissionUtils.OnPermissionCallBack() {
-                            @Override
-                            public void onPermissionsGranted() {
-                                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation(SplashActivity.this,
-                                        new NavCallback() {
                                     @Override
-                                    public void onArrival(Postcard postcard) {
+                                    public void onPermissionsGranted() {
+                                        ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation(SplashActivity.this,
+                                                new NavCallback() {
+                                                    @Override
+                                                    public void onArrival(Postcard postcard) {
+                                                        finish();
+                                                    }
+                                                });
+                                    }
+
+                                    @Override
+                                    public void onAtLeastOneReject(Permission permission) {
                                         finish();
                                     }
+
+                                    @Override
+                                    public void onAllRejectAndDoNotAskAgain(Permission permission) {
+                                        RxPermissionUtils.toAppSetting(SplashActivity.this);
+                                    }
                                 });
-                            }
-
-                            @Override
-                            public void onAtLeastOneReject(Permission permission) {
-                                finish();
-                            }
-
-                            @Override
-                            public void onAllRejectAndDoNotAskAgain(Permission permission) {
-                                RxPermissionUtils.toAppSetting(SplashActivity.this);
-                            }
-                        });
                     }
 
                     @Override

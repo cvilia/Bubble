@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cvilia.bubble.manager.ActivityManager;
+import com.cvilia.bubble.utils.DeviceUtil;
 import com.jaeger.library.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,7 +27,6 @@ import java.util.Objects;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 import static com.cvilia.bubble.base.BaseApplication.app;
-import static com.cvilia.bubble.utils.DeviceUtil.hideSoftKeyboard;
 
 
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements IView, CustomAdapt {
@@ -100,7 +100,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void setupUI(View view) {
         if (!(view instanceof EditText)) {
             view.setOnTouchListener((v, event) -> {
-                hideSoftKeyboard(BaseActivity.this);
+                DeviceUtil.hideSoftKeyboard(BaseActivity.this);
                 v.performClick();
                 return false;
             });

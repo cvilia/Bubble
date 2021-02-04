@@ -45,7 +45,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 @Route(path = PageUrlConfig.MAIN_PAGE)
-public class WeatherActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, OnRefreshListener {
+public class BubbleActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, OnRefreshListener {
 
     private static final int REQUEST_CODE_SELECT_SITE = 0x1101;
     private static final int REQUEST_CODE_SELECT_IMG = 0x1102;
@@ -86,6 +86,7 @@ public class WeatherActivity extends BaseActivity<HomePagePresenter> implements 
 
     @Override
     protected void onViewCreated() {
+        mPresenter.requestLauncherBg();
         //自定义actionbar
 //        LinearLayout.LayoutParams lp = (LinearLayoBut.LayoutParams) mBindings.actionBar.actionBarRl.getLayoutParams();
 //        lp.topMargin = DisplayUtil.getStatusBarHeight(this)+10;
