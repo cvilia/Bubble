@@ -10,6 +10,7 @@ import com.cvilia.bubble.bean.City;
 import com.cvilia.bubble.sql.CityDao;
 import com.cvilia.bubble.sql.DaoMaster;
 import com.cvilia.bubble.sql.DaoSession;
+import com.cvilia.bubble.utils.TextUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> i
         DaoSession mDaosession = daoMaster.newSession();
         CityDao dao = mDaosession.getCityDao();
         List<City> cities = dao.loadAll();
+        cityName = TextUtil.formatCityName(cityName);
         if (cities != null) {
             /**
              * 需要根据用户的搜索内容进行筛选

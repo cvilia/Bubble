@@ -47,6 +47,11 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
             ImageView imageView = findViewById(R.id.backgroundIv);
             Glide.with(this).load(MMKVUtil.getString(Constants.LAUNCHER_IMAGE)).centerCrop().into(imageView);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         Observable.timer(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (!RxPermissionUtils.checkPermissions(this, PERMISSIONS)) {
                 MessageTwoButtonDialog dialog = new MessageTwoButtonDialog(this,

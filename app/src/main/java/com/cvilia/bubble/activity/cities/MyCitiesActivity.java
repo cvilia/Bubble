@@ -2,6 +2,7 @@ package com.cvilia.bubble.activity.cities;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -13,9 +14,14 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.cvilia.bubble.adapter.MyCitiesAdapter;
 import com.cvilia.bubble.base.BaseActivity;
 import com.cvilia.bubble.databinding.ActivityMyCitiesBinding;
+import com.cvilia.bubble.event.MessageEvent;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.utils.DisplayUtil;
 import com.jaeger.library.StatusBarUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 @Route(path = PageUrlConfig.CITIES_PAGE)
 public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements MyCitiesContact.View {
@@ -33,6 +39,15 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
     protected void onViewCreated() {
         StatusBarUtil.setLightMode(this);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageReceived(MessageEvent messageEvent) {
+        String event = messageEvent.event;
+        if (!TextUtils.isEmpty(event) && event.equals("selectCity")) {
+            finish();
+        }
+    }
+
 
     @Override
     protected View inflatRootView() {

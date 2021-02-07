@@ -13,6 +13,7 @@ import com.cvilia.bubble.net.Api;
 import com.cvilia.bubble.net.HttpManager;
 import com.cvilia.bubble.net.WeatherApi;
 import com.cvilia.bubble.utils.MMKVUtil;
+import com.cvilia.bubble.utils.TextUtil;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -34,15 +35,7 @@ public class HomePagePresenter extends BasePresenter<HomePageContact.View> imple
 
     @Override
     public void requestWeatherInfo(String cityInfo) {
-        String regex = "^[0-9]+$";
-        if (cityInfo.matches(regex)) {
-            requestWeather(cityInfo, false);
-        } else {
-            if (cityInfo.contains("市") || cityInfo.contains("区") || cityInfo.contains("县")) {
-                cityInfo = cityInfo.substring(0, cityInfo.length() - 1);
-            }
-            requestWeather(cityInfo, true);
-        }
+        requestWeather(TextUtil.formatCityName(cityInfo), true);
     }
 
     @Override

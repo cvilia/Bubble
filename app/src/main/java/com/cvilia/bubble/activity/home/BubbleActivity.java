@@ -28,11 +28,14 @@ import com.cvilia.bubble.base.BaseActivity;
 import com.cvilia.bubble.bean.Day7WeatherBean;
 import com.cvilia.bubble.bean.Day7WeatherBean.DataBean;
 import com.cvilia.bubble.config.Constants;
+import com.cvilia.bubble.event.MessageEvent;
+import com.cvilia.bubble.log.BubbleLogger;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.databinding.ActivityMainBinding;
 import com.cvilia.bubble.utils.CopyDb2Local;
 import com.cvilia.bubble.utils.DisplayUtil;
 import com.cvilia.bubble.utils.MMKVUtil;
+import com.cvilia.bubble.utils.TextUtil;
 import com.cvilia.bubble.view.HomePopupVew;
 import com.cvilia.bubble.view.RecyclerViewDivider;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -41,20 +44,19 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.PicassoEngine;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.util.ArrayList;
 
 @Route(path = PageUrlConfig.MAIN_PAGE)
 public class BubbleActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, OnRefreshListener {
 
-    private static final int REQUEST_CODE_SELECT_SITE = 0x1101;
     private static final int REQUEST_CODE_SELECT_IMG = 0x1102;
     private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
     private ActivityMainBinding mBindings;
-    private static boolean isFirstIn = true;
-
-    private boolean selectCity = false;//是否是选择过城市
-    private String cityCode;
     private String cityName;
 
     private HomePopupVew popupVew;
@@ -62,6 +64,15 @@ public class BubbleActivity extends BaseActivity<HomePagePresenter> implements H
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageReceived(MessageEvent messageEvent) {
+        String event = messageEvent.event;
+        if (!TextUtils.isEmpty(event) && event.equals("selectCity")) {
+            cityName = MMKVUtil.getString(Constants.SELECTED_CITY, "北京市");
+            mBindings.refreshL.autoRefresh();
+        }
     }
 
     @Override
@@ -109,10 +120,7 @@ public class BubbleActivity extends BaseActivity<HomePagePresenter> implements H
     @Override
     protected void initWidgetEvent() {
         mBindings.refreshL.setEnableLoadMore(false);
-        if (isFirstIn) {
-            isFirstIn = false;
-            mBindings.refreshL.autoRefresh();
-        }
+        mBindings.refreshL.autoRefresh();
         mBindings.refreshL.setOnRefreshListener(this);
         mBindings.actionBar.leftIv.setOnClickListener(view -> ARouter.getInstance().build(PageUrlConfig.CITIES_PAGE).navigation());
 //        mBindings.actionBar.rightIv.setVisibility(View.INVISIBLE);
@@ -182,13 +190,7 @@ public class BubbleActivity extends BaseActivity<HomePagePresenter> implements H
         if (data == null) {
             return;
         }
-        if (requestCode == REQUEST_CODE_SELECT_SITE) {
-            cityCode = data.getStringExtra("cityCode");
-            cityName = data.getStringExtra("cityName");
-            mBindings.actionBar.centerTv.setText(data.getStringExtra("cityName"));
-            selectCity = true;
-            mBindings.refreshL.autoRefresh();
-        } else if (requestCode == REQUEST_CODE_SELECT_IMG) {
+        if (requestCode == REQUEST_CODE_SELECT_IMG) {
             ArrayList<Uri> imgs = (ArrayList<Uri>) Matisse.obtainResult(data);
             Uri uri = imgs.get(0);
             getRealFilePath(uri);
@@ -234,6 +236,7 @@ public class BubbleActivity extends BaseActivity<HomePagePresenter> implements H
     @Override
     protected void initData() {
         CopyDb2Local.copy2localdb(this);
+        cityName = MMKVUtil.getString(Constants.SELECTED_CITY, "北京市");
     }
 
     @Override
@@ -259,6 +262,7 @@ public class BubbleActivity extends BaseActivity<HomePagePresenter> implements H
     private void reloadCurrentInfo(Day7WeatherBean bean) {
         DataBean todayInfo = bean.getData().get(0);
         if (todayInfo != null) {
+            mBindings.actionBar.centerTv.setText(cityName);
             mBindings.tempTv.setText(todayInfo.getTem());
             mBindings.weatherDescTv.setText(todayInfo.getWea());
             mBindings.AQITv.setText(String.format("AQI：%s（%s）", todayInfo.getAir(), todayInfo.getAir_level()));
@@ -291,30 +295,21 @@ public class BubbleActivity extends BaseActivity<HomePagePresenter> implements H
 
     @Override
     public void showRequestFailed() {
-
+        mBindings.refreshL.finishRefresh();
+        mBindings.actionBar.centerTv.setText(cityName);
     }
 
     @Override
     public void locateSuccess(AMapLocation location) {
-        if (TextUtils.isEmpty(MMKVUtil.getString(Constants.SELECTED_CITY))) {
-            mPresenter.requestWeatherInfo(location.getDistrict());
-            mBindings.actionBar.centerTv.setText(location.getDistrict());
-        } else {
-            mPresenter.requestWeatherInfo(MMKVUtil.getString(Constants.SELECTED_CITY));
-            mBindings.actionBar.centerTv.setText(MMKVUtil.getString(Constants.SELECTED_CITY));
-        }
+        BubbleLogger.d(TAG, "定位成功" + ",当前位置为" + location.getDistrict());
+        cityName = location.getDistrict();
+        mPresenter.requestWeatherInfo(location.getDistrict());
     }
 
     @Override
     public void locateFailed() {
-        if (TextUtils.isEmpty(MMKVUtil.getString(Constants.SELECTED_CITY))) {
-            mBindings.refreshL.finishRefresh();
-            mPresenter.requestWeatherInfo("北京市");
-            mBindings.actionBar.centerTv.setText("北京市");
-        } else {
-            mPresenter.requestWeatherInfo(MMKVUtil.getString(Constants.SELECTED_CITY));
-            mBindings.actionBar.centerTv.setText(MMKVUtil.getString(Constants.SELECTED_CITY));
-        }
+        BubbleLogger.d(TAG, "定位失败");
+        mPresenter.requestWeatherInfo(cityName);
     }
 
 
@@ -330,15 +325,11 @@ public class BubbleActivity extends BaseActivity<HomePagePresenter> implements H
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        if (!selectCity) {
+        if (TextUtils.isEmpty(MMKVUtil.getString(Constants.SELECTED_CITY))) {
             mPresenter.startLocate();
-        }
-        if (selectCity) {
-            if (TextUtils.isEmpty(cityCode)) {
-                mPresenter.requestWeatherInfo(cityName);
-            } else {
-                mPresenter.requestWeatherInfo(cityCode);
-            }
+        } else {
+            String cityName = MMKVUtil.getString(Constants.SELECTED_CITY, "北京市");
+            mPresenter.requestWeatherInfo(cityName);
         }
     }
 }

@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.amap.api.location.AMapLocation;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.cvilia.bubble.R;
 import com.cvilia.bubble.adapter.SearchCityAdapter;
 import com.cvilia.bubble.adapter.SelectCityAdapter;
@@ -27,12 +30,15 @@ import com.cvilia.bubble.base.BaseActivity;
 import com.cvilia.bubble.bean.City;
 import com.cvilia.bubble.config.Constants;
 import com.cvilia.bubble.databinding.ActivitySelectCityBinding;
+import com.cvilia.bubble.event.MessageEvent;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.utils.DeviceUtil;
 import com.cvilia.bubble.utils.DisplayUtil;
 import com.cvilia.bubble.utils.MMKVUtil;
 import com.cvilia.bubble.view.MessageSingleButtonDialog;
 import com.jaeger.library.StatusBarUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,10 +56,17 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     private List<City> mCityInfos;
     private String currentCity = "北京市";
     private SingleTextAdapter mHotCityAdapter;
+    private String keyword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean registerEventBus() {
+        return false;
     }
 
     @Override
@@ -123,7 +136,14 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
         hotCities.addAll(Arrays.asList(Constants.PROVINCIAL_CAPITAL));
         mHotCityAdapter = new SingleTextAdapter(hotCities, this);
         mBindings.hotCityRecyclerView.setAdapter(mHotCityAdapter);
-
+        mHotCityAdapter.setOnItemClickListener((adapter, view, position) -> {
+            String cityName = adapter.getData().get(position).toString();
+            if (!TextUtils.isEmpty(cityName)) {
+                MMKVUtil.saveString(Constants.SELECTED_CITY, cityName);
+                EventBus.getDefault().post(MessageEvent.getInstance("selectCity"));
+                finish();
+            }
+        });
     }
 
     /**
@@ -163,14 +183,6 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
 
     @Override
-    public void readDbSuccess(List<City> cityList) {
-        if (cityList != null) {
-            this.mCityInfos = cityList;
-            getProvinces();
-        }
-    }
-
-    @Override
     public void searchSuccess(List<String> cities) {
         mBindings.hotCityCl.setVisibility(View.GONE);
         mBindings.searchCityRecycler.setVisibility(View.VISIBLE);
@@ -178,6 +190,11 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
         SearchCityAdapter adapter = new SearchCityAdapter(cities);
         adapter.setEmptyView(R.layout.layout_data_empty);
         mBindings.searchCityRecycler.setAdapter(adapter);
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            MMKVUtil.saveString(Constants.SELECTED_CITY, keyword);
+            EventBus.getDefault().post(MessageEvent.getInstance("selectCity"));
+            finish();
+        });
     }
 
     @Override
@@ -192,92 +209,10 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
         mBindings.locateCityTv.setText("定位失败");
     }
 
-    /**
-     * 获取省份
-     */
-    private void getProvinces() {
-        List<String> list = new ArrayList<>();
-        for (City city : mCityInfos) {
-            list.add(city.getProvinceZh());
-        }
-
-        //省份
-        List<String> mProvinces = new ArrayList<>();
-        for (String province : list) {
-            if (!mProvinces.contains(province)) {
-                mProvinces.add(province);
-            }
-        }
-//        mBindings.provienceRecyclerView.addItemDecoration(new ProvinceDivider(this));
-        SingleTextAdapter adapter = new SingleTextAdapter(mProvinces, this);
-//        mBindings.provienceRecyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            List<City> selectedInfos = new ArrayList<>();
-            for (City city : mCityInfos) {
-                if (city.getProvinceZh().equals(adapter.getItem(position))) {
-                    selectedInfos.add(city);
-                }
-            }
-            getSlectedProvinceInfo(selectedInfos);
-        });
-    }
-
-
-    /**
-     * 加载选定省份的城市
-     *
-     * @param selectedInfos 选择的省份信息
-     */
-    private void getSlectedProvinceInfo(List<City> selectedInfos) {
-        SelectCityAdapter adapter = new SelectCityAdapter(R.layout.layout_city_item, selectedInfos);
-//        mBindings.cityRecyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            City city = selectedInfos.get(position);
-            MMKVUtil.saveString(Constants.SELECTED_CITY, city.getCityZh());
-            Intent intent = new Intent();
-            intent.putExtra("cityCode", city.getId());
-            intent.putExtra("cityName", city.getCityZh());
-            setResult(RESULT_OK, intent);
-            finish();
-        });
-    }
-
     @Override
     public void onClick(View v) {
 
-//        if (v.getId() == R.id.backIv) {
-//            finish();
-//        }
-//        if (v.getId() == R.id.currentLocationRl) {
-//            Intent intent = new Intent();
-//            intent.putExtra("cityCode", "");
-//            intent.putExtra("cityName", currentCity);
-//            setResult(RESULT_OK, intent);
-//            finish();
-//        }
 
-    }
-
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (null != event && KeyEvent.KEYCODE_ENTER == event.getKeyCode()) {
-            if (event.getAction() == KeyEvent.ACTION_UP) {
-                DeviceUtil.hideSoftKeyboard(SelectCityActivity.this);
-                String cityName = mBindings.keywordEt.getText().toString();
-                if (TextUtils.isEmpty(cityName)) {
-                    MessageSingleButtonDialog dialog = new MessageSingleButtonDialog(this,
-                            getString(R.string.search_content_nonull));
-                    dialog.show();
-                } else {
-                    if (cityName.contains("区") || cityName.contains("县") || cityName.contains("乡") || cityName.contains("镇") || cityName.contains("州") || cityName.contains("市")) {
-                        cityName = cityName.substring(0, cityName.length() - 1);
-                    }
-                    mPresenter.readDb(cityName);
-                }
-            }
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -288,5 +223,24 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
      * @param event
      * @return
      */
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (null != event && KeyEvent.KEYCODE_ENTER == event.getKeyCode()) {
+            if (event.getAction() == KeyEvent.ACTION_UP) {
+                DeviceUtil.hideSoftKeyboard(SelectCityActivity.this);
+                keyword = mBindings.keywordEt.getText().toString();
+                if (TextUtils.isEmpty(keyword)) {
+                    MessageSingleButtonDialog dialog = new MessageSingleButtonDialog(this,
+                            getString(R.string.search_content_nonull));
+                    dialog.show();
+                } else {
+                    mPresenter.readDb(keyword);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
 
 }

@@ -77,8 +77,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     protected abstract void getIntentData();
 
-    private boolean registerEventBus() {
-        return false;
+    public boolean registerEventBus() {
+        return true;
     }
 
     protected abstract T getPresenter();
@@ -88,6 +88,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detachView();
+        }
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
         }
         ActivityManager.getInstance().removeActivity(this);
     }

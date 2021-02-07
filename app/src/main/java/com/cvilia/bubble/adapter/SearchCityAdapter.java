@@ -34,26 +34,26 @@ public class SearchCityAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
         cityName.setText(city);
         ImageView addIv = baseViewHolder.itemView.findViewById(R.id.addCityIv);
         TextView addedTv = baseViewHolder.itemView.findViewById(R.id.addedTv);
-
-        if (!TextUtils.isEmpty(myCities)) {
-            if (myCities.contains(city)) {
-                addIv.setVisibility(View.GONE);
-                addedTv.setVisibility(View.VISIBLE);
-            } else {
-                addIv.setVisibility(View.VISIBLE);
-                addedTv.setVisibility(View.GONE);
-            }
-        }
-        addIv.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(myCities)) {
-                if (myCities.split(",").length < 5) {
-                    MMKVUtil.saveString(Constants.MY_CITIES, myCities + "," + city);
-                    addIv.setVisibility(View.GONE);
-                    addedTv.setVisibility(View.VISIBLE);
-                } else {
-                    //todo 如果已经有四个就不再保存，并弹窗提示
-                }
-            }
-        });
+        addIv.setVisibility(View.GONE);
+//        if (!TextUtils.isEmpty(myCities)) {
+//            if (myCities.contains(city)) {
+//                addIv.setVisibility(View.GONE);
+//                addedTv.setVisibility(View.VISIBLE);
+//            } else {
+//                addIv.setVisibility(View.VISIBLE);
+//                addedTv.setVisibility(View.GONE);
+//            }
+//        }
+//        addIv.setOnClickListener(v -> {
+//            if (!TextUtils.isEmpty(myCities)) {
+//                if (myCities.split(",").length < 5) {
+//                    MMKVUtil.saveString(Constants.MY_CITIES, myCities + "," + city);
+//                    addIv.setVisibility(View.GONE);
+//                    addedTv.setVisibility(View.VISIBLE);
+//                } else {
+//                    //todo 如果已经有四个就不再保存，并弹窗提示
+//                }
+//            }
+//        });
     }
 }
