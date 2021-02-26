@@ -1,6 +1,7 @@
-package com.cvilia.bubble.activity.cities;
+package com.cvilia.bubble.presenter;
 
 import com.cvilia.bubble.base.BasePresenter;
+import com.cvilia.bubble.contact.MyCitiesContact;
 
 /**
  * author: lzy

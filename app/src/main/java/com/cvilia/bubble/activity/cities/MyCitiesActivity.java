@@ -13,13 +13,14 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cvilia.bubble.adapter.MyCitiesAdapter;
 import com.cvilia.bubble.base.BaseActivity;
+import com.cvilia.bubble.contact.MyCitiesContact;
 import com.cvilia.bubble.databinding.ActivityMyCitiesBinding;
 import com.cvilia.bubble.event.MessageEvent;
+import com.cvilia.bubble.presenter.MyCitesPresenter;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.utils.DisplayUtil;
 import com.jaeger.library.StatusBarUtil;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -56,11 +57,7 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
     }
 
     @Override
-    protected void initWidget() {
-    }
-
-    @Override
-    protected void initWidgetEvent() {
+    protected void initView() {
         mBindings.searchLl.setOnClickListener(v -> ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation());
         mBindings.backIv.setOnClickListener(v -> finish());
         mAdapter = new MyCitiesAdapter(this, currentCity);
@@ -79,11 +76,6 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
                 }
             }
         });
-    }
-
-    @Override
-    protected void initData() {
-
     }
 
     @Override

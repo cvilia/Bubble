@@ -1,4 +1,4 @@
-package com.cvilia.bubble.activity.home;
+package com.cvilia.bubble.contact;
 
 import com.amap.api.location.AMapLocation;
 import com.cvilia.bubble.base.IPresenter;
@@ -10,14 +10,14 @@ import com.cvilia.bubble.bean.Day7WeatherBean;
  * date: 2020/8/18
  * describe：描述
  */
-public class HomePageContact {
-    interface Presenter extends IPresenter<View> {
+public class BubbleContact {
+    public interface Presenter extends IPresenter<View> {
         void requestWeatherInfo(String cityInfo);
         void startLocate();
         void requestLauncherBg();
     }
 
-    interface View extends IView {
+    public interface View extends IView {
         void showRequestSuccess(Day7WeatherBean bean);
 
         void showRequestFailed();

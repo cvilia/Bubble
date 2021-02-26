@@ -1,10 +1,10 @@
-package com.cvilia.bubble.activity.home;
+package com.cvilia.bubble.presenter;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
+import com.cvilia.bubble.contact.BubbleContact;
 import com.cvilia.bubble.base.BasePresenter;
 import com.cvilia.bubble.bean.Day7WeatherBean;
 import com.cvilia.bubble.bean.RandomImage;
@@ -19,9 +19,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 /**
@@ -29,9 +27,9 @@ import okhttp3.Response;
  * date: 2020/8/18
  * describe：首页presenter
  */
-public class HomePagePresenter extends BasePresenter<HomePageContact.View> implements HomePageContact.Presenter {
+public class BubblePresenter extends BasePresenter<BubbleContact.View> implements BubbleContact.Presenter {
 
-    private static final String TAG = HomePagePresenter.class.getSimpleName();
+    private static final String TAG = BubblePresenter.class.getSimpleName();
 
     @Override
     public void requestWeatherInfo(String cityInfo) {

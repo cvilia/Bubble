@@ -1,4 +1,4 @@
-package com.cvilia.bubble.activity.cities;
+package com.cvilia.bubble.contact;
 
 import com.amap.api.location.AMapLocation;
 import com.cvilia.bubble.base.IPresenter;
@@ -14,12 +14,12 @@ import java.util.List;
  */
 public abstract class SelectCityContact {
 
-    interface Presenter extends IPresenter<View> {
+    public interface Presenter extends IPresenter<View> {
         void readDb(String cityName);
         void startLocate();
     }
 
-    interface View extends IView {
+    public interface View extends IView {
         void searchSuccess(List<String> cities);
 
         void locateSuccess(AMapLocation location);

@@ -28,14 +28,15 @@ import com.cvilia.bubble.base.BaseActivity;
 import com.cvilia.bubble.bean.Day7WeatherBean;
 import com.cvilia.bubble.bean.Day7WeatherBean.DataBean;
 import com.cvilia.bubble.config.Constants;
+import com.cvilia.bubble.contact.BubbleContact;
 import com.cvilia.bubble.event.MessageEvent;
 import com.cvilia.bubble.log.BubbleLogger;
+import com.cvilia.bubble.presenter.BubblePresenter;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.databinding.ActivityMainBinding;
 import com.cvilia.bubble.utils.CopyDb2Local;
 import com.cvilia.bubble.utils.DisplayUtil;
 import com.cvilia.bubble.utils.MMKVUtil;
-import com.cvilia.bubble.utils.TextUtil;
 import com.cvilia.bubble.view.HomePopupVew;
 import com.cvilia.bubble.view.RecyclerViewDivider;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -44,7 +45,6 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.PicassoEngine;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -52,7 +52,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 @Route(path = PageUrlConfig.MAIN_PAGE)
-public class BubbleActivity extends BaseActivity<HomePagePresenter> implements HomePageContact.View, OnRefreshListener {
+public class BubbleActivity extends BaseActivity<BubblePresenter> implements BubbleContact.View, OnRefreshListener {
 
     private static final int REQUEST_CODE_SELECT_IMG = 0x1102;
     private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -111,14 +111,9 @@ public class BubbleActivity extends BaseActivity<HomePagePresenter> implements H
     }
 
     @Override
-    protected void initWidget() {
+    protected void initView() {
         popupVew = new HomePopupVew(this);
         mBindings.refreshL.setPrimaryColorsId(R.color.bg_90b8d1, R.color.app_main);
-    }
-
-
-    @Override
-    protected void initWidgetEvent() {
         mBindings.refreshL.setEnableLoadMore(false);
         mBindings.refreshL.autoRefresh();
         mBindings.refreshL.setOnRefreshListener(this);
@@ -234,23 +229,19 @@ public class BubbleActivity extends BaseActivity<HomePagePresenter> implements H
 
 
     @Override
-    protected void initData() {
-        CopyDb2Local.copy2localdb(this);
-        cityName = MMKVUtil.getString(Constants.SELECTED_CITY, "北京市");
-    }
-
-    @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
         return super.onGenericMotionEvent(event);
     }
 
     @Override
     protected void getIntentData() {
+        CopyDb2Local.copy2localdb(this);
+        cityName = MMKVUtil.getString(Constants.SELECTED_CITY, "北京市");
     }
 
     @Override
-    protected HomePagePresenter getPresenter() {
-        return new HomePagePresenter();
+    protected BubblePresenter getPresenter() {
+        return new BubblePresenter();
     }
 
 
