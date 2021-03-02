@@ -7,7 +7,7 @@
     android:background="@color/bg_fafafa"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".activity.cities.MyCitiesActivity">
+    tools:context=".activity.MyCitiesActivity">
 
     <LinearLayout
         android:id="@+id/actionLl"
@@ -40,7 +40,7 @@
         android:layout_height="45dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/search_divider"
+        android:background="@drawable/white_circle_rectangle"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="10dp">

@@ -1,5 +1,8 @@
 package com.cvilia.bubble.net;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,25 +21,27 @@ import okhttp3.Response;
  * date: 2020/8/19
  * describe：描述
  */
-public class HttpManager {
+public class OkUtil {
 
     private OkHttpClient client;
-    private static HttpManager mClient;
+    private static OkUtil mClient;
+    private Handler mHandler;
 
-    private HttpManager() {
+    private OkUtil() {
         client = new OkHttpClient.Builder()
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .build();
+        mHandler = new Handler(Looper.getMainLooper());
     }
 
-    public static HttpManager getInstance() {
+    public static OkUtil getInstance() {
         if (mClient == null) {
-            synchronized (HttpManager.class) {
+            synchronized (OkUtil.class) {
                 if (mClient == null) {
-                    mClient = new HttpManager();
+                    mClient = new OkUtil();
                 }
             }
         }
@@ -65,18 +70,27 @@ public class HttpManager {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.failed(e);
+                mHandler.post(() -> callback.failed(e));
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                callback.success(response);
+            public void onResponse(Call call, Response response) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            callback.success(response);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
     }
 
     public void get(String url, MyCallback callback) {
-        get(url, new HashMap<String, String>(), callback);
+        get(url, new HashMap<>(), callback);
     }
 
     // POST 方法
@@ -96,12 +110,18 @@ public class HttpManager {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.failed(e);
+                mHandler.post(() -> callback.failed(e));
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                callback.success(response);
+            public void onResponse(Call call, Response response) {
+                mHandler.post(() -> {
+                    try {
+                        callback.success(response);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         });
     }

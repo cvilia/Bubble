@@ -1,4 +1,4 @@
-package com.cvilia.bubble.activity.home;
+package com.cvilia.bubble.activity;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -29,6 +29,7 @@ import com.cvilia.bubble.bean.Day7WeatherBean;
 import com.cvilia.bubble.bean.Day7WeatherBean.DataBean;
 import com.cvilia.bubble.config.Constants;
 import com.cvilia.bubble.contact.BubbleContact;
+import com.cvilia.bubble.databinding.ActivityBubbleBinding;
 import com.cvilia.bubble.event.MessageEvent;
 import com.cvilia.bubble.log.BubbleLogger;
 import com.cvilia.bubble.presenter.BubblePresenter;
@@ -51,12 +52,12 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 
-@Route(path = PageUrlConfig.MAIN_PAGE)
+
 public class BubbleActivity extends BaseActivity<BubblePresenter> implements BubbleContact.View, OnRefreshListener {
 
     private static final int REQUEST_CODE_SELECT_IMG = 0x1102;
     private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-    private ActivityMainBinding mBindings;
+    private ActivityBubbleBinding mBindings;
     private String cityName;
 
     private HomePopupVew popupVew;
@@ -106,7 +107,7 @@ public class BubbleActivity extends BaseActivity<BubblePresenter> implements Bub
 
     @Override
     protected View inflatRootView() {
-        mBindings = ActivityMainBinding.inflate(getLayoutInflater());
+        mBindings = ActivityBubbleBinding.inflate(getLayoutInflater());
         return mBindings.getRoot();
     }
 
@@ -281,7 +282,7 @@ public class BubbleActivity extends BaseActivity<BubblePresenter> implements Bub
     @Override
     public void showRequestSuccess(Day7WeatherBean bean) {
         mBindings.refreshL.finishRefresh();
-        if (bean != null) runOnUiThread(() -> reloadCurrentInfo(bean));
+        if (bean != null) reloadCurrentInfo(bean);
     }
 
     @Override

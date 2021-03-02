@@ -1,4 +1,4 @@
-package com.cvilia.bubble.activity.cities;
+package com.cvilia.bubble.activity;
 
 import android.graphics.Rect;
 import android.os.Bundle;

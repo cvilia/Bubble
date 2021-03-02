@@ -1,4 +1,4 @@
-package com.cvilia.bubble.activity.center;
+package com.cvilia.bubble.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

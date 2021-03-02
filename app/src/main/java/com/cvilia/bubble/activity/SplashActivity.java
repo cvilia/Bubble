@@ -3,7 +3,9 @@ package com.cvilia.bubble.activity;
 import android.Manifest;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,6 +39,7 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
 
     private static final String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION};
+    private boolean downloadPic = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +48,17 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
         setContentView(R.layout.activity_splash);
         if (!TextUtils.isEmpty(MMKVUtil.getString(Constants.LAUNCHER_IMAGE))) {
             ImageView imageView = findViewById(R.id.backgroundIv);
-            Glide.with(this).load(MMKVUtil.getString(Constants.LAUNCHER_IMAGE)).centerCrop().into(imageView);
+            Glide.with(this).load(MMKVUtil.getString(Constants.LAUNCHER_IMAGE)).error(R.drawable.splash).centerCrop().into(imageView);
+            TextView downloadTv = findViewById(R.id.downloadTv);
+            downloadTv.setVisibility(View.VISIBLE);
+            downloadTv.setOnClickListener(v -> downloadPic = true);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Observable.timer(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+        Observable.timer(5, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (!RxPermissionUtils.checkPermissions(this, PERMISSIONS)) {
                 MessageTwoButtonDialog dialog = new MessageTwoButtonDialog(this,
                         getString(R.string.permission_explain_location), new TwoButtonClickListener() {
@@ -62,7 +68,7 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
                                 new RxPermissionUtils.OnPermissionCallBack() {
                                     @Override
                                     public void onPermissionsGranted() {
-                                        ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation(SplashActivity.this,
+                                        ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).withString("picUrl", MMKVUtil.getString(Constants.LAUNCHER_IMAGE)).withBoolean("downloadPic", downloadPic).navigation(SplashActivity.this,
                                                 new NavCallback() {
                                                     @Override
                                                     public void onArrival(Postcard postcard) {
@@ -90,7 +96,7 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
                 });
                 dialog.show();
             } else {
-                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).navigation(this, new NavCallback() {
+                ARouter.getInstance().build(PageUrlConfig.MAIN_PAGE).withString("picUrl", MMKVUtil.getString(Constants.LAUNCHER_IMAGE)).withBoolean("downloadPic", downloadPic).navigation(this, new NavCallback() {
                     @Override
                     public void onArrival(Postcard postcard) {
                         finish();

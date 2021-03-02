@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_fafafa"
-    tools:context=".activity.cities.SelectCityActivity">
+    tools:context=".activity.SelectCityActivity">
 
     <LinearLayout
         android:id="@+id/searchLl"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_marginStart="20dp"
-        android:background="@drawable/search_divider"
+        android:background="@drawable/white_circle_rectangle"
         android:gravity="center_vertical"
         android:paddingHorizontal="10dp"
         app:layout_constraintEnd_toStartOf="@id/cancelTv"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:alpha="0.8"
-            android:background="@drawable/single_text_shap"
+            android:background="@drawable/white_circle_rectangle"
             android:gravity="center"
             android:paddingHorizontal="20dp"
             android:paddingVertical="7dp"

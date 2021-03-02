@@ -10,7 +10,7 @@ import com.cvilia.bubble.bean.Day7WeatherBean;
 import com.cvilia.bubble.bean.RandomImage;
 import com.cvilia.bubble.config.Constants;
 import com.cvilia.bubble.net.Api;
-import com.cvilia.bubble.net.HttpManager;
+import com.cvilia.bubble.net.OkUtil;
 import com.cvilia.bubble.net.WeatherApi;
 import com.cvilia.bubble.utils.MMKVUtil;
 import com.cvilia.bubble.utils.TextUtil;
@@ -63,7 +63,7 @@ public class BubblePresenter extends BasePresenter<BubbleContact.View> implement
         map.put("format", "json");
         map.put("lx", "suiji");
 
-        HttpManager.getInstance().get(Api.LAUNCHER_IMAGE, map, new HttpManager.MyCallback() {
+        OkUtil.getInstance().get(Api.LAUNCHER_IMAGE, map, new OkUtil.MyCallback() {
             @Override
             public void success(Response res) throws IOException {
                 Gson gson = new Gson();
@@ -96,7 +96,7 @@ public class BubblePresenter extends BasePresenter<BubbleContact.View> implement
             map.put("city", cityInfo);
         else
             map.put("cityid", cityInfo);
-        HttpManager.getInstance().get(Api.OTHERS, map, new HttpManager.MyCallback() {
+        OkUtil.getInstance().get(Api.OTHERS, map, new OkUtil.MyCallback() {
             @Override
             public void success(Response res) throws IOException {
                 if (res != null) {

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainBg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/home_page_bg"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/actionBar"
+        layout="@layout/layout_common_actionbar" />
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smart.refresh.header.MaterialHeader
+            android:id="@+id/refreshHeader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/tempLl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tempTv"
+                        style="@style/CommonWhiteText.CurrentWeatherInfoTextLeft"
+                        android:textSize="80sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/weatherDescTv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="℃"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/weatherDescTv"
+                    style="@style/CommonWhiteText.CurrentWeatherInfoTextLeft"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintBottom_toTopOf="@id/AQITv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tempLl" />
+
+                <TextView
+                    android:id="@+id/AQITv"
+                    style="@style/CommonWhiteAlphaText"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="120dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/weatherDescTv" />
+
+                <TextView
+                    android:id="@+id/updateTimeTv"
+                    style="@style/CommonWhiteAlphaText"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/AQITv"/>
+
+                <View
+                    android:id="@+id/divider1"
+                    style="@style/WhiteHorizantalDivider"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/updateTimeTv" />
+
+                <TextView
+                    android:id="@+id/weatherHourTv"
+                    style="@style/CommonWhiteAlphaText"
+                    android:layout_marginVertical="20dp"
+                    android:text="@string/weather_hour"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider1" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/hourRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/weatherHourTv" />
+
+                <View
+                    android:id="@+id/divider2"
+                    style="@style/WhiteHorizantalDivider"
+                    android:layout_marginVertical="20dp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/hourRecyclerView" />
+
+
+                <TextView
+                    android:id="@+id/weatherDay7Tv"
+                    style="@style/CommonWhiteAlphaText"
+                    android:layout_marginVertical="10dp"
+                    android:text="@string/weather_day_7"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/day7RecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/weatherDay7Tv" />
+
+                <View
+                    android:id="@+id/divider4"
+                    style="@style/WhiteHorizantalDivider"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/day7RecyclerView" />
+
+                <LinearLayout
+                    android:id="@+id/sunriseInfoLl"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider4">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@mipmap/icon_sunrise" />
+
+                    <TextView
+                        style="@style/CommonWhiteAlphaText"
+                        android:layout_marginStart="3dp"
+                        android:text="@string/sunrise" />
+
+                    <TextView
+                        android:id="@+id/sunriseTimeTV"
+                        style="@style/CommonWhiteAlphaText"
+                        android:layout_marginStart="3dp" />
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginStart="20dp"
+                        android:src="@mipmap/icon_sunset" />
+
+                    <TextView
+
+                        style="@style/CommonWhiteAlphaText"
+                        android:layout_marginStart="3dp"
+                        android:text="@string/sunset" />
+
+                    <TextView
+                        android:id="@+id/sunsetTimeTV"
+                        style="@style/CommonWhiteAlphaText"
+                        android:layout_marginStart="3dp" />
+                </LinearLayout>
+
+<!--                <TextView-->
+<!--                    android:id="@+id/windLevelTv"-->
+<!--                    style="@style/CommonWhiteText"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:text="风力"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/humidityTv"-->
+<!--                    app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/sunriseInfoLl" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/humidityTv"-->
+<!--                    style="@style/CommonWhiteText"-->
+<!--                    android:text="风力"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/visibilityTv"-->
+<!--                    app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/windLevelTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/windLevelTv" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/visibilityTv"-->
+<!--                    style="@style/CommonWhiteText"-->
+<!--                    android:text="风力"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/pressureTv"-->
+<!--                    app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/humidityTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/humidityTv" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/pressureTv"-->
+<!--                    style="@style/CommonWhiteText"-->
+<!--                    android:layout_marginEnd="20dp"-->
+<!--                    android:text="风力"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/visibilityTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/visibilityTv" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/windLevelTitleTv"-->
+<!--                    style="@style/CommonWhiteAlphaText"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:text="风力"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/windLevelTv"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/windLevelTv" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/humidityTitleTv"-->
+<!--                    style="@style/CommonWhiteAlphaText"-->
+<!--                    android:text="湿度"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/humidityTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/windLevelTitleTv" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/visibilityTitleTv"-->
+<!--                    style="@style/CommonWhiteAlphaText"-->
+<!--                    android:text="能见度"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/visibilityTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/windLevelTitleTv" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/pressureTitleTv"-->
+<!--                    style="@style/CommonWhiteAlphaText"-->
+<!--                    android:text="气压"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/pressureTv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/windLevelTitleTv" />-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</LinearLayout>
