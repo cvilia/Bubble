@@ -1,7 +1,6 @@
 package com.cvilia.bubble.activity.cities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -20,17 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.amap.api.location.AMapLocation;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.cvilia.bubble.R;
 import com.cvilia.bubble.adapter.SearchCityAdapter;
-import com.cvilia.bubble.adapter.SelectCityAdapter;
 import com.cvilia.bubble.adapter.SingleTextAdapter;
 import com.cvilia.bubble.base.BaseActivity;
 import com.cvilia.bubble.bean.City;
 import com.cvilia.bubble.config.Constants;
+import com.cvilia.bubble.contact.SelectCityContact;
 import com.cvilia.bubble.databinding.ActivitySelectCityBinding;
 import com.cvilia.bubble.event.MessageEvent;
+import com.cvilia.bubble.presenter.SelectCityPresenter;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.utils.DeviceUtil;
 import com.cvilia.bubble.utils.DisplayUtil;
@@ -75,12 +72,6 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
     }
 
-    @Override
-    protected void initWidget() {
-        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_search_333333_6, null);
-        drawable.setBounds(0, 0, DisplayUtil.dp2px(this, 16), DisplayUtil.dp2px(this, 16));
-        mBindings.keywordEt.setCompoundDrawables(drawable, null, null, null);
-    }
 
     @Override
     protected void onViewCreated() {
@@ -116,7 +107,11 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     }
 
     @Override
-    protected void initWidgetEvent() {
+    protected void initView() {
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_search_333333_6, null);
+        drawable.setBounds(0, 0, DisplayUtil.dp2px(this, 16), DisplayUtil.dp2px(this, 16));
+        mBindings.keywordEt.setCompoundDrawables(drawable, null, null, null);
+
         mBindings.cancelTv.setOnClickListener(v -> finish());
         mBindings.keywordEt.setOnEditorActionListener(this);
         addPic2LocateTextView();
@@ -146,6 +141,7 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
         });
     }
 
+
     /**
      * 向显示当前位置的TextView设置图片
      */
@@ -153,11 +149,6 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_locate_3333_6, null);
         drawable.setBounds(0, 0, DisplayUtil.dp2px(this, 16), DisplayUtil.dp2px(this, 16));
         mBindings.locateCityTv.setCompoundDrawables(null, null, drawable, null);
-    }
-
-    @Override
-    protected void initData() {
-
     }
 
     @Override

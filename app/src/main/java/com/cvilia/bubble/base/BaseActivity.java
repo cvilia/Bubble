@@ -57,11 +57,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             EventBus.getDefault().register(this);
         }
         getIntentData();
-        initWidget();
         StatusBarUtil.setTranslucent(this, 0);
         onViewCreated();
-        initWidgetEvent();
-        initData();
+        initView();
 
     }
 
@@ -69,11 +67,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     protected abstract View inflatRootView();
 
-    protected abstract void initWidget();
-
-    protected abstract void initWidgetEvent();
-
-    protected abstract void initData();
+    protected abstract void initView();
 
     protected abstract void getIntentData();
 

@@ -1,4 +1,4 @@
-package com.cvilia.bubble.activity.cities;
+package com.cvilia.bubble.presenter;
 
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,6 +7,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.cvilia.bubble.base.BasePresenter;
 import com.cvilia.bubble.bean.City;
+import com.cvilia.bubble.contact.SelectCityContact;
 import com.cvilia.bubble.sql.CityDao;
 import com.cvilia.bubble.sql.DaoMaster;
 import com.cvilia.bubble.sql.DaoSession;

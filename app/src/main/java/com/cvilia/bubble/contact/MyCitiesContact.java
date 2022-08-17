@@ -1,4 +1,4 @@
-package com.cvilia.bubble.activity.cities;
+package com.cvilia.bubble.contact;
 
 import com.cvilia.bubble.base.IPresenter;
 import com.cvilia.bubble.base.IView;
@@ -9,11 +9,11 @@ import com.cvilia.bubble.base.IView;
  * describe：描述
  */
 public class MyCitiesContact {
-    interface Presenter extends IPresenter<MyCitiesContact.View> {
+    public interface Presenter extends IPresenter<MyCitiesContact.View> {
         void requestWeatherInfo();
     }
 
-    interface View extends IView {
+    public interface View extends IView {
         void requestSuccess();
     }
 
