@@ -1,6 +1,7 @@
 package com.cvilia.bubble.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ImageView;
@@ -49,6 +50,7 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onResume() {
         super.onResume();

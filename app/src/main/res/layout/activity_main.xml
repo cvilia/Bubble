@@ -43,7 +43,7 @@
                     <TextView
                         android:id="@+id/tempTv"
                         style="@style/CommonWhiteText.CurrentWeatherInfoTextLeft"
-                        android:textSize="60sp"
+                        android:textSize="80sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/weatherDescTv"
                         app:layout_constraintStart_toStartOf="parent"

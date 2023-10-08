@@ -28,4 +28,10 @@
     <string name="locate_city">当前位置</string>
     <string name="select_city">选择城市</string>
     <string name="search_content_nonull">搜索内容不能为空</string>
+
+    <string name="eat_what_today">今天吃什么</string>
+    <string name="start_select">开始选择</string>
+    <string name="eat_what">吃什么</string>
+    <string name="share_weather">分享天气</string>
+    <string name="manage_center">管理中心</string>
 </resources>

@@ -32,6 +32,8 @@ public class HomePopupVew extends PopupWindow implements View.OnClickListener {
         centerTv.setOnClickListener(this);
         TextView shareTv = view.findViewById(R.id.shareTv);
         shareTv.setOnClickListener(this);
+        TextView eatWhatTv = view.findViewById(R.id.eatWhatTv);
+        eatWhatTv.setOnClickListener(this);
         setContentView(view);
         setAnimationStyle(R.style.PopupView);
     }
@@ -42,6 +44,8 @@ public class HomePopupVew extends PopupWindow implements View.OnClickListener {
             ARouter.getInstance().build(PageUrlConfig.CENTER_PAGE).navigation(context);
         } else if (v.getId() == R.id.shareTv) {
             ARouter.getInstance().build(PageUrlConfig.SHARE_PAGE).navigation(context);
+        } else if (v.getId() == R.id.eatWhatTv) {
+            ARouter.getInstance().build(PageUrlConfig.EAT_WHAT_PAGE).navigation(context);
         }
         HomePopupVew.this.dismiss();
     }

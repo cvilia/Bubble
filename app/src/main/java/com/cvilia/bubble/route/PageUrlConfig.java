@@ -21,6 +21,7 @@ public class PageUrlConfig {
     public static final String CENTER_PAGE = HOME + "/centerPage";
     public static final String SETTING_PAGE = HOME + "/settingPage";
     public static final String SHARE_PAGE = HOME + "/sharePage";
+    public static final String EAT_WHAT_PAGE = HOME + "/eatWhatPage";
 
     public static final String PERMISSION_EXPLAIN_PAGE = SHOW_ONCE + "/permissionExplainActivity";
 

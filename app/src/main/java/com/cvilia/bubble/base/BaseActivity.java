@@ -76,6 +76,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     protected abstract T getPresenter();
+    protected boolean registerARouter(){
+        return false;
+    }
 
     @Override
     protected void onDestroy() {

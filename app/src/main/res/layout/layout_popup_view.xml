@@ -11,7 +11,7 @@
         android:id="@+id/centerTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="管理中心"
+        android:text="@string/manage_center"
         android:textColor="@color/text_212121"
         android:textSize="15sp" />
 
@@ -25,7 +25,21 @@
         android:id="@+id/shareTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="分享天气"
+        android:text="@string/share_weather"
+        android:textColor="@color/text_212121"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="5dp"
+        android:background="@color/divider_e1e1e1" />
+
+    <TextView
+        android:id="@+id/eatWhatTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/eat_what"
         android:textColor="@color/text_212121"
         android:textSize="15sp" />
 
