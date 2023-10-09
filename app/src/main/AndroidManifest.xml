@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cvilia.bubble">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -33,6 +37,7 @@
         <activity android:name="com.cvilia.bubble.activity.center.CenterActivity" />
         <activity android:name="com.cvilia.bubble.activity.share.ShareActivity" />
         <activity android:name="com.cvilia.bubble.activity.center.SettingActivity" />
+        <activity android:name="com.cvilia.bubble.activity.center.EatWahtActivity" />
         <activity android:name="com.cvilia.bubble.activity.cities.SelectCityActivity" />
         <activity android:name="com.cvilia.bubble.activity.SplashActivity">
             <intent-filter>
