@@ -1,4 +1,4 @@
-package com.cvilia.bubble.activity.home;
+package com.cvilia.bubble.activity.center;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -52,10 +52,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 @Route(path = PageUrlConfig.MAIN_PAGE)
-public class BubbleActivity extends BaseActivity<WeatherPresenter> implements WeatherContact.View, OnRefreshListener {
+public class WeatherActivity extends BaseActivity<WeatherPresenter> implements WeatherContact.View, OnRefreshListener {
 
     private static final int REQUEST_CODE_SELECT_IMG = 0x1102;
-    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private ActivityMainBinding mBindings;
     private String cityName;
 

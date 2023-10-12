@@ -26,20 +26,23 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
-        android:name="com.cvilia.bubble.BubbleApplication"
+        android:name=".BubbleApplication"
         android:allowBackup="true"
         android:icon="@mipmap/app_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.cvilia.bubble.activity.cities.MyCitiesActivity"/>
-        <activity android:name="com.cvilia.bubble.activity.center.CenterActivity" />
-        <activity android:name="com.cvilia.bubble.activity.share.ShareActivity" />
-        <activity android:name="com.cvilia.bubble.activity.center.SettingActivity" />
-        <activity android:name="com.cvilia.bubble.activity.center.EatWahtActivity" />
-        <activity android:name="com.cvilia.bubble.activity.cities.SelectCityActivity" />
-        <activity android:name="com.cvilia.bubble.activity.SplashActivity">
+        <activity
+            android:name=".activity.BubbleActivity"
+            android:exported="false" />
+        <activity android:name=".activity.cities.MyCitiesActivity" />
+        <activity android:name=".activity.center.CenterActivity" />
+        <activity android:name=".activity.share.ShareActivity" />
+        <activity android:name=".activity.center.SettingActivity" />
+        <activity android:name=".activity.center.EatWahtActivity" />
+        <activity android:name=".activity.cities.SelectCityActivity" />
+        <activity android:name=".activity.home.BubbleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,14 +50,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.cvilia.bubble.activity.home.BubbleActivity"
-            android:launchMode="singleTask" />
-        <!-- 高德地图 -->
+            android:name=".activity.SplashActivity"
+            android:launchMode="singleTask" /> <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="cf8f8da6ac292b8fc451dc9b726012f6" />
 
         <service android:name="com.amap.api.location.APSService" />
+
         <meta-data
             android:name="android.max_aspect"
             android:value="2.5" />
