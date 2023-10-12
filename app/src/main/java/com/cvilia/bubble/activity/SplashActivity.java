@@ -45,8 +45,8 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
         StatusBarUtil.setTranslucent(this, 0);
         setContentView(R.layout.activity_splash);
         if (!TextUtils.isEmpty(MMKVUtil.getString(Constants.LAUNCHER_IMAGE))) {
-            ImageView imageView = findViewById(R.id.backgroundIv);
-            Glide.with(this).load(MMKVUtil.getString(Constants.LAUNCHER_IMAGE)).centerCrop().into(imageView);
+//            ImageView imageView = findViewById(R.id.backgroundIv);
+//            Glide.with(this).load(MMKVUtil.getString(Constants.LAUNCHER_IMAGE)).centerCrop().into(imageView);
         }
     }
 

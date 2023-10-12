@@ -48,18 +48,13 @@
         </activity>
         <activity
             android:name="com.cvilia.bubble.activity.home.BubbleActivity"
-            android:launchMode="singleTask" /> <!-- 今日头条适配 -->
-        <meta-data
-            android:name="design_width_in_dp"
-            android:value="360" />
-        <meta-data
-            android:name="design_height_in_dp"
-            android:value="640" /> <!-- 高德地图 -->
+            android:launchMode="singleTask" />
+        <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="cf8f8da6ac292b8fc451dc9b726012f6" />
 
-        <service android:name="com.amap.api.location.APSService" /> <!-- 全面屏适配 -->
+        <service android:name="com.amap.api.location.APSService" />
         <meta-data
             android:name="android.max_aspect"
             android:value="2.5" />
