@@ -15,4 +15,14 @@ public class BubblePresenter extends BasePresenter<View> implements Presenter, I
     public void startLocate() {
 
     }
+
+    @Override
+    public void loading() {
+
+    }
+
+    @Override
+    public void dismissLoading() {
+
+    }
 }

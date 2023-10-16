@@ -33,16 +33,13 @@
         android:roundIcon="@mipmap/app_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.BubbleActivity"
-            android:exported="false" />
         <activity android:name=".activity.cities.MyCitiesActivity" />
         <activity android:name=".activity.center.CenterActivity" />
         <activity android:name=".activity.share.ShareActivity" />
         <activity android:name=".activity.center.SettingActivity" />
         <activity android:name=".activity.center.EatWahtActivity" />
         <activity android:name=".activity.cities.SelectCityActivity" />
-        <activity android:name=".activity.home.BubbleActivity">
+        <activity android:name=".activity.BubbleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

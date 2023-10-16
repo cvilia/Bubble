@@ -51,7 +51,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 
-@Route(path = PageUrlConfig.MAIN_PAGE)
+@Route(path = PageUrlConfig.WEATHER_PAGE)
 public class WeatherActivity extends BaseActivity<WeatherPresenter> implements WeatherContact.View, OnRefreshListener {
 
     private static final int REQUEST_CODE_SELECT_IMG = 0x1102;

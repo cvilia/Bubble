@@ -1,19 +1,65 @@
 package com.cvilia.bubble.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
 
-import android.os.Bundle;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 
-import com.cvilia.bubble.R;
-import com.cvilia.bubble.base.BasePresenter;
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.cvilia.bubble.adapter.BubbleAdapter;
+import com.cvilia.bubble.adapter.Day7Adapter;
+import com.cvilia.bubble.adapter.Hour7Adapter;
+import com.cvilia.bubble.base.BaseActivity;
 import com.cvilia.bubble.contact.BubbleContact;
+import com.cvilia.bubble.databinding.ActivityBubbleBinding;
 import com.cvilia.bubble.presenter.BubblePresenter;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+import com.cvilia.bubble.route.PageUrlConfig;
+@Route(path = PageUrlConfig.MAIN_PAGE)
+public class BubbleActivity extends BaseActivity<BubblePresenter> implements BubbleContact.View, View.OnTouchListener {
 
-public class BubbleActivity extends BasePresenter<BubblePresenter>implements BubbleContact.View, OnRefreshListener {
+    private ActivityBubbleBinding mViewBinding;
 
+    @Override
+    protected void onViewCreated() {
+
+    }
+
+    @Override
+    protected View inflatRootView() {
+
+        mViewBinding = ActivityBubbleBinding.inflate(getLayoutInflater());
+
+        return mViewBinding.getRoot();
+    }
+
+    @Override
+    protected void initView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mViewBinding.bubbleRv.setLayoutManager(layoutManager);
+        PagerSnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(mViewBinding.bubbleRv);
+        mViewBinding.bubbleRv.setOnTouchListener(this);
+
+        BubbleAdapter adapter = new BubbleAdapter(this);
+        mViewBinding.bubbleRv.setAdapter(adapter);
+    }
+
+    @Override
+    protected void getIntentData() {
+
+    }
+
+    @Override
+    protected BubblePresenter getPresenter() {
+        return new BubblePresenter();
+    }
+
+    @Override
+    public boolean registerEventBus() {
+        return false;
+    }
 
     @Override
     public void loading() {
@@ -36,7 +82,7 @@ public class BubbleActivity extends BasePresenter<BubblePresenter>implements Bub
     }
 
     @Override
-    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-
+    public boolean onTouch(View v, MotionEvent event) {
+        return false;
     }
 }
