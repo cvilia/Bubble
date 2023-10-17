@@ -1,40 +1,27 @@
 package com.cvilia.bubble.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.cvilia.bubble.R;
+import com.cvilia.bubble.bean.Music;
 
-public class BubbleAdapter extends RecyclerView.Adapter<ViewHolder> {
+import java.util.List;
+
+public class BubbleAdapter extends BaseQuickAdapter<Music, BaseViewHolder> {
 
     private Context context;
 
-    public BubbleAdapter(Context context) {
-        this.context = context;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_bubble_main_layout, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ((TextView) (holder.view.findViewById(R.id.itemTv))).setText("这里是第" + (position + 1) + "个item");
+    public BubbleAdapter(List<Music> musics) {
+        super(R.layout.item_bubble_main_layout, musics);
     }
 
     @Override
-    public int getItemCount() {
-        return 10;
+    protected void convert(@NonNull BaseViewHolder holder, Music music) {
+        holder.setText(R.id.musicNameTv, music.getName().split("\\.")[0]);
+        holder.setText(R.id.singerTv, music.getSinger());
     }
 }

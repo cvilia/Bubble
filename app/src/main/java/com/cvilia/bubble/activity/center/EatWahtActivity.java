@@ -95,7 +95,7 @@ public class EatWahtActivity extends BaseActivity<EatWhatPresenter> implements E
 
 
     @Override
-    protected void getIntentData() {
+    protected void getData() {
 
     }
 

@@ -56,8 +56,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (registerEventBus() && !EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-        getIntentData();
         StatusBarUtil.setTranslucent(this, 0);
+        getData();
         onViewCreated();
         initView();
 
@@ -69,7 +69,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     protected abstract void initView();
 
-    protected abstract void getIntentData();
+    protected abstract void getData();
 
     public boolean registerEventBus() {
         return true;

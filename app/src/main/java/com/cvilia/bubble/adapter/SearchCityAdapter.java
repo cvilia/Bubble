@@ -29,12 +29,11 @@ public class SearchCityAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, String city) {
-        String myCities = MMKVUtil.getString(Constants.MY_CITIES, null);
-        TextView cityName = baseViewHolder.itemView.findViewById(R.id.cityNameTv);
-        cityName.setText(city);
-        ImageView addIv = baseViewHolder.itemView.findViewById(R.id.addCityIv);
-        TextView addedTv = baseViewHolder.itemView.findViewById(R.id.addedTv);
-        addIv.setVisibility(View.GONE);
+//        String myCities = MMKVUtil.getString(Constants.MY_CITIES, null);
+        baseViewHolder.setText(R.id.cityNameTv,city);
+//        ImageView addIv = baseViewHolder.itemView.findViewById(R.id.addCityIv);
+//        TextView addedTv = baseViewHolder.itemView.findViewById(R.id.addedTv);
+//        addIv.setVisibility(View.GONE);
 //        if (!TextUtils.isEmpty(myCities)) {
 //            if (myCities.contains(city)) {
 //                addIv.setVisibility(View.GONE);

@@ -44,7 +44,7 @@ public class Hour7Adapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final AppCompatActivity activity = weakActivity.get();
-        View view = LayoutInflater.from(activity).inflate(R.layout.hour7_item_layout, parent, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.item_hour7_layout, parent, false);
         return new ViewHolder(view);
     }
 

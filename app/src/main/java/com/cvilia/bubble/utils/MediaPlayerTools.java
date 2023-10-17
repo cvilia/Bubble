@@ -29,7 +29,6 @@ public class MediaPlayerTools {
     }
 
     private static class SingleInstance {
-        @SuppressLint("StaticFieldLeak")
         private static final MediaPlayerTools instance = new MediaPlayerTools();
     }
 

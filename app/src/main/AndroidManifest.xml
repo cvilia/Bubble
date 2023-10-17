@@ -39,7 +39,7 @@
         <activity android:name=".activity.center.SettingActivity" />
         <activity android:name=".activity.center.EatWahtActivity" />
         <activity android:name=".activity.cities.SelectCityActivity" />
-        <activity android:name=".activity.BubbleActivity">
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,8 +47,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SplashActivity"
-            android:launchMode="singleTask" /> <!-- 高德地图 -->
+            android:name=".activity.BubbleActivity"
+            android:launchMode="singleTask" />
+        <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="cf8f8da6ac292b8fc451dc9b726012f6" />

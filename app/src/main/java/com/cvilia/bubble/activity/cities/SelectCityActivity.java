@@ -152,7 +152,7 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     }
 
     @Override
-    protected void getIntentData() {
+    protected void getData() {
 
     }
 

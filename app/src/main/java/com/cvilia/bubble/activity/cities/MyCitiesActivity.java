@@ -79,7 +79,7 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
     }
 
     @Override
-    protected void getIntentData() {
+    protected void getData() {
 
     }
 

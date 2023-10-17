@@ -8,7 +8,7 @@
     <string name="weather_day_7">7日天气</string>
     <string name="weather_hour">小时天气</string>
 
-    <string name="permission_explain_location">气泡天气需要获取定位权限，以向您提供基于当前位置的天气信息</string>
+    <string name="permission_explain_location">气泡天气需要获取定位及文件读取权限，以向您提供丰富的服务</string>
 
     <string name="reject">拒绝</string>
     <string name="agree">同意</string>

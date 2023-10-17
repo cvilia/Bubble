@@ -234,7 +234,7 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
     }
 
     @Override
-    protected void getIntentData() {
+    protected void getData() {
         CopyDb2Local.copy2localdb(this);
         cityName = MMKVUtil.getString(Constants.SELECTED_CITY, "北京市");
     }
