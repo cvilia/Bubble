@@ -54,7 +54,7 @@ public class SplashActivity extends AppCompatActivity implements CancelAdapt {
     @Override
     protected void onResume() {
         super.onResume();
-        Observable.timer(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+        Observable.timer(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (!RxPermissionUtils.checkPermissions(this, PERMISSIONS)) {
                 MessageTwoButtonDialog dialog = new MessageTwoButtonDialog(this,
                         getString(R.string.permission_explain_location), new TwoButtonClickListener() {
