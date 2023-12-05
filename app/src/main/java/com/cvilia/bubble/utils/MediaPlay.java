@@ -11,7 +11,6 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 public class MediaPlay {
 
     private static IjkMediaPlayer ijkPlayer;
-    private static Context mContext;
 
     private static class Singleton {
         public static MediaPlay instance = new MediaPlay();
@@ -21,8 +20,7 @@ public class MediaPlay {
         initIjkPlayer();
     }
 
-    public static MediaPlay getInstance(Context context) {
-        mContext = context;
+    public static MediaPlay getInstance() {
         return Singleton.instance;
     }
 
@@ -48,7 +46,21 @@ public class MediaPlay {
     }
 
     public void stop() {
-        if (ijkPlayer != null && ijkPlayer.isPlaying())
+        if (ijkPlayer != null && ijkPlayer.isPlaying()) {
             ijkPlayer.stop();
+        }
     }
+
+    public void pause(){
+        if (ijkPlayer != null && ijkPlayer.isPlaying()) {
+            ijkPlayer.pause();
+        }
+    }
+
+    public void reset() {
+        if (ijkPlayer != null) {
+            ijkPlayer.reset();
+        }
+    }
+
 }
