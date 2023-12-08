@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.cvilia.base.mvp.BasePresenter;
+import com.cvilia.base.mvp.IView;
 
 import org.greenrobot.eventbus.EventBus;
 

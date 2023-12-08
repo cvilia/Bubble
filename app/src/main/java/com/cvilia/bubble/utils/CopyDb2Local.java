@@ -3,6 +3,7 @@ package com.cvilia.bubble.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 
+import com.cvilia.base.util.DeviceUtil;
 import com.cvilia.bubble.R;
 import com.cvilia.bubble.config.Constants;
 import com.tencent.mmkv.MMKV;

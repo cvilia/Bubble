@@ -1,10 +1,7 @@
 package com.cvilia.bubble.activity.center;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,14 +13,13 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.cvilia.base.BaseActivity;
 import com.cvilia.bubble.R;
-import com.cvilia.bubble.base.BaseActivity;
-import com.cvilia.bubble.contact.EatWahtContact;
+import com.cvilia.bubble.mvp.contact.EatWahtContact;
 import com.cvilia.bubble.databinding.ActivityEatWahtBinding;
-import com.cvilia.bubble.presenter.EatWhatPresenter;
+import com.cvilia.bubble.mvp.presenter.EatWhatPresenter;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.utils.MediaPlayerTools;
-import com.tbruyelle.rxpermissions3.Permission;
 
 import java.util.Random;
 import java.util.Timer;

@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.library'
+}
+
+apply from: "${project.rootDir}/common.gradle"
+
+android {
+    compileSdkVersion project.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.minSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility project.ext.sourceCompatibility
+        targetCompatibility project.ext.targetCompatibility
+    }
+}
+
+dependencies {
+
+    implementation project.ext.appcompat
+    implementation project.ext.material
+    implementation project.ext.arouter
+    implementation 'com.android.volley:volley:1.2.1'
+    annotationProcessor project.ext.arouter_compiler
+    implementation project.ext.eventbus
+    implementation project.ext.mmkv
+    implementation project.ext.autosize
+    implementation project.ext.statusbar
+    implementation project.ext.okhttp
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

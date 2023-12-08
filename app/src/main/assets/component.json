@@ -1,0 +1,121 @@
+{
+  "code": 1,
+  "msg": "数据完整可用",
+  "data": [
+    {
+      "title": "节假日/万年历",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_1.jpg",
+      "arouter": "/home/calendarPage"
+    },
+    {
+      "title": "生成二维码",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_2.jpg",
+      "arouter": "/home/qrCodePage"
+    },
+    {
+      "title": "彩票",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_3.jpg",
+      "arouter": "/home/prizePage"
+    },
+    {
+      "title": "IP查询",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_4.jpg",
+      "arouter": "/home/queryIPPage"
+    },
+    {
+      "title": "每日一笑",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_5.jpg",
+      "arouter": "/home/laughPage"
+    },
+    {
+      "title": "商品条码查询",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_6.jpg",
+      "arouter": "/home/barCodePage"
+    },
+    {
+      "title": "全国天气",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_7.jpg",
+      "arouter": "/home/weatherPage"
+    },
+    {
+      "title": "全国/世界城市",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_8.jpg",
+      "arouter": "/home/citiesPage"
+    },
+    {
+      "title": "电话区号信息",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_9.jpg",
+      "arouter": "/home/areaCodePage"
+    },
+    {
+      "title": "每日最新新闻",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_12.jpg",
+      "arouter": "/home/dailyNewsPage"
+    },
+    {
+      "title": "在线自定义参数",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_11.jpg",
+      "arouter": "/home/customParamPage"
+    },
+    {
+      "title": "手机归属地",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_13.jpg",
+      "arouter": "/home/phonePlacePage"
+    },
+    {
+      "title": "垃圾分类查询",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_14.jpg",
+      "arouter": "/home/garbageCategoryPage"
+    },
+    {
+      "title": "美女图片福利",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_15.jpg",
+      "arouter": "/home/beautyPage"
+    },
+    {
+      "title": "历史上的今天",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_18.jpg",
+      "arouter": "/home/todayHistoryPage"
+    },
+    {
+      "title": "每日一句",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_25.jpg",
+      "arouter": "/home/dailySentencePage"
+    },
+    {
+      "title": "实时汇率",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_27.png",
+      "arouter": "/home/exchangeRatePage"
+    },
+    {
+      "title": "身份证查询",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_28.jpeg",
+      "arouter": "/home/analysisIDCardPage"
+    },
+    {
+      "title": "Bilibili视频下载",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_30.jpg",
+      "arouter": "/home/downloadBilibiliPage"
+    },
+    {
+      "title": "抖音视频下载",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_31.jpeg",
+      "arouter": "/home/downloadTiktokPage"
+    },
+    {
+      "title": "今日油价",
+      "srcUrl": "https://www.mxnzp.com/images/icon/icon_api_34.png",
+      "arouter": "/home/oilPrizePage"
+    },
+    {
+      "title": "菜谱",
+      "srcUrl": "https://jokes-avatar.cretinzp.com/static/roll_web/icons/icon_caipu.png",
+      "arouter": "/home/cookMenuPage"
+    },
+    {
+      "title": "故事大全",
+      "srcUrl": "https://jokes-avatar.cretinzp.com/static/roll_web/icons/icon_story.jpg",
+      "arouter": "/home/storiesPage"
+    }
+  ]
+}

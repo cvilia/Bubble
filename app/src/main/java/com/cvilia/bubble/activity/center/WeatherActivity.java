@@ -21,17 +21,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.location.AMapLocation;
+import com.cvilia.base.BaseActivity;
 import com.cvilia.bubble.R;
 import com.cvilia.bubble.adapter.Day7Adapter;
 import com.cvilia.bubble.adapter.Hour7Adapter;
-import com.cvilia.bubble.base.BaseActivity;
 import com.cvilia.bubble.bean.Day7WeatherBean;
 import com.cvilia.bubble.bean.Day7WeatherBean.DataBean;
 import com.cvilia.bubble.config.Constants;
-import com.cvilia.bubble.contact.WeatherContact;
+import com.cvilia.bubble.mvp.contact.WeatherContact;
 import com.cvilia.bubble.event.MessageEvent;
 import com.cvilia.bubble.log.BubbleLogger;
-import com.cvilia.bubble.presenter.WeatherPresenter;
+import com.cvilia.bubble.mvp.presenter.WeatherPresenter;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.databinding.ActivityMainBinding;
 import com.cvilia.bubble.utils.CopyDb2Local;
@@ -51,7 +51,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 
-@Route(path = PageUrlConfig.WEATHER_PAGE)
+@Route(path = "/home/weatherPage")
 public class WeatherActivity extends BaseActivity<WeatherPresenter> implements WeatherContact.View, OnRefreshListener {
 
     private static final int REQUEST_CODE_SELECT_IMG = 0x1102;

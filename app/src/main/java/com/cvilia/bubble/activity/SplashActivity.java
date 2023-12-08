@@ -1,21 +1,21 @@
 package com.cvilia.bubble.activity;
 
+import static android.provider.Settings.Secure.getString;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.bumptech.glide.Glide;
 import com.cvilia.bubble.R;
 import com.cvilia.bubble.config.Constants;
-import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.listener.TwoButtonClickListener;
+import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.utils.MMKVUtil;
 import com.cvilia.bubble.utils.RxPermissionUtils;
 import com.cvilia.bubble.view.MessageTwoButtonDialog;

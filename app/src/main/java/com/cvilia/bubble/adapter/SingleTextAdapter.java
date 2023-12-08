@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.cvilia.base.util.DeviceUtil;
 import com.cvilia.bubble.R;
-import com.cvilia.bubble.utils.DeviceUtil;
 import com.cvilia.bubble.utils.DisplayUtil;
 
 import org.jetbrains.annotations.NotNull;

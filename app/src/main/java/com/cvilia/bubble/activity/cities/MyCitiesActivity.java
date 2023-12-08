@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.cvilia.base.BaseActivity;
 import com.cvilia.bubble.adapter.MyCitiesAdapter;
-import com.cvilia.bubble.base.BaseActivity;
-import com.cvilia.bubble.contact.MyCitiesContact;
+import com.cvilia.bubble.mvp.contact.MyCitiesContact;
 import com.cvilia.bubble.databinding.ActivityMyCitiesBinding;
 import com.cvilia.bubble.event.MessageEvent;
-import com.cvilia.bubble.presenter.MyCitesPresenter;
+import com.cvilia.bubble.mvp.presenter.MyCitesPresenter;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.utils.DisplayUtil;
 import com.jaeger.library.StatusBarUtil;

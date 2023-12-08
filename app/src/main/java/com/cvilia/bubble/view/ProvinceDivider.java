@@ -7,7 +7,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cvilia.bubble.utils.DeviceUtil;
+import com.cvilia.base.util.DeviceUtil;
 import com.cvilia.bubble.utils.DisplayUtil;
 
 /**

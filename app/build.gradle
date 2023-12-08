@@ -2,16 +2,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
+apply from: "${project.rootDir}/common.gradle"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion project.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.cvilia.bubble"
-        minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 4
-        versionName "1.1.0"
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        versionCode project.ext.versionCode
+        versionName project.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -22,6 +23,7 @@ android {
         }
 
         ndk {
+            //noinspection ChromeOsAbiSupport
             abiFilters "armeabi-v7a"
         }
 
@@ -38,8 +40,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility project.ext.sourceCompatibility
+        targetCompatibility project.ext.targetCompatibility
     }
 
     signingConfigs {
@@ -80,11 +82,13 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'com.trello.rxlifecycle4:rxlifecycle:4.0.0'
-    implementation 'com.trello.rxlifecycle4:rxlifecycle-components:4.0.0'
+    implementation project.ext.rxlifecycle
+    implementation project.ext.rxlifecycle_components
+    implementation project.ext.okhttp
+    implementation project.ext.appcompat
+    implementation project.ext.material
 
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation project(path: ':base')
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -99,7 +103,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
 
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'io.reactivex.rxjava3:rxjava:3.0.6'

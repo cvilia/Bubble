@@ -1,7 +1,7 @@
 package com.cvilia.bubble;
 
 
-import com.cvilia.bubble.base.BaseApplication;
+import com.cvilia.base.BaseApplication;
 import com.cvilia.bubble.sql.DaoSession;
 
 /**
