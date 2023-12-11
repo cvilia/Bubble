@@ -1,6 +1,9 @@
 package com.cvilia.bubble.adapter;
 
+import static com.cvilia.bubble.bean.Day7WeatherBean.DataBean.HoursBean;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -10,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,8 +20,6 @@ import com.cvilia.bubble.R;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
-
-import static com.cvilia.bubble.bean.Day7WeatherBean.DataBean.HoursBean;
 
 /**
  * author: lzy
@@ -32,18 +32,18 @@ public class Hour7Adapter extends RecyclerView.Adapter<ViewHolder> {
     private static final String TAG = Hour7Adapter.class.getSimpleName();
     private final List<HoursBean> hoursInfo;
     //    private Context context;
-    private WeakReference<AppCompatActivity> weakActivity;
+    private WeakReference<Activity> weakActivity;
 
     public Hour7Adapter(List<HoursBean> hoursInfo, Context context) {
         this.hoursInfo = hoursInfo;
-        this.weakActivity = new WeakReference<>((AppCompatActivity) context);
+        this.weakActivity = new WeakReference<>((Activity) context);
     }
 
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final AppCompatActivity activity = weakActivity.get();
+        final Activity activity = weakActivity.get();
         View view = LayoutInflater.from(activity).inflate(R.layout.item_hour7_layout, parent, false);
         return new ViewHolder(view);
     }
@@ -60,7 +60,7 @@ public class Hour7Adapter extends RecyclerView.Adapter<ViewHolder> {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private Drawable getWindDriectionImg(String win) {
-        final AppCompatActivity activity = weakActivity.get();
+        final Activity activity = weakActivity.get();
         int drawableId = R.drawable.icon_east;
         if (win.contains("西")) {
             if (win.equals("西风")) {

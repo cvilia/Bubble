@@ -1,6 +1,5 @@
-package com.cvilia.bubble.activity.center;
+package com.cvilia.bubble.activity.weather;
 
-import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -28,12 +27,12 @@ import com.cvilia.bubble.adapter.Hour7Adapter;
 import com.cvilia.bubble.bean.Day7WeatherBean;
 import com.cvilia.bubble.bean.Day7WeatherBean.DataBean;
 import com.cvilia.bubble.config.Constants;
-import com.cvilia.bubble.mvp.contact.WeatherContact;
+import com.cvilia.bubble.databinding.ActivityWeatherBinding;
 import com.cvilia.bubble.event.MessageEvent;
 import com.cvilia.bubble.log.BubbleLogger;
+import com.cvilia.bubble.mvp.contact.WeatherContact;
 import com.cvilia.bubble.mvp.presenter.WeatherPresenter;
 import com.cvilia.bubble.route.PageUrlConfig;
-import com.cvilia.bubble.databinding.ActivityMainBinding;
 import com.cvilia.bubble.utils.CopyDb2Local;
 import com.cvilia.bubble.utils.DisplayUtil;
 import com.cvilia.bubble.utils.MMKVUtil;
@@ -55,10 +54,8 @@ import java.util.ArrayList;
 public class WeatherActivity extends BaseActivity<WeatherPresenter> implements WeatherContact.View, OnRefreshListener {
 
     private static final int REQUEST_CODE_SELECT_IMG = 0x1102;
-    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private ActivityMainBinding mBindings;
+    private ActivityWeatherBinding mBindings;
     private String cityName;
-
     private HomePopupVew popupVew;
 
     @Override
@@ -98,15 +95,11 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
     @Override
     protected void onViewCreated() {
         mPresenter.requestLauncherBg();
-        //自定义actionbar
-//        LinearLayout.LayoutParams lp = (LinearLayoBut.LayoutParams) mBindings.actionBar.actionBarRl.getLayoutParams();
-//        lp.topMargin = DisplayUtil.getStatusBarHeight(this)+10;
-
     }
 
     @Override
     protected View inflatRootView() {
-        mBindings = ActivityMainBinding.inflate(getLayoutInflater());
+        mBindings = ActivityWeatherBinding.inflate(getLayoutInflater());
         return mBindings.getRoot();
     }
 
@@ -118,38 +111,8 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
         mBindings.refreshL.autoRefresh();
         mBindings.refreshL.setOnRefreshListener(this);
         mBindings.actionBar.leftIv.setOnClickListener(view -> ARouter.getInstance().build(PageUrlConfig.CITIES_PAGE).navigation());
-//        mBindings.actionBar.rightIv.setVisibility(View.INVISIBLE);
         mBindings.actionBar.rightIv.setOnClickListener(view -> {
             popupVew.showAsDropDown(view, DisplayUtil.dp2px(this, -60), DisplayUtil.dp2px(this, 10));
-//            if (RxPermissionUtils.checkPermissions(this, PERMISSIONS)) {
-//                selectImg();
-//            } else {
-//                RxPermissionUtils.requestPermissions(this, PERMISSIONS, new RxPermissionUtils.OnPermissionCallBack() {
-//                    @Override
-//                    public void onPermissionsGranted() {
-//                        selectImg();
-//                    }
-//
-//                    @Override
-//                    public void onAtLeastOneReject(Permission permission) {
-//                        Toast.makeText(mContext, "请求文件读写权限失败", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onAllRejectAndDoNotAskAgain(Permission permission) {
-//                        MessageTwoButtonDialog messageTwoButtonDialog = new MessageTwoButtonDialog(mContext, "访问系统相册需要文件读写权限，是否前往系统设置授予权限？", new TwoButtonClickListener() {
-//                            @Override
-//                            public void onConfirm() {
-//                                RxPermissionUtils.toAppSetting(mContext);
-//                            }
-//
-//                            @Override
-//                            public void onCancle() {
-//                            }
-//                        });
-//                    }
-//                });
-//            }
         });
 
 

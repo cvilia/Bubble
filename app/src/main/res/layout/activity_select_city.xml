@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_fafafa"
-    tools:context=".activity.cities.SelectCityActivity">
+    tools:context=".activity.weather.SelectCityActivity">
 
     <LinearLayout
         android:id="@+id/searchLl"

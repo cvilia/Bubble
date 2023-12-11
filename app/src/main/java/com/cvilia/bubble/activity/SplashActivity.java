@@ -1,7 +1,5 @@
 package com.cvilia.bubble.activity;
 
-import static android.provider.Settings.Secure.getString;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;

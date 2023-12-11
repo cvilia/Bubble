@@ -7,7 +7,7 @@
     android:background="@color/bg_fafafa"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".activity.cities.MyCitiesActivity">
+    tools:context=".activity.weather.MyCitiesActivity">
 
     <LinearLayout
         android:id="@+id/actionLl"

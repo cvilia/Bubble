@@ -40,11 +40,7 @@ public class HomePopupVew extends PopupWindow implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.centerTv) {
-            ARouter.getInstance().build(PageUrlConfig.CENTER_PAGE).navigation(context);
-        } else if (v.getId() == R.id.shareTv) {
-            ARouter.getInstance().build(PageUrlConfig.SHARE_PAGE).navigation(context);
-        } else if (v.getId() == R.id.eatWhatTv) {
+        if (v.getId() == R.id.eatWhatTv) {
             ARouter.getInstance().build(PageUrlConfig.EAT_WHAT_PAGE).navigation(context);
         }
         HomePopupVew.this.dismiss();
