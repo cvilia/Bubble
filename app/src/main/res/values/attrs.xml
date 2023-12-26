@@ -3,4 +3,9 @@
     <declare-styleable name="WeatherLineView">
         <attr name="tempSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="BubbleIndicator">
+        <attr name="selectedColor" format="color|reference" />
+        <attr name="unselectedColor" format="color|reference" />
+    </declare-styleable>
 </resources>

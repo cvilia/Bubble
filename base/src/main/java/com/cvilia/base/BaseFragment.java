@@ -1,4 +1,4 @@
-package com.cvilia.bubble.base;
+package com.cvilia.base;
 
 import android.app.Activity;
 import android.content.Context;

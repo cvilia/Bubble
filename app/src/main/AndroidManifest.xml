@@ -33,6 +33,9 @@
         android:roundIcon="@mipmap/app_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.MainActivity"
+            android:exported="false" />
         <activity android:name=".activity.BubbleActivity" />
         <activity android:name=".activity.weather.MyCitiesActivity" />
         <activity android:name=".activity.center.EatWahtActivity" />
