@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cvilia.base.manager.ActivityManager;
@@ -30,7 +31,7 @@ import java.util.Objects;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 
-public abstract class BaseActivity<T extends BasePresenter> extends Activity implements IView, CustomAdapt {
+public abstract class BaseActivity<T extends BasePresenter> extends FragmentActivity implements IView, CustomAdapt {
 
     protected static final String TAG = BaseActivity.class.getSimpleName();
 

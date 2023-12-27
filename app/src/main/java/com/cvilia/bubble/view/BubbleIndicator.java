@@ -118,4 +118,8 @@ public class BubbleIndicator extends View {
             setVisibility(View.VISIBLE);
         }
     }
+
+    public void setCurrentPosition(int index){
+        this.mCurrentPosition = index;
+    }
 }
