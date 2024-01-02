@@ -1,5 +1,7 @@
 package com.cvilia.bubble.mvp.contact;
 
+import android.location.Location;
+
 import com.amap.api.location.AMapLocation;
 import com.cvilia.base.mvp.IPresenter;
 import com.cvilia.base.mvp.IView;
@@ -20,6 +22,8 @@ public abstract class SelectCityContact {
         void startLocate();
 
         void requestTopCity();
+
+        void searchCity(String city);
     }
 
     public interface View extends IView {
@@ -30,6 +34,8 @@ public abstract class SelectCityContact {
         void locateFailed();
 
         void loadTopCity(GeoBean bean);
+
+        void loadSearchCity(GeoBean bean);
     }
 
 }

@@ -46,7 +46,6 @@ public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> i
         if (cities != null) {
             /**
              * 需要根据用户的搜索内容进行筛选
-             *
              */
             List<String> result = new ArrayList<>();
             for (City city : cities) {
@@ -96,7 +95,7 @@ public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> i
         QWeather.getGeoTopCity((Context) mView, 15, Range.CN, Lang.ZH_HANS, new QWeather.OnResultGeoListener() {
             @Override
             public void onError(Throwable throwable) {
-                BubbleLogger.d(TAG, "Get Hot City Error：ErrorInfo=" + throwable.getMessage());
+                BubbleLogger.d(TAG, "requestTopCity Error：ErrorInfo=" + throwable.getMessage());
             }
 
             @Override
@@ -109,6 +108,29 @@ public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> i
                                 + ",省份=" + bean.getAdm1() + ",属性=" + bean.getType());
                     }
                     mView.loadTopCity(geoBean);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void searchCity(String city) {
+        QWeather.getGeoCityLookup((Context) mView, city, Range.CN, 15, Lang.ZH_HANS, new QWeather.OnResultGeoListener() {
+            @Override
+            public void onError(Throwable throwable) {
+                BubbleLogger.d(TAG, "searchCity Error：ErrorInfo=" + throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(GeoBean geoBean) {
+                BubbleLogger.d(TAG, "searchCity Success");
+                if (geoBean != null && geoBean.getLocationBean() != null) {
+                    List<GeoBean.LocationBean> results = geoBean.getLocationBean();
+                    for (GeoBean.LocationBean bean : results) {
+                        System.out.println("name=" + bean.getName() + ",上级城市=" + bean.getAdm2()
+                                + ",省份=" + bean.getAdm1() + ",属性=" + bean.getType());
+                    }
+                    mView.loadSearchCity(geoBean);
                 }
             }
         });

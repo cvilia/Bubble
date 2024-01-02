@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,9 +26,9 @@ import com.cvilia.bubble.R;
 import com.cvilia.bubble.adapter.SearchCityAdapter;
 import com.cvilia.bubble.adapter.TopCityAdapter;
 import com.cvilia.bubble.config.Constants;
-import com.cvilia.bubble.mvp.contact.SelectCityContact;
 import com.cvilia.bubble.databinding.ActivitySelectCityBinding;
 import com.cvilia.bubble.event.MessageEvent;
+import com.cvilia.bubble.mvp.contact.SelectCityContact;
 import com.cvilia.bubble.mvp.presenter.SelectCityPresenter;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.utils.DisplayUtil;
@@ -37,8 +39,6 @@ import com.qweather.sdk.bean.geo.GeoBean;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -48,12 +48,12 @@ import java.util.TimerTask;
  */
 @Route(path = PageUrlConfig.SELECT_CITY_PAGE)
 public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implements SelectCityContact.View,
-        View.OnClickListener, TextView.OnEditorActionListener {
+        View.OnClickListener, TextView.OnEditorActionListener, TextWatcher {
     private ActivitySelectCityBinding mBindings;
     //    private List<City> mCityInfos;
     private String currentCity = "北京市";
     private TopCityAdapter mTopCityAdapter;
-    private String keyword;
+    private String searchCity;
 
 
     @Override
@@ -112,7 +112,8 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
         mBindings.keywordEt.setCompoundDrawables(drawable, null, null, null);
 
         mBindings.cancelTv.setOnClickListener(v -> finish());
-        mBindings.keywordEt.setOnEditorActionListener(this);
+//        mBindings.keywordEt.setOnEditorActionListener(this);
+        mBindings.keywordEt.addTextChangedListener(this);
         addPic2LocateTextView();
         mBindings.hotCityRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mBindings.hotCityRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -159,20 +160,20 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
     }
 
-
+    @Deprecated
     @Override
     public void searchSuccess(List<String> cities) {
-        mBindings.hotCityCl.setVisibility(View.GONE);
-        mBindings.searchCityRecycler.setVisibility(View.VISIBLE);
-        mBindings.searchCityRecycler.setLayoutManager(new LinearLayoutManager(this));
-        SearchCityAdapter adapter = new SearchCityAdapter(cities);
-        adapter.setEmptyView(R.layout.layout_data_empty);
-        mBindings.searchCityRecycler.setAdapter(adapter);
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            MMKVUtil.saveString(Constants.SELECTED_CITY, keyword);
-            EventBus.getDefault().post(MessageEvent.getInstance("selectCity"));
-            finish();
-        });
+//        mBindings.hotCityCl.setVisibility(View.GONE);
+//        mBindings.searchCityRecycler.setVisibility(View.VISIBLE);
+//        mBindings.searchCityRecycler.setLayoutManager(new LinearLayoutManager(this));
+//        SearchCityAdapter adapter = new SearchCityAdapter(cities);
+//        adapter.setEmptyView(R.layout.layout_data_empty);
+//        mBindings.searchCityRecycler.setAdapter(adapter);
+//        adapter.setOnItemClickListener((adapter1, view, position) -> {
+//            MMKVUtil.saveString(Constants.SELECTED_CITY, searchCity);
+//            EventBus.getDefault().post(MessageEvent.getInstance("selectCity"));
+//            finish();
+//        });
     }
 
     @Override
@@ -205,6 +206,23 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     }
 
     @Override
+    public void loadSearchCity(GeoBean bean) {
+        runOnUiThread(() -> {
+            mBindings.hotCityCl.setVisibility(View.GONE);
+            mBindings.searchCityRecycler.setVisibility(View.VISIBLE);
+            mBindings.searchCityRecycler.setLayoutManager(new LinearLayoutManager(this));
+            SearchCityAdapter adapter = new SearchCityAdapter(bean.getLocationBean());
+            adapter.setEmptyView(R.layout.layout_data_empty);
+            mBindings.searchCityRecycler.setAdapter(adapter);
+            adapter.setOnItemClickListener((adapter1, view, position) -> {
+                MMKVUtil.saveString(Constants.SELECTED_CITY, searchCity);
+                EventBus.getDefault().post(MessageEvent.getInstance("selectCity"));
+                finish();
+            });
+        });
+    }
+
+    @Override
     public void onClick(View v) {
 
 
@@ -223,18 +241,34 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
         if (null != event && KeyEvent.KEYCODE_ENTER == event.getKeyCode()) {
             if (event.getAction() == KeyEvent.ACTION_UP) {
                 DeviceUtil.hideSoftKeyboard(SelectCityActivity.this);
-                keyword = mBindings.keywordEt.getText().toString();
-                if (TextUtils.isEmpty(keyword)) {
+                searchCity = mBindings.keywordEt.getText().toString();
+                if (TextUtils.isEmpty(searchCity)) {
                     MessageSingleButtonDialog dialog = new MessageSingleButtonDialog(this,
                             getString(R.string.search_content_nonull));
                     dialog.show();
                 } else {
                     // 本地加载城市的方式废弃，通过网络获取热门城市
 //                    mPresenter.readDb(keyword);
+//                    mPresenter.searchCity(searchCity);
                 }
             }
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        mPresenter.searchCity(s.toString());
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
