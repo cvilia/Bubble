@@ -3,6 +3,7 @@ package com.cvilia.bubble.mvp.contact;
 import com.amap.api.location.AMapLocation;
 import com.cvilia.base.mvp.IPresenter;
 import com.cvilia.base.mvp.IView;
+import com.qweather.sdk.bean.geo.GeoBean;
 
 import java.util.List;
 
@@ -15,7 +16,10 @@ public abstract class SelectCityContact {
 
     public interface Presenter extends IPresenter<View> {
         void readDb(String cityName);
+
         void startLocate();
+
+        void requestTopCity();
     }
 
     public interface View extends IView {
@@ -24,6 +28,8 @@ public abstract class SelectCityContact {
         void locateSuccess(AMapLocation location);
 
         void locateFailed();
+
+        void loadTopCity(GeoBean bean);
     }
 
 }

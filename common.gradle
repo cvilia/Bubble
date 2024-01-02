@@ -23,6 +23,8 @@ project.ext {
     mmkv = "com.tencent:mmkv-static:1.2.2"
     autosize = "me.jessyan:autosize:1.2.1"
     statusbar = "com.jaeger.statusbarutil:library:1.5.1"
+    drawerLayout = "androidx.drawerlayout:drawerlayout:1.1.1"
+    gson = "com.google.code.gson:gson:2.8.6"
 //
 //    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 //    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'

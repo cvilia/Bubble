@@ -22,8 +22,7 @@ import com.cvilia.base.BaseActivity;
 import com.cvilia.base.util.DeviceUtil;
 import com.cvilia.bubble.R;
 import com.cvilia.bubble.adapter.SearchCityAdapter;
-import com.cvilia.bubble.adapter.SingleTextAdapter;
-import com.cvilia.bubble.bean.City;
+import com.cvilia.bubble.adapter.TopCityAdapter;
 import com.cvilia.bubble.config.Constants;
 import com.cvilia.bubble.mvp.contact.SelectCityContact;
 import com.cvilia.bubble.databinding.ActivitySelectCityBinding;
@@ -34,6 +33,7 @@ import com.cvilia.bubble.utils.DisplayUtil;
 import com.cvilia.bubble.utils.MMKVUtil;
 import com.cvilia.bubble.view.MessageSingleButtonDialog;
 import com.jaeger.library.StatusBarUtil;
+import com.qweather.sdk.bean.geo.GeoBean;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -50,9 +50,9 @@ import java.util.TimerTask;
 public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implements SelectCityContact.View,
         View.OnClickListener, TextView.OnEditorActionListener {
     private ActivitySelectCityBinding mBindings;
-    private List<City> mCityInfos;
+    //    private List<City> mCityInfos;
     private String currentCity = "北京市";
-    private SingleTextAdapter mHotCityAdapter;
+    private TopCityAdapter mTopCityAdapter;
     private String keyword;
 
 
@@ -69,7 +69,6 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
 
@@ -127,18 +126,6 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
                 }
             }
         });
-        List<String> hotCities = new ArrayList<>();
-        hotCities.addAll(Arrays.asList(Constants.PROVINCIAL_CAPITAL));
-        mHotCityAdapter = new SingleTextAdapter(hotCities, this);
-        mBindings.hotCityRecyclerView.setAdapter(mHotCityAdapter);
-        mHotCityAdapter.setOnItemClickListener((adapter, view, position) -> {
-            String cityName = adapter.getData().get(position).toString();
-            if (!TextUtils.isEmpty(cityName)) {
-                MMKVUtil.saveString(Constants.SELECTED_CITY, cityName);
-                EventBus.getDefault().post(MessageEvent.getInstance("selectCity"));
-                finish();
-            }
-        });
     }
 
 
@@ -153,7 +140,7 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
 
     @Override
     protected void getData() {
-
+        mPresenter.requestTopCity();
     }
 
 
@@ -201,6 +188,23 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
     }
 
     @Override
+    public void loadTopCity(GeoBean bean) {
+        runOnUiThread(() -> {
+            mTopCityAdapter = new TopCityAdapter(bean.getLocationBean(), SelectCityActivity.this);
+            mBindings.hotCityRecyclerView.setAdapter(mTopCityAdapter);
+            mTopCityAdapter.setOnItemClickListener((adapter, view, position) -> {
+                GeoBean.LocationBean cityInfo = (GeoBean.LocationBean) adapter.getData().get(position);
+                String cityName = cityInfo.getName();
+                if (!TextUtils.isEmpty(cityName)) {
+                    MMKVUtil.saveString(Constants.SELECTED_CITY, cityName);
+                    EventBus.getDefault().post(MessageEvent.getInstance("selectCity"));
+                    finish();
+                }
+            });
+        });
+    }
+
+    @Override
     public void onClick(View v) {
 
 
@@ -225,13 +229,12 @@ public class SelectCityActivity extends BaseActivity<SelectCityPresenter> implem
                             getString(R.string.search_content_nonull));
                     dialog.show();
                 } else {
-                    mPresenter.readDb(keyword);
+                    // 本地加载城市的方式废弃，通过网络获取热门城市
+//                    mPresenter.readDb(keyword);
                 }
             }
             return true;
         }
         return false;
     }
-
-
 }

@@ -56,6 +56,16 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            minifyEnabled false //开启混淆
+            shrinkResources false
+            zipAlignEnabled true
+            debuggable true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
         release {
             minifyEnabled false //开启混淆
             shrinkResources false
@@ -87,23 +97,19 @@ dependencies {
     implementation project.ext.okhttp
     implementation project.ext.appcompat
     implementation project.ext.material
+    implementation project.ext.drawerLayout
+    implementation project.ext.gson
+    implementation project.ext.recyclerview
+    implementation project.ext.constraintlayout
 
     implementation project(path: ':base')
-    testImplementation 'junit:junit:4.13.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-beta01'
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
-
-    implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'io.reactivex.rxjava3:rxjava:3.0.6'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
@@ -138,8 +144,6 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
     implementation 'com.github.mcxtzhang:ZLayoutManager:V1.1.0'
-
-    implementation "androidx.drawerlayout:drawerlayout:1.1.1"
 
     implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
     implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'

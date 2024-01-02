@@ -1,6 +1,7 @@
 package com.cvilia.bubble.mvp.contact;
 
-import com.cvilia.base.mvp.*;
+import com.cvilia.base.mvp.IPresenter;
+import com.cvilia.base.mvp.IView;
 
 /**
  * author: lzy
@@ -9,11 +10,10 @@ import com.cvilia.base.mvp.*;
  */
 public class MyCitiesContact {
     public interface Presenter extends IPresenter<View> {
-        void requestWeatherInfo();
+
     }
 
     public interface View extends IView {
-        void requestSuccess();
     }
 
 }

@@ -3,6 +3,7 @@ package com.cvilia.bubble;
 
 import com.cvilia.base.BaseApplication;
 import com.cvilia.bubble.sql.DaoSession;
+import com.qweather.sdk.view.HeConfig;
 
 /**
  * author: lzy
@@ -22,6 +23,11 @@ public class BubbleApplication extends BaseApplication {
 
     private void init() {
         initGreenDao();
+        initHeFeng();
+    }
+
+    private void initHeFeng() {
+        HeConfig.init("HE1704281517141231", "5bded0f8760f4fcf9bba2ba5d164f108");
     }
 
     private void initGreenDao() {

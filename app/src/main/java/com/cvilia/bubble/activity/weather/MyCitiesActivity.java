@@ -13,13 +13,14 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cvilia.base.BaseActivity;
 import com.cvilia.bubble.adapter.MyCitiesAdapter;
-import com.cvilia.bubble.mvp.contact.MyCitiesContact;
 import com.cvilia.bubble.databinding.ActivityMyCitiesBinding;
 import com.cvilia.bubble.event.MessageEvent;
+import com.cvilia.bubble.mvp.contact.MyCitiesContact;
 import com.cvilia.bubble.mvp.presenter.MyCitesPresenter;
 import com.cvilia.bubble.route.PageUrlConfig;
 import com.cvilia.bubble.utils.DisplayUtil;
 import com.jaeger.library.StatusBarUtil;
+import com.qweather.sdk.bean.geo.GeoBean;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -58,8 +59,8 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
 
     @Override
     protected void initView() {
-        mBindings.searchLl.setOnClickListener(v -> ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation());
         mBindings.backIv.setOnClickListener(v -> finish());
+        mBindings.addCityTv.setOnClickListener(v -> ARouter.getInstance().build(PageUrlConfig.SELECT_CITY_PAGE).navigation());
         mAdapter = new MyCitiesAdapter(this, currentCity);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -80,7 +81,6 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
 
     @Override
     protected void getData() {
-
     }
 
     @Override
@@ -99,8 +99,4 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
 
     }
 
-    @Override
-    public void requestSuccess() {
-
-    }
 }

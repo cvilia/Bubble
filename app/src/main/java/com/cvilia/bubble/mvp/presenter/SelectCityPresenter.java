@@ -1,17 +1,24 @@
 package com.cvilia.bubble.mvp.presenter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.cvilia.base.mvp.BasePresenter;
 import com.cvilia.bubble.bean.City;
+import com.cvilia.bubble.log.BubbleLogger;
 import com.cvilia.bubble.mvp.contact.SelectCityContact;
 import com.cvilia.bubble.sql.CityDao;
 import com.cvilia.bubble.sql.DaoMaster;
+import com.cvilia.bubble.sql.DaoMaster.DevOpenHelper;
 import com.cvilia.bubble.sql.DaoSession;
 import com.cvilia.bubble.utils.TextUtil;
+import com.qweather.sdk.bean.base.Lang;
+import com.qweather.sdk.bean.base.Range;
+import com.qweather.sdk.bean.geo.GeoBean;
+import com.qweather.sdk.view.QWeather;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +29,15 @@ import java.util.List;
  * describe：选择城市Presenter
  */
 public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> implements SelectCityContact.Presenter {
+
+    private static final String TAG = SelectCityPresenter.class.getSimpleName();
+
     @Override
     public void readDb(String cityName) {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper((Activity) mView, "weatherDb.db", null);
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db;
+        try (DevOpenHelper helper = new DevOpenHelper((Activity) mView, "weatherDb.db", null)) {
+            db = helper.getWritableDatabase();
+        }
         DaoMaster daoMaster = new DaoMaster(db);
         DaoSession mDaosession = daoMaster.newSession();
         CityDao dao = mDaosession.getCityDao();
@@ -77,5 +89,28 @@ public class SelectCityPresenter extends BasePresenter<SelectCityContact.View> i
         client.setLocationOption(option);
         client.stopLocation();
         client.startLocation();
+    }
+
+    @Override
+    public void requestTopCity() {
+        QWeather.getGeoTopCity((Context) mView, 15, Range.CN, Lang.ZH_HANS, new QWeather.OnResultGeoListener() {
+            @Override
+            public void onError(Throwable throwable) {
+                BubbleLogger.d(TAG, "Get Hot City Error：ErrorInfo=" + throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(GeoBean geoBean) {
+                BubbleLogger.d(TAG, "Get Top City Success");
+                if (geoBean != null && geoBean.getLocationBean() != null) {
+                    List<GeoBean.LocationBean> results = geoBean.getLocationBean();
+                    for (GeoBean.LocationBean bean : results) {
+                        System.out.println("name=" + bean.getName() + ",上级城市=" + bean.getAdm2()
+                                + ",省份=" + bean.getAdm1() + ",属性=" + bean.getType());
+                    }
+                    mView.loadTopCity(geoBean);
+                }
+            }
+        });
     }
 }

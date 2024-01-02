@@ -53,7 +53,7 @@
             android:launchMode="singleTask" /> <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="cf8f8da6ac292b8fc451dc9b726012f6" />
+            android:value="eeb9b944022a6cb965c339b66a537c3a" />
 
         <service android:name="com.amap.api.location.APSService" />
 
