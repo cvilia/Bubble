@@ -34,12 +34,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.weather.WeatherActivity"
             android:exported="false" />
         <activity android:name=".activity.BubbleActivity" />
         <activity android:name=".activity.weather.MyCitiesActivity" />
         <activity android:name=".activity.center.EatWahtActivity" />
-        <activity android:name=".activity.weather.WeatherActivity" />
+<!--        <activity android:name=".activity.weather.WeatherActivity" />-->
         <activity android:name=".activity.weather.SelectCityActivity" />
         <activity android:name=".activity.SplashActivity">
             <intent-filter>

@@ -1,271 +1,109 @@
 package com.cvilia.bubble.activity.weather;
 
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.cvilia.base.BaseActivity;
-import com.cvilia.bubble.R;
-import com.cvilia.bubble.adapter.Day7Adapter;
-import com.cvilia.bubble.adapter.Hour7Adapter;
-import com.cvilia.bubble.bean.Day7WeatherBean;
-import com.cvilia.bubble.bean.Day7WeatherBean.DataBean;
-import com.cvilia.bubble.config.Constants;
-import com.cvilia.bubble.databinding.ActivityWeatherBinding;
-import com.cvilia.bubble.event.MessageEvent;
+import com.cvilia.bubble.adapter.WeatherFragmentAdapter;
+import com.cvilia.bubble.databinding.ActivityMainBinding;
+import com.cvilia.bubble.fragment.TestFragment;
 import com.cvilia.bubble.log.BubbleLogger;
-import com.cvilia.bubble.mvp.contact.WeatherContact;
-import com.cvilia.bubble.mvp.presenter.WeatherPresenter;
+import com.cvilia.bubble.mvp.contact.WeatherActivityContact;
+import com.cvilia.bubble.mvp.contact.WeatherFragmentContact;
+import com.cvilia.bubble.mvp.presenter.WeatherActivityPresenter;
 import com.cvilia.bubble.route.PageUrlConfig;
-import com.cvilia.bubble.utils.CopyDb2Local;
-import com.cvilia.bubble.utils.DisplayUtil;
-import com.cvilia.bubble.utils.MMKVUtil;
-import com.cvilia.bubble.view.HomePopupVew;
-import com.cvilia.bubble.view.RecyclerViewDivider;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.PicassoEngine;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import java.util.Arrays;
+import java.util.List;
 
-import java.io.File;
-import java.util.ArrayList;
+@Route(path = "/home/weatherPage")
+public class WeatherActivity extends BaseActivity<WeatherActivityPresenter> implements WeatherActivityContact.View, AMapLocationListener {
 
-@Route(path = "/home/weatherPages")
-public class WeatherActivity extends BaseActivity<WeatherPresenter> implements WeatherContact.View, OnRefreshListener {
+    private ActivityMainBinding mBindings;
 
-    private static final int REQUEST_CODE_SELECT_IMG = 0x1102;
-    private ActivityWeatherBinding mBindings;
-    private String cityName;
-    private HomePopupVew popupVew;
+    /**
+     * 定位相关
+     */
+    private AMapLocationClient mMapClient;
+    private AMapLocationClientOption mMapOption;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageReceived(MessageEvent messageEvent) {
-        String event = messageEvent.event;
-        if (!TextUtils.isEmpty(event) && event.equals("selectCity")) {
-            cityName = MMKVUtil.getString(Constants.SELECTED_CITY, "北京市");
-            mBindings.refreshL.autoRefresh();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mLocalChangedReceiver.unRegister();
-        mLocalChangedReceiver = null;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!TextUtils.isEmpty(MMKVUtil.getString(Constants.MAIN_PAGE_BG_PATH))) {
-            File file = new File(MMKVUtil.getString(Constants.MAIN_PAGE_BG_PATH));
-            if (!file.isFile()) {
-                return;
-            }
-            Uri uri = Uri.fromFile(file);
-            setBackgroundImg(uri);
-        }
-    }
 
     @Override
     protected void onViewCreated() {
-        mPresenter.requestLauncherBg();
+
     }
 
     @Override
     protected View inflatRootView() {
-        mBindings = ActivityWeatherBinding.inflate(getLayoutInflater());
+        mBindings = ActivityMainBinding.inflate(getLayoutInflater());
         return mBindings.getRoot();
     }
 
     @Override
+    public boolean registerEventBus() {
+        return false;
+    }
+
+    @Override
     protected void initView() {
-        popupVew = new HomePopupVew(this);
-        mBindings.refreshL.setPrimaryColorsId(R.color.bg_90b8d1, R.color.app_main);
-        mBindings.refreshL.setEnableLoadMore(false);
-        mBindings.refreshL.autoRefresh();
-        mBindings.refreshL.setOnRefreshListener(this);
-        mBindings.actionBar.leftIv.setOnClickListener(view -> ARouter.getInstance().build(PageUrlConfig.CITIES_PAGE).navigation());
-        mBindings.actionBar.rightIv.setOnClickListener(view -> {
-            popupVew.showAsDropDown(view, DisplayUtil.dp2px(this, -60), DisplayUtil.dp2px(this, 10));
+        mBindings.actionBar2.setOnClickListener(v -> {
+            ARouter.getInstance().build(PageUrlConfig.CITIES_PAGE).navigation();
+        });
+        mBindings.bubbleIndicator.setIndicatorCount(2);
+
+        WeatherFragmentAdapter adapter = new WeatherFragmentAdapter(this, initFragmentList());
+        mBindings.viewPager.setAdapter(adapter);
+        mBindings.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                mBindings.bubbleIndicator.setCurrentPosition(position);
+                mBindings.bubbleIndicator.postInvalidate();
+            }
         });
 
-
-        LinearLayoutManager day7Lp = new LinearLayoutManager(this);
-        day7Lp.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mBindings.day7RecyclerView.setLayoutManager(day7Lp);
-        mBindings.day7RecyclerView.addItemDecoration(new RecyclerViewDivider(null, this));
-        LinearLayoutManager hour7Lp = new LinearLayoutManager(this);
-
-        hour7Lp.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mBindings.hourRecyclerView.setLayoutManager(hour7Lp);
-        mBindings.hourRecyclerView.addItemDecoration(new RecyclerViewDivider(null, this));
     }
 
-    private void selectImg() {
-        Matisse.from(mContext)
-                .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
-                .countable(true)
-                .maxSelectable(1)
-                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .thumbnailScale(0.8f)
-                .originalEnable(true)
-                .maxOriginalSize(2)
-                .imageEngine(new PicassoEngine())
-                .forResult(REQUEST_CODE_SELECT_IMG);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {
-            return;
-        }
-        if (requestCode == REQUEST_CODE_SELECT_IMG) {
-            ArrayList<Uri> imgs = (ArrayList<Uri>) Matisse.obtainResult(data);
-            Uri uri = imgs.get(0);
-            getRealFilePath(uri);
-            setBackgroundImg(uri);
-        }
-    }
-
-    private void setBackgroundImg(Uri uri) {
-        try {
-            Drawable drawable = Drawable.createFromStream(getContentResolver().openInputStream(uri), "abc");
-            mBindings.mainBg.setBackground(drawable);
-        } catch (Exception e) {
-            Log.d("lizhenyu", e.toString());
-        }
-    }
-
-    public void getRealFilePath(final Uri uri) {
-        if (null == uri) {
-            return;
-        }
-        final String scheme = uri.getScheme();
-        String data = null;
-        if (scheme == null)
-            data = uri.getPath();
-        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
-            data = uri.getPath();
-        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-            Cursor cursor = this.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
-            if (null != cursor) {
-                if (cursor.moveToFirst()) {
-                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                    if (index > -1) {
-                        data = cursor.getString(index);
-                    }
-                }
-                cursor.close();
-            }
-        }
-        MMKVUtil.saveString(Constants.MAIN_PAGE_BG_PATH, data);
-    }
-
-
-    @Override
-    public boolean onGenericMotionEvent(MotionEvent event) {
-        return super.onGenericMotionEvent(event);
+    private List<Fragment> initFragmentList() {
+        // todo 根据用户选择，展示多个fragment
+        TestFragment viewPage2Fragment = TestFragment.newInstance("我是Fragment1", "");
+        TestFragment viewPage2Fragment2 = TestFragment.newInstance("我是Fragment2", "");
+        return Arrays.asList(viewPage2Fragment, viewPage2Fragment2);
     }
 
     @Override
     protected void getData() {
-        CopyDb2Local.copy2localdb(this);
-        cityName = MMKVUtil.getString(Constants.SELECTED_CITY, "北京市");
+
+        getLocation();
+
+    }
+
+    private void getLocation() {
+        mMapOption = new AMapLocationClientOption();
+        mMapOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mMapOption.setOnceLocation(true);
+        mMapOption.setNeedAddress(true);
+        mMapClient = new AMapLocationClient(this);
+        mMapClient.setLocationListener(this);
+        mMapClient.setLocationOption(mMapOption);
+        mMapClient.startLocation();
     }
 
     @Override
-    protected WeatherPresenter getPresenter() {
-        return new WeatherPresenter();
+    protected WeatherActivityPresenter getPresenter() {
+        return new WeatherActivityPresenter();
     }
-
-
-    /**
-     * 重新加载当日天气信息
-     *
-     * @param bean 天气实体类
-     */
-    private void reloadCurrentInfo(Day7WeatherBean bean) {
-        DataBean todayInfo = bean.getData().get(0);
-        if (todayInfo != null) {
-            mBindings.actionBar.centerTv.setText(cityName);
-            mBindings.tempTv.setText(todayInfo.getTem());
-            mBindings.weatherDescTv.setText(todayInfo.getWea());
-            mBindings.AQITv.setText(String.format("AQI：%s（%s）", todayInfo.getAir(), todayInfo.getAir_level()));
-            mBindings.updateTimeTv.setText(String.format("上次更新：%s", bean.getUpdate_time().substring(11)));
-            mBindings.sunriseTimeTV.setText(todayInfo.getSunrise());
-            mBindings.sunsetTimeTV.setText(todayInfo.getSunset());
-        }
-        reloadDay7Weather(bean);
-    }
-
-    /**
-     * 加载7日天气信息
-     *
-     * @param bean 天气信息
-     */
-    private void reloadDay7Weather(Day7WeatherBean bean) {
-        Day7Adapter day7Adapter = new Day7Adapter(bean, this);
-        mBindings.day7RecyclerView.setAdapter(day7Adapter);
-
-        Hour7Adapter adapter = new Hour7Adapter(bean.getData().get(0).getHours(), this);
-        mBindings.hourRecyclerView.setAdapter(adapter);
-
-    }
-
-    @Override
-    public void showRequestSuccess(Day7WeatherBean bean) {
-        mBindings.refreshL.finishRefresh();
-        if (bean != null) runOnUiThread(() -> reloadCurrentInfo(bean));
-    }
-
-    @Override
-    public void showRequestFailed() {
-        mBindings.refreshL.finishRefresh();
-        mBindings.actionBar.centerTv.setText(cityName);
-    }
-
-    @Override
-    public void locateSuccess(AMapLocation location) {
-        BubbleLogger.d(TAG, "定位成功" + ",当前位置为" + location.getDistrict());
-        cityName = location.getDistrict();
-        mPresenter.requestWeatherInfo(location.getDistrict());
-    }
-
-    @Override
-    public void locateFailed() {
-        BubbleLogger.d(TAG, "定位失败");
-        mPresenter.requestWeatherInfo(cityName);
-    }
-
 
     @Override
     public void loading() {
@@ -278,12 +116,15 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
     }
 
     @Override
-    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        if (TextUtils.isEmpty(MMKVUtil.getString(Constants.SELECTED_CITY))) {
-            mPresenter.startLocate();
-        } else {
-            String cityName = MMKVUtil.getString(Constants.SELECTED_CITY, "北京市");
-            mPresenter.requestWeatherInfo(cityName);
+    public void onLocationChanged(AMapLocation location) {
+        if (location != null) {
+            if (location.getErrorCode() == 0) {
+                BubbleLogger.d(TAG, "AMapLocation Success：" + location);
+                mBindings.cityNameTv.setText(location.getPoiName());
+            } else {
+                BubbleLogger.d(TAG, "AMapLocation Error: ErrorCode: " + location.getErrorCode()
+                        + "，ErrorInfo：" + location.getErrorInfo());
+            }
         }
     }
 }

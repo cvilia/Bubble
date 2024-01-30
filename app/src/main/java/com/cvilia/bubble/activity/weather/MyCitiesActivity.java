@@ -46,7 +46,8 @@ public class MyCitiesActivity extends BaseActivity<MyCitesPresenter> implements 
     public void onMessageReceived(MessageEvent messageEvent) {
         String event = messageEvent.event;
         if (!TextUtils.isEmpty(event) && event.equals("selectCity")) {
-            finish();
+//            finish();
+            // todo 选择城市后，在这里应该刷新页面，新增信息
         }
     }
 

@@ -36,4 +36,6 @@
     <string name="manage_center">管理中心</string>
     <string name="add_city">添加城市</string>
     <string name="delete_city">删除城市</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

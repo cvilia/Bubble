@@ -33,10 +33,16 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     protected Activity mActivity;
 
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        onCreate();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflateRootView();
+        View view = inflateRootView(inflater,container);
         ARouter.getInstance().inject(this);
         mPresenter = getPresenter();
         if (mPresenter != null) {
@@ -58,7 +64,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
 
     }
 
-    protected abstract View inflateRootView();
+    protected abstract void onCreate();
+    protected abstract View inflateRootView(LayoutInflater inflater, ViewGroup container);
 
     protected abstract void initView();
 
